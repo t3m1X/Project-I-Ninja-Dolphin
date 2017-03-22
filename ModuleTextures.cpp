@@ -61,12 +61,13 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 		LOG("Failed to load image IMG_Load: %s\n", IMG_GetError());
 	}
 	else {
-		textures[++last_texture] = SDL_CreateTextureFromSurface(App->render->renderer, image);
+		textures[last_texture] = SDL_CreateTextureFromSurface(App->render->renderer, image);
 		if (textures[last_texture] == NULL) {
 			LOG("Failed to create texture from surface SDL_CreateTextureFromSurface: %s\n", SDL_GetError());
-			--last_texture;
 		}
-		else ret = textures[last_texture];
+		else 
+			ret = textures[last_texture++];
+
 		SDL_FreeSurface(image);
 	}
 	return ret;

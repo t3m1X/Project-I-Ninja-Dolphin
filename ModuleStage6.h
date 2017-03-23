@@ -23,6 +23,7 @@ private:
 	SDL_Texture* stage_background = nullptr;
 	int background_pos;
 	Mix_Music* music;
+	Mix_Music* boss_music;
 
 	//#### This part is to be done in a new module (Player)
 	SDL_Texture* player;

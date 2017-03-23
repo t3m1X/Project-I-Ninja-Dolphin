@@ -15,6 +15,7 @@ bool ModuleStage6::Init() {
 	bool ret = true;
 	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
+	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
 	App->audio->PlayMusic(music);
 
 	SDL_Rect background_rect;
@@ -37,7 +38,7 @@ bool ModuleStage6::Init() {
 
 update_status ModuleStage6::Update() {
 	App->render->Blit(stage_background, 0, background_pos, 2);
-	if (background_pos != 0)
+	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 
 	//#### This part is to be done in a new module (Player)

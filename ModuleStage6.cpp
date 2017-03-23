@@ -13,8 +13,8 @@ ModuleStage6::~ModuleStage6() {
 
 bool ModuleStage6::Init() {
 	bool ret = true;
-	stage_background = App->textures->Load("data/spritesheets/level_backgrounds/tilemap_lvl6.png");
-	music = App->audio->LoadMusic("data/music/rough_and_tumble.ogg");
+	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
+	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	App->audio->PlayMusic(music);
 
 	SDL_Rect background_rect;
@@ -29,7 +29,7 @@ bool ModuleStage6::Init() {
 	player_sprite.x = 0;
 	player_sprite.y = 34;
 
-	player = App->textures->Load("data/spritesheets/player/spritesheet_player.png");
+	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 	//####
 
 	return ret;

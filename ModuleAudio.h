@@ -3,13 +3,11 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "SDL_mixer/include/SDL_mixer.h"
 
 #define MAX_SFX 50
 #define MAX_MUSIC 10
 #define CHUNKSIZE 1024
-
-struct Mix_Chunk;
-struct Mix_Music;
 
 class ModuleAudio : public Module 
 {

@@ -25,6 +25,7 @@ typedef unsigned int uint;
 #define WIN_BORDERLESS 0
 #define WIN_RESIZABLE 1
 #define REN_VSYNC 1
-#define SCROLL_SPEED 2
+#define SCROLL_SPEED 3
+#define SPRITE_SIZE 32
 
 #endif // __GLOBALS_H__

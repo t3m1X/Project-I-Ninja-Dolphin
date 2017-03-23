@@ -4,6 +4,7 @@
 #include "Module.h"
 #include "Globals.h"
 #include "ModuleAudio.h"
+#include "SDL/include/SDL.h"
 
 struct SDL_Texture;
 
@@ -17,11 +18,17 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-public:
+private:
 
 	SDL_Texture* stage_background = nullptr;
 	int background_pos;
 	Mix_Music* music;
+
+	//#### This part is to be done in a new module (Player)
+	SDL_Texture* player;
+	SDL_Rect player_sprite;
+	int player_x, player_y;
+	//####
 };
 
 

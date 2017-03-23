@@ -1,7 +1,5 @@
-#NINJA DOLPHINS
-##RAIDEN
-
-###Team members:
+# NINJA DOLPHINS - RAIDEN
+## Team members:
 
 
 [Ivan Papiol](https://github.com/IVREI0T) - Management

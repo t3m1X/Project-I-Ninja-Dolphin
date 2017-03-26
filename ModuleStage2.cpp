@@ -1,21 +1,20 @@
-#include "ModuleStage6.h"
+#include "ModuleStage2.h"
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleStage2.h"
+#include "ModuleStage6.h"
 
-
-ModuleStage6::ModuleStage6() {
+ModuleStage2::ModuleStage2() {
 }
 
-ModuleStage6::~ModuleStage6() {
+ModuleStage2::~ModuleStage2() {
 }
 
-bool ModuleStage6::Init() {
+bool ModuleStage2::Init() {
 	bool ret = true;
-	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
+	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl2.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
 	App->audio->PlayMusic(music);
@@ -24,7 +23,7 @@ bool ModuleStage6::Init() {
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 	background_pos = -background_rect.h * 2 + SCREEN_HEIGHT; //The multiplier is due to the size of the sprite currently
 
-	//#### This part is to be done in a new module (Player)
+															 //#### This part is to be done in a new module (Player)
 	player_x = SCREEN_WIDTH / 2 - SPRITE_SIZE;
 	player_y = SCREEN_HEIGHT / 2 - SPRITE_SIZE;
 
@@ -35,12 +34,11 @@ bool ModuleStage6::Init() {
 	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 	//####
 
-	App->stage6->Enable();
+	App->stage2->Enable();
 
 	return ret;
 }
-
-update_status ModuleStage6::Update() {
+update_status ModuleStage2::Update() {
 	App->render->Blit(stage_background, 0, background_pos, 2);
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
@@ -66,20 +64,19 @@ update_status ModuleStage6::Update() {
 	}
 	//####
 
-	if (App->stage6->player_y > 5362)
+	if (App->stage2->player_y > 5362)
 	{
-		App->fade->FadeToBlack(this, App->stage2, 1000.0f);
+		App->fade->FadeToBlack(this, App->stage6, 1000.0f);
 	}
 
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleStage6::CleanUp() {
+bool ModuleStage2::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
-	//
-	App->stage6->Disable();
-	//
+
+	App->stage2->Disable();
 
 	return ret;
 }

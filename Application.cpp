@@ -5,6 +5,8 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModuleStage6.h"
+#include "ModuleStage2.h"
+#include "ModuleFadeToBlack.h"
 
 Application::Application()
 {
@@ -13,7 +15,9 @@ Application::Application()
 	modules[2] = input = new ModuleInput();
 	modules[3] = textures = new ModuleTextures();
 	modules[4] = audio = new ModuleAudio();
-	modules[5] = stage6 = new ModuleStage6();
+	modules[5] = stage2 = new ModuleStage2();
+	modules[6] = stage6 = new ModuleStage6();
+	modules[7] = fade = new ModuleFadeToBlack();
 }	
 
 Application::~Application()

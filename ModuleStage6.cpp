@@ -44,7 +44,10 @@ update_status ModuleStage6::Update() {
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 	else
-		App->fade->FadeToBlack(this, App->stage2, 1000.0f);
+		App->fade->FadeToBlack(this, App->stage2, 2.0f);
+
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
+		App->fade->FadeToBlack(this, App->stage2, 2.0f);
 
 	//#### This part is to be done in a new module (Player)
 	App->render->Blit(player, player_x, player_y, 2, &player_sprite);

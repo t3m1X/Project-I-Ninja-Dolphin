@@ -12,7 +12,7 @@ ModuleStage2::ModuleStage2() {
 ModuleStage2::~ModuleStage2() {
 }
 
-bool ModuleStage2::Init() {
+bool ModuleStage2::Start() {
 	bool ret = true;
 	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl2.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
@@ -33,11 +33,9 @@ bool ModuleStage2::Init() {
 
 	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 	//####
-
-	App->stage2->Enable();
-
 	return ret;
 }
+
 update_status ModuleStage2::Update() {
 	App->render->Blit(stage_background, 0, background_pos, 2);
 	if (background_pos < 0)
@@ -63,11 +61,6 @@ update_status ModuleStage2::Update() {
 			player_y += 3;
 	}
 	//####
-
-	if (App->stage2->player_y > 5362)
-	{
-		App->fade->FadeToBlack(this, App->stage6, 1000.0f);
-	}
 
 	return UPDATE_CONTINUE;
 }

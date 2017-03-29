@@ -14,7 +14,7 @@ public:
 	ModuleStage6();
 	~ModuleStage6();
 
-	bool Init();
+	bool Start();
 	update_status Update();
 	bool CleanUp();
 

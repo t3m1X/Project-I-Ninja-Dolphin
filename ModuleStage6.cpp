@@ -13,8 +13,9 @@ ModuleStage6::ModuleStage6() {
 ModuleStage6::~ModuleStage6() {
 }
 
-bool ModuleStage6::Init() {
+bool ModuleStage6::Start() {
 	bool ret = true;
+
 	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
@@ -24,7 +25,7 @@ bool ModuleStage6::Init() {
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 	background_pos = -background_rect.h * 2 + SCREEN_HEIGHT; //The multiplier is due to the size of the sprite currently
 
-	//#### This part is to be done in a new module (Player)
+															 //#### This part is to be done in a new module (Player)
 	player_x = SCREEN_WIDTH / 2 - SPRITE_SIZE;
 	player_y = SCREEN_HEIGHT / 2 - SPRITE_SIZE;
 
@@ -35,8 +36,6 @@ bool ModuleStage6::Init() {
 	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 	//####
 
-	App->stage6->Enable();
-
 	return ret;
 }
 
@@ -44,6 +43,8 @@ update_status ModuleStage6::Update() {
 	App->render->Blit(stage_background, 0, background_pos, 2);
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
+	else
+		App->fade->FadeToBlack(this, App->stage2, 1000.0f);
 
 	//#### This part is to be done in a new module (Player)
 	App->render->Blit(player, player_x, player_y, 2, &player_sprite);
@@ -65,11 +66,6 @@ update_status ModuleStage6::Update() {
 			player_y += 3;
 	}
 	//####
-
-	if (App->stage6->player_y > 5362)
-	{
-		App->fade->FadeToBlack(this, App->stage2, 1000.0f);
-	}
 
 	return UPDATE_CONTINUE;
 }

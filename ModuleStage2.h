@@ -14,7 +14,7 @@ public:
 	ModuleStage2();
 	~ModuleStage2();
 
-	bool Init();
+	bool Start();
 	update_status Update();
 	bool CleanUp();
 

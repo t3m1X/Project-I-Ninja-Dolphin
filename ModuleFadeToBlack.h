@@ -10,7 +10,7 @@ public:
 	ModuleFadeToBlack();
 	~ModuleFadeToBlack();
 
-	bool Init();
+	bool Start();
 	update_status Update();
 	bool FadeToBlack(Module* module_off, Module* module_on, float time = 2.0f);
 
@@ -26,8 +26,8 @@ private:
 	Uint32 start_time = 0;
 	Uint32 total_time = 0;
 	SDL_Rect screen;
-	Module* module_off;
-	Module* module_on;
+	Module* to_disable;
+	Module* to_enable;
 };
 
 #endif //__MODULEFADETOBLACK_H__

@@ -12,13 +12,13 @@ Application::Application()
 {
 	uint i = 0;
 	modules[i++] = window = new ModuleWindow();
-	modules[i++] = render = new ModuleRender();
 	modules[i++] = input = new ModuleInput();
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
 	modules[i++] = stage2 = new ModuleStage2();
 	modules[i++] = stage6 = new ModuleStage6();
 	modules[i++] = fade = new ModuleFadeToBlack();
+	modules[i++] = render = new ModuleRender();
 }	
 
 Application::~Application()

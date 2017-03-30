@@ -8,6 +8,7 @@
 #include "ModuleStage2.h"
 #include "ModulePlayer.h"
 #include "ModuleFadeToBlack.h"
+#include "ModuleParticles.h"
 
 Application::Application()
 {
@@ -19,6 +20,7 @@ Application::Application()
 	modules[i++] = stage2 = new ModuleStage2();
 	modules[i++] = stage6 = new ModuleStage6();
 	modules[i++] = player = new ModulePlayer();
+	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = fade = new ModuleFadeToBlack();
 	modules[i++] = render = new ModuleRender();
 }	

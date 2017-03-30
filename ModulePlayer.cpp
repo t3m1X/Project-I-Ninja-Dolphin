@@ -3,6 +3,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
+#include "ModuleParticles.h"
 
 ModulePlayer::ModulePlayer() 
 {}
@@ -43,6 +44,14 @@ update_status ModulePlayer::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT) {
 		if (player_y < SCREEN_HEIGHT - SPRITE_SIZE * 2)
 			player_y += 3;
+	}
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN) {
+
+		App->particles->AddParticle(App->particles->autoattack, player_x + 25, player_y - 10);
+		App->particles->AddParticle(App->particles->autoattack, player_x + 37, player_y - 10);
+		//Bullet must travel, for now its static
+		//-----------------------
+		
 	}
 
 	return UPDATE_CONTINUE;

@@ -50,6 +50,15 @@
     <ClInclude Include="ModulePlayer.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleParticles.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Animation.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -86,6 +95,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModulePlayer.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleParticles.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

@@ -24,6 +24,7 @@ private:
 	int background_pos;
 	Mix_Music* music;
 	Mix_Music* boss_music;
+	Mix_Chunk* autoattack_fx;
 };
 
 

@@ -19,6 +19,8 @@ bool ModuleStage6::Start() {
 	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
+	autoattack_fx = App->audio->LoadSFX("sfx/shot_regular.wav");
+	
 	App->audio->PlayMusic(music);
 
 	SDL_Rect background_rect;
@@ -35,9 +37,15 @@ update_status ModuleStage6::Update() {
 	else
 		App->fade->FadeToBlack(this, App->stage2, 2.0f);
 
+	/*  I comment this because it's not needed for v0.3, we need the space for the attack
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->fade->FadeToBlack(this, App->stage2, 2.0f);
+		*/
 
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN) {
+
+		App->audio->PlaySFX(autoattack_fx);
+	}
 	return UPDATE_CONTINUE;
 }
 

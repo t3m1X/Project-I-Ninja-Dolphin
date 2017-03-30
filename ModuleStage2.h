@@ -1,5 +1,5 @@
-#ifndef __MODULESTAGE6_H__
-#define __MODULESTAGE6_H__
+#ifndef _MODULESTAGE2_H
+#define _MODULESTAGE2_H
 
 #include "Module.h"
 #include "Globals.h"
@@ -8,11 +8,11 @@
 
 struct SDL_Texture;
 
-class ModuleStage6 : public Module {
+class ModuleStage2 : public Module
+{
 public:
-
-	ModuleStage6();
-	~ModuleStage6();
+	ModuleStage2();
+	~ModuleStage2();
 
 	bool Start();
 	update_status Update();
@@ -30,7 +30,7 @@ private:
 	SDL_Rect player_sprite;
 	int player_x, player_y;
 	//####
+
 };
 
-
-#endif //__MODULESTAGE6_H__
+#endif

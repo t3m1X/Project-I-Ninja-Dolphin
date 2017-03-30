@@ -1,22 +1,20 @@
-#include "ModuleStage6.h"
+#include "ModuleStage2.h"
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleStage2.h"
+#include "ModuleStage6.h"
 
-
-ModuleStage6::ModuleStage6() {
+ModuleStage2::ModuleStage2() {
 }
 
-ModuleStage6::~ModuleStage6() {
+ModuleStage2::~ModuleStage2() {
 }
 
-bool ModuleStage6::Start() {
+bool ModuleStage2::Start() {
 	bool ret = true;
-
-	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl6.png");
+	stage_background = App->textures->Load("spritesheets/level_backgrounds/tilemap_lvl2.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
 	App->audio->PlayMusic(music);
@@ -35,19 +33,13 @@ bool ModuleStage6::Start() {
 
 	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 	//####
-
 	return ret;
 }
 
-update_status ModuleStage6::Update() {
+update_status ModuleStage2::Update() {
 	App->render->Blit(stage_background, 0, background_pos, 2);
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
-	else
-		App->fade->FadeToBlack(this, App->stage2, 2.0f);
-
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->fade->FadeToBlack(this, App->stage2, 2.0f);
 
 	//#### This part is to be done in a new module (Player)
 	App->render->Blit(player, player_x, player_y, 2, &player_sprite);
@@ -73,12 +65,11 @@ update_status ModuleStage6::Update() {
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleStage6::CleanUp() {
+bool ModuleStage2::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
-	//
-	App->stage6->Disable();
-	//
+
+	App->stage2->Disable();
 
 	return ret;
 }

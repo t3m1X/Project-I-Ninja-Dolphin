@@ -41,6 +41,12 @@
     <ClInclude Include="ModuleStage6.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleStage2.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFadeToBlack.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -68,6 +74,12 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleStage6.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFadeToBlack.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleStage2.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

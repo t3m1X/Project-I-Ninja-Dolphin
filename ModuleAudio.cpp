@@ -58,6 +58,11 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 {
 	Mix_Chunk* ret = nullptr;
 
+	if (last_sfx == MAX_MUSIC) {
+		LOG("Overflow error: Overwriting sfx");
+		last_sfx = 0;
+	}
+
 	sfx[last_sfx] = Mix_LoadWAV(path);
 
 	if (sfx[last_sfx] == NULL) {
@@ -72,6 +77,11 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 Mix_Music * const ModuleAudio::LoadMusic(const char * path) 
 {
 	Mix_Music* ret = nullptr;
+
+	if (last_music == MAX_MUSIC) {
+		LOG("Overflow error: Overwriting music");
+		last_music = 0;
+	}
 
 	musics[last_music] = Mix_LoadMUS(path);
 

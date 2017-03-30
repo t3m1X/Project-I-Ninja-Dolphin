@@ -25,12 +25,6 @@ private:
 	Mix_Music* music;
 	Mix_Music* boss_music;
 
-	//#### This part is to be done in a new module (Player)
-	SDL_Texture* player;
-	SDL_Rect player_sprite;
-	int player_x, player_y;
-	//####
-
 };
 
 #endif

@@ -27,7 +27,7 @@ bool ModuleParticles::Start()
 	autoattack.anim.PushBack({ 6, 9, 2, 6 });
 	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
-	autoattack.life = 1000.0f;
+	autoattack.life = 100.0f;
 	
 
 	

@@ -20,6 +20,8 @@ public:
 private:
 	SDL_Texture* player;
 	SDL_Rect player_sprite;
+	SDL_Rect player_sprite_left;
+	SDL_Rect player_sprite_right;
 	int player_x, player_y;
 
 };

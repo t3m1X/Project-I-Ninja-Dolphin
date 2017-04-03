@@ -25,6 +25,9 @@ bool ModuleParticles::Start()
 
 	autoattack.anim.PushBack({ 2, 9, 2, 6 });
 	autoattack.anim.PushBack({ 6, 9, 2, 6 });
+	autoattack.anim.animation = new int[2];
+	autoattack.anim.animation[0] = 0;
+	autoattack.anim.animation[1] = 1;
 	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
 	autoattack.life = 100.0f;
@@ -40,7 +43,7 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
-
+	delete[] autoattack.anim.animation;
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)
@@ -70,7 +73,7 @@ update_status ModuleParticles::Update()
 		}
 		else if (SDL_GetTicks() >= p->born)
 		{
-			App->render->Blit(graphics, p->position.x, p->position.y, 1, &(p->anim.GetCurrentFrame()));
+			App->render->Blit(graphics, p->position.x, p->position.y, 2, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -89,6 +92,10 @@ void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32
 	p->position.x = x;
 	p->position.y = y;
 	active[last_particle++] = p;
+	if (last_particle > MAX_ACTIVE_PARTICLES) {
+		last_particle = 0;
+		LOG("Overwriting old particles");
+	}
 }
 
 // -------------------------------------------------------------

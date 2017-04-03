@@ -10,12 +10,12 @@ public:
 	bool loop = true;
 	float speed = 1.0f;
 	SDL_Rect frames[MAX_SPRITES];
+	int* animation = nullptr;
 
 private:
 	float current_frame;
 	int loops = 0;
 	int animation_size = 0;
-	int* animation = nullptr;
 
 public:
 
@@ -63,8 +63,10 @@ public:
 		return true;
 	}
 
+
+
 	~Animation() {
-		delete[] animation;
+		//delete animation;
 	}
 
 	void PushBack(const SDL_Rect& rect) {

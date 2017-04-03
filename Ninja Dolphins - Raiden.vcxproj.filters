@@ -56,10 +56,10 @@
     <ClInclude Include="ModuleParticles.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="p2Point.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="Animation.h">
+      <Filter>Core\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="p2Point.h">
       <Filter>Core\Utilities</Filter>
     </ClInclude>
   </ItemGroup>

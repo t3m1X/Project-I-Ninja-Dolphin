@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleStageIntro.h"
+#include "ModulePlayer.h"
 
 ModuleStage2::ModuleStage2() {
 }
@@ -18,6 +19,8 @@ bool ModuleStage2::Start() {
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
 	App->audio->PlayMusic(music);
+
+	App->player->Enable();
 
 	SDL_Rect background_rect;
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
@@ -37,6 +40,8 @@ update_status ModuleStage2::Update() {
 bool ModuleStage2::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
+
+	App->player->Disable();
 
 	App->stage2->Disable();
 

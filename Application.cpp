@@ -18,7 +18,7 @@ Application::Application()
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
 	modules[i++] = stage2 = new ModuleStage2();
-	modules[i++] = stage6 = new ModuleStageIntro();
+	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = player = new ModulePlayer();
 	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = fade = new ModuleFadeToBlack();

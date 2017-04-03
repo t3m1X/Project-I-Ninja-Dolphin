@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
 #include "ModuleStage2.h"
+#include "ModulePlayer.h"
 
 
 ModuleStageIntro::ModuleStageIntro() {
@@ -24,6 +25,8 @@ bool ModuleStageIntro::Start() {
 	
 	App->audio->PlayMusic(music);
 
+	App->player->Disable();
+
 	return ret;
 }
 
@@ -41,7 +44,7 @@ bool ModuleStageIntro::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
 	//
-	App->stage6->Disable();
+	App->intro->Disable();
 	//
 
 	return ret;

@@ -28,7 +28,7 @@ public:
 	ModuleTextures* textures;
 	ModuleAudio* audio;
 	ModuleStage2* stage2;
-	ModuleStageIntro* stage6;
+	ModuleStageIntro* intro;
 	ModulePlayer* player;
 	ModuleFadeToBlack* fade;
 	ModuleParticles* particles;

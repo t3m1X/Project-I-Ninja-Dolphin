@@ -54,7 +54,10 @@ public:
 
 		for (int i = 1; i < total_sprites; ++i) {
 			frames[i].x = frames[i - 1].x + sprite_w;
-			if (frames[i].x > columns * sprite_w) {
+			frames[i].y = frames[i - 1].y;
+			frames[i].w = sprite_w;
+			frames[i].h = sprite_h;
+			if (frames[i].x >= columns * sprite_w) {
 				frames[i].x = 0;
 				frames[i].y = frames[i - 1].y + sprite_h;
 			}

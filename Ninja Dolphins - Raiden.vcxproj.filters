@@ -41,9 +41,6 @@
     <ClInclude Include="ModuleAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleStage6.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModuleStage2.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -61,6 +58,9 @@
     </ClInclude>
     <ClInclude Include="p2Point.h">
       <Filter>Core\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleStageIntro.h">
+      <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -88,9 +88,6 @@
     <ClCompile Include="ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleStage6.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleFadeToBlack.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -101,6 +98,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleParticles.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleStageIntro.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

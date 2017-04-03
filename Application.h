@@ -12,7 +12,7 @@ class ModuleRender;
 class ModuleParticles;
 class ModuleAudio;
 class ModuleStage2;
-class ModuleStage6;
+class ModuleStageIntro;
 class ModulePlayer;
 class ModuleFadeToBlack;
 class Module;
@@ -28,7 +28,7 @@ public:
 	ModuleTextures* textures;
 	ModuleAudio* audio;
 	ModuleStage2* stage2;
-	ModuleStage6* stage6;
+	ModuleStageIntro* stage6;
 	ModulePlayer* player;
 	ModuleFadeToBlack* fade;
 	ModuleParticles* particles;

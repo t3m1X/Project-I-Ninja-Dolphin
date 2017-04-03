@@ -4,7 +4,7 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleFadeToBlack.h"
-#include "ModuleStage6.h"
+#include "ModuleStageIntro.h"
 
 ModuleStage2::ModuleStage2() {
 }

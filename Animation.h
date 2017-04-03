@@ -14,7 +14,6 @@ public:
 private:
 	float current_frame;
 	int loops = 0;
-
 	int animation_size = 0;
 	int* animation = nullptr;
 
@@ -66,6 +65,10 @@ public:
 
 	~Animation() {
 		delete[] animation;
+	}
+
+	void PushBack(const SDL_Rect& rect) {
+		frames[animation_size++] = rect;
 	}
 
 	SDL_Rect& GetCurrentFrame()

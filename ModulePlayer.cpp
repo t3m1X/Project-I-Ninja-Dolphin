@@ -31,33 +31,71 @@ bool ModulePlayer::Start() {
 
 	player = App->textures->Load("spritesheets/player/spritesheet_player.png");
 
+	state = idle;
+
 	return ret;
 }
 
 update_status ModulePlayer::Update() {
-	App->render->Blit(player, player_x, player_y, 2, &player_sprite);
+	switch (state) {
+	case idle:
+		App->render->Blit(player, player_x, player_y, 2, &player_sprite);
+		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
+			state = left;
+		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
+			state = right;
+		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
+			state = forward;
+		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
+			state = stop;
+		break;
 
-	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT) {
-
+	case left:
 		App->render->Blit(player, player_x, player_y, 2, &player_sprite_left);
 
 		if (player_x > 0)
-			player_x -= 3;
-	}
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT) {
+			player_x -= PLAYER_SPEED;
 
+		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+			state = idle;
+		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
+			player_y -= PLAYER_SPEED;
+		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
+			player_y += PLAYER_SPEED;
+		break;
+
+	case right:
 		App->render->Blit(player, player_x, player_y, 2, &player_sprite_right);
 
-		if (player_x < SCREEN_WIDTH - SPRITE_SIZE * 2)
-			player_x += 3;
-	}
-	if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT) {
+		if (player_x < SCREEN_WIDTH - SPRITE_SIZE)
+			player_x += PLAYER_SPEED;
+
+		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+			state = idle;
+		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
+			player_y -= PLAYER_SPEED;
+		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
+			player_y += PLAYER_SPEED;
+		break;
+
+	case forward:
+		App->render->Blit(player, player_x, player_y, 2, &player_sprite);
 		if (player_y > 0)
-			player_y -= 3;
-	}
-	if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT) {
-		if (player_y < SCREEN_HEIGHT - SPRITE_SIZE * 2)
-			player_y += 3;
+			player_y -= PLAYER_SPEED;
+
+		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+			state = idle;
+		break;
+
+	case stop:
+		App->render->Blit(player, player_x, player_y, 2, &player_sprite);
+
+		if (player_y < SCREEN_HEIGHT - SPRITE_SIZE)
+			player_y += PLAYER_SPEED;
+
+		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+			state = idle;
+		break;
 	}
 	
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN) {

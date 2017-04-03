@@ -5,7 +5,17 @@
 #include "Globals.h"
 #include "SDL\include\SDL.h"
 
+#define PLAYER_SPEED 3;
 struct SDL_Texture;
+
+enum player_state {
+	idle = 0,
+	left,
+	right,
+	forward,
+	stop
+
+};
 
 class ModulePlayer : public Module {
 public:
@@ -23,7 +33,7 @@ private:
 	SDL_Rect player_sprite_left;
 	SDL_Rect player_sprite_right;
 	int player_x, player_y;
-
+	player_state state;
 };
 
 #endif

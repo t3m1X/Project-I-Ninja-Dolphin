@@ -62,6 +62,9 @@
     <ClInclude Include="ModuleStageIntro.h">
       <Filter>Modules</Filter>
     </ClInclude>
+    <ClInclude Include="ModuleStage1.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -101,6 +104,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleStageIntro.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleStage1.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,6 +6,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModuleStage2.h"
 #include "ModulePlayer.h"
+#include "ModuleStage1.h"
 
 
 ModuleStageIntro::ModuleStageIntro() {
@@ -24,8 +25,8 @@ bool ModuleStageIntro::Start() {
 	title_screen.speed = 0.1;
 	
 	App->audio->PlayMusic(music);
-
-	App->player->Disable();
+	App->stage1->Disable();
+	
 
 	return ret;
 }
@@ -33,7 +34,7 @@ bool ModuleStageIntro::Start() {
 update_status ModuleStageIntro::Update() {
 
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->fade->FadeToBlack(this, App->stage2, 0.5f);
+		App->fade->FadeToBlack(this, App->stage1, 0.5f);
 
 	App->render->Blit(title_texture, 0, 0, 1, &title_screen.GetCurrentFrame());
 

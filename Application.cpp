@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModuleAudio.h"
 #include "ModuleStageIntro.h"
+#include "ModuleStage1.h"
 #include "ModuleStage2.h"
 #include "ModulePlayer.h"
 #include "ModuleFadeToBlack.h"
@@ -18,6 +19,7 @@ Application::Application()
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
 	modules[i++] = stage2 = new ModuleStage2();
+	modules[i++] = stage1 = new ModuleStage1();
 	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = player = new ModulePlayer();
 	modules[i++] = particles = new ModuleParticles();

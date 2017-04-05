@@ -22,7 +22,8 @@ bool ModuleStageIntro::Start() {
 	title_texture = App->textures->Load("revamp_spritesheets/attract_screen.png");
 
 	title_screen.SetUp(0, 0, 518, 592, 6, 11, "0,0,0,0,0,1,2,3,4,5,6,7,8,9,10");
-	title_screen.speed = 0.1;
+	title_screen.speed = 0.1f;
+	
 	
 	App->audio->PlayMusic(music);
 	App->stage1->Disable();
@@ -47,6 +48,7 @@ bool ModuleStageIntro::CleanUp() {
 	//
 	App->intro->Disable();
 	//
+	//App->intro->title_screen.Finished();
 
 	return ret;
 }

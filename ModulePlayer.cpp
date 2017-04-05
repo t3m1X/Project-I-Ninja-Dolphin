@@ -118,10 +118,10 @@ update_status ModulePlayer::Update() {
 		//Bullet must travel, for now its static
 		//-----------------------
 
-			App->particles->AddParticle(App->particles->autoattack, player_x + 28, player_y - 30);
+			App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 30);
 			App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 30);
 
-			App->particles->AddParticle(App->particles->autoattack, player_x + 28, player_y - 60);
+			App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 60);
 			App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 60);
 		
 			

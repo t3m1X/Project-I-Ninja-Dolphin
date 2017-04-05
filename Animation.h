@@ -79,7 +79,7 @@ public:
 	SDL_Rect& GetCurrentFrame()
 	{
 		current_frame += speed;
-		if (current_frame >= animation_size)
+		if (current_frame > animation_size - 1)
 		{
 			current_frame = (loop) ? 0.0f : animation_size - 1;
 			loops++;

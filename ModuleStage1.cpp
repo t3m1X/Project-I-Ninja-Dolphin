@@ -19,8 +19,8 @@ bool ModuleStage1::Start() {
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
 
-	//water.SetUp( 0, 0, 31, 31, 2, 2, "0, 1, 0, 1, 0, 1");
-	//water.speed = 0.5f;
+	water.SetUp( 0, 0, 31, 31, 2, 2, "0,1,0,1,0,1");
+	water.speed = 0.5f;
 	
 	
 	

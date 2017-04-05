@@ -43,6 +43,9 @@ public:
 				++i;
 				animation[i] = 0;
 			}
+			else if (*animation_sequence == '\0') {
+				++i;
+			}
 			else {
 				animation[i] *= 10;
 				animation[i] += *animation_sequence - '0';

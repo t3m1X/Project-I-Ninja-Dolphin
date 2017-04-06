@@ -10,6 +10,10 @@
 
 struct SDL_Texture;
 
+enum particle_type {
+	AUTOSHOT = 0
+};
+
 struct Particle
 {
 	Animation anim;
@@ -18,13 +22,13 @@ struct Particle
 	iPoint speed;
 	Uint32 born = 0;
 	Uint32 life = 0;
+	particle_type type;
 	bool fx_played = false;
 
 	Particle();
 	Particle(const Particle& p);
 	bool Update();
 };
-
 class ModuleParticles : public Module
 {
 public:
@@ -35,7 +39,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(const Particle& particle, int x, int y, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, Uint32 delay = 0);
 
 private:
 

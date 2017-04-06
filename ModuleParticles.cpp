@@ -30,7 +30,8 @@ bool ModuleParticles::Start()
 	autoattack.anim.animation[1] = 1;
 	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
-	autoattack.life = 100;
+	autoattack.life = 800;
+	autoattack.speed = { 0, -8};
 	
 
 	
@@ -85,9 +86,15 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(const Particle& particle, int x, int y, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay)
 {
-	Particle* p = new Particle(particle);
+	Particle* p = nullptr;
+	switch (type) {
+	case AUTOSHOT:
+		p = new Particle(autoattack);
+		break;
+	}
+	p->type = type;
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;

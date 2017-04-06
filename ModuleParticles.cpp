@@ -30,7 +30,7 @@ bool ModuleParticles::Start()
 	autoattack.anim.animation[1] = 1;
 	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
-	autoattack.life = 800;
+	autoattack.life = 1500;
 	autoattack.speed = { 0, -8};
 	
 

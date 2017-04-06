@@ -5,7 +5,7 @@
 #include "Globals.h"
 #include "SDL\include\SDL.h"
 
-#define PLAYER_SPEED 3
+#define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 struct SDL_Texture;

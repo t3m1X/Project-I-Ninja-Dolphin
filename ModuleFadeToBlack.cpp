@@ -68,6 +68,14 @@ update_status ModuleFadeToBlack::Update()
 	return UPDATE_CONTINUE;
 }
 
+bool ModuleFadeToBlack::CleanUp() {
+	bool ret = true;
+	loading_screen_animation.CleanUp();
+	loading_screen_animation_b.CleanUp();
+
+	return ret;
+}
+
 // Fade to black. At mid point deactivate one module, then activate the other
 bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
 {

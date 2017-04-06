@@ -15,6 +15,8 @@ public:
 
 	bool Start();
 	update_status Update();
+	bool CleanUp();
+
 	bool FadeToBlack(Module* module_off, Module* module_on, float time = 2.0f);
 
 private:

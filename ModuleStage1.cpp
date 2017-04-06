@@ -19,8 +19,9 @@ bool ModuleStage1::Start() {
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
 
-	water.SetUp( 0, 0, 31, 31, 2, 2, "0,1,0,1,0,1");
-	water.speed = 0.5f;
+	water.SetUp( 0, 0, 32, 32, 2, 2, "0,0,1,0");
+	water.speed = 0.04f;
+	water.loop = true;
 	
 	
 	
@@ -30,17 +31,17 @@ bool ModuleStage1::Start() {
 
 	SDL_Rect background_rect;
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
-	background_pos = -background_rect.h * 2 + SCREEN_HEIGHT; //The multiplier is due to the size of the sprite currently
+	background_pos = -background_rect.h  + SCREEN_HEIGHT; //The multiplier is due to the size of the sprite currently
 
 	return ret;
 }
 
 update_status ModuleStage1::Update() {
-	App->render->Blit(stage_background, 0, background_pos, 2);
+	App->render->Blit(stage_background, 0, background_pos);
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 
-	//App->render->Blit(water_texture, 0, 0, 1, &water.GetCurrentFrame());
+	App->render->Blit(water_texture, 0, 0, 1, &water.GetCurrentFrame());
 	
 
 	return UPDATE_CONTINUE;
@@ -49,9 +50,8 @@ update_status ModuleStage1::Update() {
 bool ModuleStage1::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
-
+	water.CleanUp();
 	App->player->Disable();
-
 	App->stage1->Disable();
 
 	return ret;

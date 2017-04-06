@@ -100,6 +100,13 @@ public:
 	{
 		current_frame = 0;
 	}
+
+	void CleanUp() 		
+	{
+		if (animation != nullptr)
+			delete[] animation;
+		animation = nullptr;
+	}
 };
 
 #endif

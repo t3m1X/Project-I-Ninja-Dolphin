@@ -8,7 +8,7 @@
 #include "ModuleStage1.h"
 #include "ModuleStage2.h"
 #include "ModulePlayer.h"
-#include "ModuleFadeToBlack.h"
+#include "ModuleTransition.h"
 #include "ModuleParticles.h"
 
 Application::Application()
@@ -23,7 +23,7 @@ Application::Application()
 	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = player = new ModulePlayer();
 	modules[i++] = particles = new ModuleParticles();
-	modules[i++] = fade = new ModuleFadeToBlack();
+	modules[i++] = transition = new ModuleTransition();
 	modules[i++] = render = new ModuleRender();
 }	
 

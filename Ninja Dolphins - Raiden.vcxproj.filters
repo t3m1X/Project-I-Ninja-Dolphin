@@ -44,9 +44,6 @@
     <ClInclude Include="ModuleStage2.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleFadeToBlack.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModulePlayer.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -63,6 +60,9 @@
       <Filter>Modules</Filter>
     </ClInclude>
     <ClInclude Include="ModuleStage1.h">
+      <Filter>Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTransition.h">
       <Filter>Modules</Filter>
     </ClInclude>
   </ItemGroup>
@@ -91,9 +91,6 @@
     <ClCompile Include="ModuleAudio.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="ModuleFadeToBlack.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
     <ClCompile Include="ModuleStage2.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
@@ -107,6 +104,9 @@
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModuleStage1.cpp">
+      <Filter>Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTransition.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
   </ItemGroup>

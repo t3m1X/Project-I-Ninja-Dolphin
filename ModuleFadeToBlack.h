@@ -2,7 +2,10 @@
 #define __MODULEFADETOBLACK_H__
 
 #include "Module.h"
-#include "SDL\include\SDL_rect.h"
+#include "Animation.h"
+
+struct SDL_Rect;
+struct SDL_Texture;
 
 class ModuleFadeToBlack : public Module
 {
@@ -26,6 +29,9 @@ private:
 	Uint32 start_time = 0;
 	Uint32 total_time = 0;
 	SDL_Rect screen;
+	SDL_Texture* loading_screen;
+	Animation loading_screen_animation;
+	Animation loading_screen_animation_b;
 	Module* to_disable;
 	Module* to_enable;
 };

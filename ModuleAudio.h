@@ -23,6 +23,7 @@ public:
 
 	void const PlaySFX(Mix_Chunk* sfx);
 	void const PlayMusic(Mix_Music* music);
+	void const MusicVolume(int percent = 100);
 	void const StopMusic();
 
 public:

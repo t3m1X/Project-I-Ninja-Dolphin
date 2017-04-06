@@ -121,12 +121,9 @@ update_status ModulePlayer::Update() {
 
 		//Bullet must travel, for now its static
 		//-----------------------
-		sdl_shot = sdl_clock + LASER_COOLDOWN;
-		App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 30);
-		App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 30);
-
-		App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 60);
-		App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 60);
+		sdl_shot = sdl_clock + LASER_COOLDOWN; 
+		App->particles->AddParticle(AUTOSHOT, player_x + 20, player_y);
+		App->particles->AddParticle(AUTOSHOT, player_x + 34, player_y);
 		App->audio->PlaySFX(laser_sfx);
 		
 			

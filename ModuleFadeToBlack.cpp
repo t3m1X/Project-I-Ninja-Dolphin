@@ -6,7 +6,7 @@
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
 #include "ModuleStage2.h"
-#include "ModuleStage6.h"
+#include "ModuleStageIntro.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack()
 {

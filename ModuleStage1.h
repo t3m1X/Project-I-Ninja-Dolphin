@@ -1,18 +1,21 @@
-#ifndef _MODULESTAGE2_H
-#define _MODULESTAGE2_H
+#ifndef _MODULESTAGE1_H
+#define _MODULESTAGE1_H
 
 #include "Module.h"
 #include "Globals.h"
 #include "ModuleAudio.h"
 #include "SDL/include/SDL.h"
+#include "Animation.h"
+
 
 struct SDL_Texture;
 
-class ModuleStage2 : public Module
+
+class ModuleStage1 : public Module
 {
 public:
-	ModuleStage2();
-	~ModuleStage2();
+	ModuleStage1();
+	~ModuleStage1();
 
 	bool Start();
 	update_status Update();
@@ -21,10 +24,11 @@ public:
 private:
 
 	SDL_Texture* stage_background = nullptr;
+	SDL_Texture* water_texture = nullptr;
 	int background_pos;
 	Mix_Music* music;
-	Mix_Music* boss_music;
+	Animation water;
+	
 
 };
-
 #endif

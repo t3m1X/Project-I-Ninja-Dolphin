@@ -69,6 +69,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Animation.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="MemLeaks.h" />
@@ -76,11 +77,15 @@
     <ClInclude Include="ModuleAudio.h" />
     <ClInclude Include="ModuleFadeToBlack.h" />
     <ClInclude Include="ModuleInput.h" />
+    <ClInclude Include="ModuleParticles.h" />
+    <ClInclude Include="ModulePlayer.h" />
     <ClInclude Include="ModuleRender.h" />
+    <ClInclude Include="ModuleStage1.h" />
     <ClInclude Include="ModuleStage2.h" />
-    <ClInclude Include="ModuleStage6.h" />
+    <ClInclude Include="ModuleStageIntro.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
+    <ClInclude Include="p2Point.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -89,9 +94,12 @@
     <ClCompile Include="ModuleAudio.cpp" />
     <ClCompile Include="ModuleFadeToBlack.cpp" />
     <ClCompile Include="ModuleInput.cpp" />
+    <ClCompile Include="ModuleParticles.cpp" />
+    <ClCompile Include="ModulePlayer.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
+    <ClCompile Include="ModuleStage1.cpp" />
     <ClCompile Include="ModuleStage2.cpp" />
-    <ClCompile Include="ModuleStage6.cpp" />
+    <ClCompile Include="ModuleStageIntro.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />
   </ItemGroup>

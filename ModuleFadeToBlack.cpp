@@ -52,7 +52,8 @@ update_status ModuleFadeToBlack::Update()
 			to_enable->Enable();
 			//total_time += total_time;
 			start_time = SDL_GetTicks();
-			current_step = fade_step::fade_from_black;
+			//current_step = fade_step::fade_from_black;
+			current_step = fade_step::none;
 		}
 		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 	} break;

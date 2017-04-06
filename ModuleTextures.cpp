@@ -65,6 +65,9 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 			LOG("Overflow error: Overwriting textures. \n");
 			last_texture = 0;
 		}
+		if (textures[last_texture] != nullptr)
+			SDL_DestroyTexture(textures[last_texture]);
+		textures[last_texture] = nullptr;
 		textures[last_texture] = SDL_CreateTextureFromSurface(App->render->renderer, image);
 		if (textures[last_texture] == NULL) {
 			LOG("Failed to create texture from surface SDL_CreateTextureFromSurface: %s\n", SDL_GetError());

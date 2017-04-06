@@ -3,11 +3,13 @@
 
 #include "Module.h"
 #include "Globals.h"
+#include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 
 #define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
+#define LASER_COOLDOWN 150
 struct SDL_Texture;
 
 enum player_state {
@@ -36,6 +38,9 @@ private:
 	SDL_Rect player_sprite_right;
 	int player_x, player_y;
 	player_state state;
+	Mix_Chunk* laser_sfx;
+	uint sdl_clock;
+	uint sdl_shot;
 };
 
 #endif

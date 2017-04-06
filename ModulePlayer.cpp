@@ -33,6 +33,9 @@ bool ModulePlayer::Start() {
 	player_sprite_right.y = 0;
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
+	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
+
+	sdl_shot = 0;
 
 	state = IDLE;
 
@@ -40,6 +43,7 @@ bool ModulePlayer::Start() {
 }
 
 update_status ModulePlayer::Update() {
+	sdl_clock = SDL_GetTicks();
 	switch (state) {
 	case IDLE:
 		App->render->Blit(player, player_x, player_y, 1, &player_sprite);
@@ -113,16 +117,17 @@ update_status ModulePlayer::Update() {
 		break;
 	}
 	
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN) {
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
 
 		//Bullet must travel, for now its static
 		//-----------------------
+		sdl_shot = sdl_clock + LASER_COOLDOWN;
+		App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 30);
+		App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 30);
 
-			App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 30);
-			App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 30);
-
-			App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 60);
-			App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 60);
+		App->particles->AddParticle(App->particles->autoattack, player_x + 20, player_y - 60);
+		App->particles->AddParticle(App->particles->autoattack, player_x + 34, player_y - 60);
+		App->audio->PlaySFX(laser_sfx);
 		
 			
 

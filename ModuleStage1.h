@@ -10,7 +10,6 @@
 
 struct SDL_Texture;
 
-
 class ModuleStage1 : public Module
 {
 public:

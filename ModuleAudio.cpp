@@ -111,6 +111,6 @@ void const ModuleAudio::PlayMusic(Mix_Music * music)
 
 void const ModuleAudio::StopMusic() 
 {
-	//Fades-out 5 seconds
-	Mix_FadeOutMusic(5000);
+	//Fades-out 2 seconds
+	Mix_FadeOutMusic(2000);
 }

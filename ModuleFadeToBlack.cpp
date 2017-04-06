@@ -7,6 +7,8 @@
 #include "SDL/include/SDL_timer.h"
 #include "ModuleStage2.h"
 #include "ModuleStageIntro.h"
+#include "SDL\include\SDL_rect.h"
+#include "ModuleTextures.h"
 
 ModuleFadeToBlack::ModuleFadeToBlack()
 {
@@ -20,6 +22,10 @@ ModuleFadeToBlack::~ModuleFadeToBlack()
 bool ModuleFadeToBlack::Start()
 {
 	LOG("Preparing Fade Screen");
+	loading_screen = App->textures->Load("revamp_spritesheets/LoadingScreenAnimation.png");
+	loading_screen_animation.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "9,8,7,6,5,4,3,2,1,0");
+	loading_screen_animation.loop = false;
+	loading_screen_animation.speed = 0.8f;
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	return true;
 }
@@ -61,6 +67,7 @@ update_status ModuleFadeToBlack::Update()
 	// Finally render the black square with alpha on the screen
 	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
 	SDL_RenderFillRect(App->render->renderer, &screen);
+	App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 
 	return UPDATE_CONTINUE;
 }
@@ -69,6 +76,7 @@ update_status ModuleFadeToBlack::Update()
 bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
 {
 	bool ret = false;
+	loading_screen_animation.Reset();
 
 	if (current_step == fade_step::none)
 	{

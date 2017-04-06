@@ -26,6 +26,7 @@ bool ModuleStageIntro::Start() {
 	
 	
 	App->audio->PlayMusic(music);
+	App->audio->MusicVolume(25);
 	App->stage1->Disable();
 	
 

@@ -109,6 +109,14 @@ void const ModuleAudio::PlayMusic(Mix_Music * music)
 
 }
 
+void const ModuleAudio::MusicVolume(int percent) {
+	if (percent > 100)
+		percent = 100;
+	LOG("Volume was: %d\n", Mix_VolumeMusic(MIX_MAX_VOLUME * percent / 100.0f));
+	LOG("Volume is now: %d\n", Mix_VolumeMusic(-1));
+	return;
+}
+
 void const ModuleAudio::StopMusic() 
 {
 	//Fades-out 2 seconds

@@ -25,7 +25,10 @@ bool ModuleFadeToBlack::Start()
 	loading_screen = App->textures->Load("revamp_spritesheets/LoadingScreenAnimation.png");
 	loading_screen_animation.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "9,8,7,6,5,4,3,2,1,0");
 	loading_screen_animation.loop = false;
-	loading_screen_animation.speed = 0.8f;
+	loading_screen_animation.speed = 0.3f;
+	loading_screen_animation_b.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "0,1,2,3,4,5,6,7,8,9");
+	loading_screen_animation_b.loop = false;
+	loading_screen_animation_b.speed = 0.5f;
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
 	return true;
 }
@@ -37,13 +40,12 @@ update_status ModuleFadeToBlack::Update()
 		return UPDATE_CONTINUE;
 
 	Uint32 now = SDL_GetTicks() - start_time;
-	float normalized = MIN(1.0f, (float)now / (float)total_time);
 
 	switch (current_step)
 	{
 	case fade_step::fade_to_black:
 	{
-		if (now >= total_time)
+		if (now >= total_time && loading_screen_animation.Finished())
 		{
 			// ---
 			to_disable->Disable();
@@ -52,22 +54,16 @@ update_status ModuleFadeToBlack::Update()
 			start_time = SDL_GetTicks();
 			current_step = fade_step::fade_from_black;
 		}
+		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 	} break;
 
 	case fade_step::fade_from_black:
 	{
-		normalized = 1.0f - normalized;
-
-		if (now >= total_time)
+		if (now >= total_time && loading_screen_animation_b.Finished())
 			current_step = fade_step::none;
+		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation_b.GetCurrentFrame());
 	} break;
 	}
-
-
-	// Finally render the black square with alpha on the screen
-	SDL_SetRenderDrawColor(App->render->renderer, 0, 0, 0, (Uint8)(normalized * 255.0f));
-	SDL_RenderFillRect(App->render->renderer, &screen);
-	App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 
 	return UPDATE_CONTINUE;
 }
@@ -77,6 +73,9 @@ bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float
 {
 	bool ret = false;
 	loading_screen_animation.Reset();
+	loading_screen_animation_b.Reset();
+	loading_screen_animation.speed = 10/60.0f / time;
+	loading_screen_animation_b.speed = 10/60.0f / time;
 
 	if (current_step == fade_step::none)
 	{

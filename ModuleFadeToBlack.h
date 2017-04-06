@@ -31,6 +31,7 @@ private:
 	SDL_Rect screen;
 	SDL_Texture* loading_screen;
 	Animation loading_screen_animation;
+	Animation loading_screen_animation_b;
 	Module* to_disable;
 	Module* to_enable;
 };

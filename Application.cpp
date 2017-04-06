@@ -39,6 +39,7 @@ bool Application::Init()
 
 	//Disabling stopped modules
 	stage2->Disable();
+	stage1->Disable();
 	//-
 
 	for(int i = 0; i < NUM_MODULES && ret == true; ++i)

@@ -91,6 +91,11 @@ public:
 		return frames[animation[(int)current_frame]];
 	}
 
+	SDL_Rect& CurrentFrame() 
+	{
+		return frames[animation[(int)current_frame]];
+	}
+
 	bool Finished() const
 	{
 		return loops > 0;

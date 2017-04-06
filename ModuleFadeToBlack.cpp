@@ -50,10 +50,9 @@ update_status ModuleFadeToBlack::Update()
 			// ---
 			to_disable->Disable();
 			to_enable->Enable();
-			//total_time += total_time;
+			total_time += total_time;
 			start_time = SDL_GetTicks();
-			//current_step = fade_step::fade_from_black;
-			current_step = fade_step::none;
+			current_step = fade_step::fade_from_black;
 		}
 		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 	} break;
@@ -73,13 +72,14 @@ update_status ModuleFadeToBlack::Update()
 bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
 {
 	bool ret = false;
-	loading_screen_animation.Reset();
-	loading_screen_animation_b.Reset();
-	loading_screen_animation.speed = 10/60.0f / time;
-	loading_screen_animation_b.speed = 10/60.0f / time;
 
 	if (current_step == fade_step::none)
 	{
+		loading_screen_animation.Reset();
+		loading_screen_animation_b.Reset();
+		loading_screen_animation.speed = 10 / 60.0f / time;
+		loading_screen_animation_b.speed = 10 / 60.0f / time;
+
 		current_step = fade_step::fade_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);

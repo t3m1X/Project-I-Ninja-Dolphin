@@ -118,17 +118,10 @@ update_status ModulePlayer::Update() {
 	}
 	
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
-
-		//Bullet must travel, for now its static
-		//-----------------------
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
 		App->particles->AddParticle(AUTOSHOT, player_x + 20, player_y);
 		App->particles->AddParticle(AUTOSHOT, player_x + 34, player_y);
 		App->audio->PlaySFX(laser_sfx);
-		
-			
-
-		
 		
 	}
 

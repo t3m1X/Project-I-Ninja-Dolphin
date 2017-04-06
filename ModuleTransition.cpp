@@ -1,7 +1,7 @@
 #include <math.h>
 #include "Globals.h"
 #include "Application.h"
-#include "ModuleFadeToBlack.h"
+#include "ModuleTransition.h"
 #include "ModuleRender.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
@@ -10,18 +10,18 @@
 #include "SDL\include\SDL_rect.h"
 #include "ModuleTextures.h"
 
-ModuleFadeToBlack::ModuleFadeToBlack()
+ModuleTransition::ModuleTransition()
 {
 	screen = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
 }
 
-ModuleFadeToBlack::~ModuleFadeToBlack()
+ModuleTransition::~ModuleTransition()
 {}
 
 // Load assets
-bool ModuleFadeToBlack::Start()
+bool ModuleTransition::Start()
 {
-	LOG("Preparing Fade Screen");
+	LOG("Preparing transition Screen");
 	loading_screen = App->textures->Load("revamp_spritesheets/LoadingScreenAnimation.png");
 	loading_screen_animation.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "9,8,7,6,5,4,3,2,1,0");
 	loading_screen_animation.loop = false;
@@ -34,16 +34,16 @@ bool ModuleFadeToBlack::Start()
 }
 
 // Update: draw background
-update_status ModuleFadeToBlack::Update()
+update_status ModuleTransition::Update()
 {
-	if (current_step == fade_step::none)
+	if (current_step == transition_step::none)
 		return UPDATE_CONTINUE;
 
 	Uint32 now = SDL_GetTicks() - start_time;
 
 	switch (current_step)
 	{
-	case fade_step::fade_to_black:
+	case transition_step::transition_to_black:
 	{
 		if (now >= total_time && loading_screen_animation.Finished())
 		{
@@ -52,15 +52,15 @@ update_status ModuleFadeToBlack::Update()
 			to_enable->Enable();
 			total_time += total_time;
 			start_time = SDL_GetTicks();
-			current_step = fade_step::fade_from_black;
+			current_step = transition_step::transition_from_black;
 		}
 		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
 	} break;
 
-	case fade_step::fade_from_black:
+	case transition_step::transition_from_black:
 	{
 		if (now >= total_time && loading_screen_animation_b.Finished())
-			current_step = fade_step::none;
+			current_step = transition_step::none;
 		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation_b.GetCurrentFrame());
 	} break;
 	}
@@ -68,7 +68,7 @@ update_status ModuleFadeToBlack::Update()
 	return UPDATE_CONTINUE;
 }
 
-bool ModuleFadeToBlack::CleanUp() {
+bool ModuleTransition::CleanUp() {
 	bool ret = true;
 	loading_screen_animation.CleanUp();
 	loading_screen_animation_b.CleanUp();
@@ -76,19 +76,19 @@ bool ModuleFadeToBlack::CleanUp() {
 	return ret;
 }
 
-// Fade to black. At mid point deactivate one module, then activate the other
-bool ModuleFadeToBlack::FadeToBlack(Module* module_off, Module* module_on, float time)
+// transition to black. At mid point deactivate one module, then activate the other
+bool ModuleTransition::Transition(Module* module_off, Module* module_on, float time)
 {
 	bool ret = false;
 
-	if (current_step == fade_step::none)
+	if (current_step == transition_step::none)
 	{
 		loading_screen_animation.Reset();
 		loading_screen_animation_b.Reset();
 		loading_screen_animation.speed = 10 / 60.0f / time;
 		loading_screen_animation_b.speed = 10 / 60.0f / time;
 
-		current_step = fade_step::fade_to_black;
+		current_step = transition_step::transition_to_black;
 		start_time = SDL_GetTicks();
 		total_time = (Uint32)(time * 0.5f * 1000.0f);
 		to_disable = module_off;

@@ -15,7 +15,7 @@ class ModuleStage2;
 class ModuleStage1;
 class ModuleStageIntro;
 class ModulePlayer;
-class ModuleFadeToBlack;
+class ModuleTransition;
 class Module;
 
 class Application
@@ -32,7 +32,7 @@ public:
 	ModuleStage1* stage1;
 	ModuleStage2* stage2;
 	ModulePlayer* player;
-	ModuleFadeToBlack* fade;
+	ModuleTransition* transition;
 	ModuleParticles* particles;
 	
 

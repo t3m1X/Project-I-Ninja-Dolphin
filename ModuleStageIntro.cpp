@@ -3,7 +3,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleInput.h"
-#include "ModuleFadeToBlack.h"
+#include "ModuleTransition.h"
 #include "ModuleStage2.h"
 #include "ModulePlayer.h"
 #include "ModuleStage1.h"
@@ -36,7 +36,7 @@ bool ModuleStageIntro::Start() {
 update_status ModuleStageIntro::Update() {
 
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->fade->FadeToBlack(this, App->stage1, 0.8f);
+		App->transition->Transition(this, App->stage1, 0.8f);
 
 	App->render->Blit(title_texture, (SCREEN_WIDTH-title_screen.frames[0].w)/2, (SCREEN_HEIGHT - title_screen.frames[0].h) / 2, 1, &title_screen.GetCurrentFrame());
 

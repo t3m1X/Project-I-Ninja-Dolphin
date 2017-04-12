@@ -10,7 +10,9 @@
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 #define LASER_COOLDOWN 100
+
 struct SDL_Texture;
+struct Collider;
 
 enum player_state {
 	IDLE = 0,
@@ -41,6 +43,9 @@ private:
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
 	uint sdl_shot;
+	void OnCollision(Collider* c1, Collider* c2);
+
+	Collider* player_collider;
 };
 
 #endif

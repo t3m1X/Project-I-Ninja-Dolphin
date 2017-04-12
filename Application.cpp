@@ -7,6 +7,7 @@
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
 #include "ModuleStage2.h"
+#include "ModuleCollision.h"
 #include "ModulePlayer.h"
 #include "ModuleTransition.h"
 #include "ModuleParticles.h"
@@ -23,6 +24,7 @@ Application::Application()
 	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = player = new ModulePlayer();
 	modules[i++] = particles = new ModuleParticles();
+	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
 	modules[i++] = render = new ModuleRender();
 }	

@@ -5,6 +5,7 @@
 #include "ModuleInput.h"
 #include "ModuleTransition.h"
 #include "ModulePlayer.h"
+#include "ModuleCollision.h"
 
 
 ModuleStage1::ModuleStage1() {
@@ -31,6 +32,10 @@ bool ModuleStage1::Start() {
 	SDL_Rect background_rect;
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 	background_pos = -background_rect.h  + SCREEN_HEIGHT;
+
+	App->collision->Enable();
+	App->collision->AddCollider({245, 5527, 250, 1000}, COLLIDER_WALL);
+
 	return ret;
 }
 
@@ -53,6 +58,10 @@ update_status ModuleStage1::Update() {
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 
+	if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
+	{
+		App->collision->DebugDraw();
+	}
 	
 	
 
@@ -63,8 +72,9 @@ bool ModuleStage1::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
 	water.CleanUp();
+	App->collision->Disable();
 	App->player->Disable();
 	App->stage1->Disable();
-
+	
 	return ret;
 }

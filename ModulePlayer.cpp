@@ -2,8 +2,11 @@
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
+#include "ModuleCollision.h"
 #include "ModuleInput.h"
 #include "ModuleParticles.h"
+#include "ModuleTransition.h"
+#include "ModuleStageIntro.h"
 
 ModulePlayer::ModulePlayer() 
 {}
@@ -38,6 +41,8 @@ bool ModulePlayer::Start() {
 	sdl_shot = 0;
 
 	state = IDLE;
+
+	player_collider = App->collision->AddCollider({330, 5682, 60, 50},COLLIDER_PLAYER, this);
 
 	return ret;
 }
@@ -125,10 +130,37 @@ update_status ModulePlayer::Update() {
 		
 	}
 
+	/*if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
+	{
+		App->collision->DebugDraw();
+	}*/
+
+	player_collider->SetPos(player_x, player_y);
+
 	return UPDATE_CONTINUE;
 }
 
 bool ModulePlayer::CleanUp() {
 	bool ret = true;
+
+	if (player_collider != nullptr)
+		player_collider->to_delete = true;
+
 	return ret;
+}
+
+void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
+{
+
+	if (c1 = player_collider)
+	{
+
+		App->transition->Transition(this, App->intro, 0.8f);
+
+	}
+
+
+
+
+
 }

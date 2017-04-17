@@ -42,7 +42,8 @@ bool ModulePlayer::Start() {
 
 	state = IDLE;
 
-	player_collider = App->collision->AddCollider({330, 5682, 60, 50},COLLIDER_PLAYER, this);
+	destroyed = false;
+	player_collider = App->collision->AddCollider({player_x, player_y, 60, 50},COLLIDER_PLAYER, this);
 
 	return ret;
 }
@@ -130,12 +131,14 @@ update_status ModulePlayer::Update() {
 		
 	}
 
-	/*if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
-	{
-		App->collision->DebugDraw();
-	}*/
+	
 
 	player_collider->SetPos(player_x, player_y);
+
+	if (destroyed == false)
+		App->render->Blit(graphics, player_x, player_y, 1, &boxy);
+		
+	
 
 	return UPDATE_CONTINUE;
 }
@@ -161,6 +164,6 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 
 
-
+	destroyed = true;
 
 }

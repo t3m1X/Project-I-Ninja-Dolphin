@@ -34,6 +34,8 @@ public:
 	bool CleanUp();
 
 private:
+	SDL_Texture* graphics = nullptr; //((box of the collider))
+	SDL_Rect boxy; // trying to make it work
 	SDL_Texture* player;
 	SDL_Rect player_sprite;
 	SDL_Rect player_sprite_left;
@@ -46,6 +48,7 @@ private:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	Collider* player_collider;
+	bool destroyed = false;
 };
 
 #endif

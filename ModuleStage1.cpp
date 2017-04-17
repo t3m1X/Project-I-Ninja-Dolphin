@@ -34,6 +34,7 @@ bool ModuleStage1::Start() {
 	background_pos = -background_rect.h  + SCREEN_HEIGHT;
 
 	App->collision->Enable();
+
 	App->collision->AddCollider({245, 5527, 250, 1000}, COLLIDER_WALL);
 
 	return ret;
@@ -58,10 +59,7 @@ update_status ModuleStage1::Update() {
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 
-	if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
-	{
-		App->collision->DebugDraw();
-	}
+
 	
 	
 

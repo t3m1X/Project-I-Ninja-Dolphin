@@ -42,8 +42,8 @@ bool ModulePlayer::Start() {
 
 	state = IDLE;
 
-	destroyed = false;
-	player_collider = App->collision->AddCollider({player_x, player_y, 60, 50},COLLIDER_PLAYER, this);
+	
+	player_collider = App->collision->AddCollider({350, 5500, 60, 50}, COLLIDER_PLAYER, this);
 
 	return ret;
 }
@@ -61,6 +61,8 @@ update_status ModulePlayer::Update() {
 			state = FORWARD;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
 			state = STOP;
+			
+
 		break;
 
 	case LEFT:
@@ -133,10 +135,23 @@ update_status ModulePlayer::Update() {
 
 	
 
+	if (App->input->keyboard[SDL_SCANCODE_B] == KEY_DOWN && sdl_clock > sdl_shot)
+	{
+		
+		App->particles->AddParticle(EXPLOSION, player_x, player_y);
+		
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
+	{
+		App->collision->DebugDraw();
+	}
+	
+
 	player_collider->SetPos(player_x, player_y);
 
-	if (destroyed == false)
-		App->render->Blit(graphics, player_x, player_y, 1, &boxy);
+	
+	
 		
 	
 
@@ -163,7 +178,5 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 
 
-
-	destroyed = true;
 
 }

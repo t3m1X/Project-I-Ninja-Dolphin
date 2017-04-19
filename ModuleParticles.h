@@ -11,7 +11,8 @@
 struct SDL_Texture;
 
 enum particle_type {
-	AUTOSHOT = 0
+	AUTOSHOT = 0,
+	EXPLOSION,
 };
 
 struct Particle
@@ -44,12 +45,14 @@ public:
 private:
 
 	SDL_Texture* graphics = nullptr;
+	SDL_Texture* graphics_explosion = nullptr;
 	Particle* active[MAX_ACTIVE_PARTICLES];
 	uint last_particle = 0;
 
 public:
 
 	Particle autoattack;
+	Particle explosion;
 	
 };
 

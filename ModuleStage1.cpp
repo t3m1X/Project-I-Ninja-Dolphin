@@ -6,6 +6,7 @@
 #include "ModuleTransition.h"
 #include "ModulePlayer.h"
 #include "ModuleCollision.h"
+#include "ModuleEnemies.h"
 
 
 ModuleStage1::ModuleStage1() {
@@ -37,6 +38,10 @@ bool ModuleStage1::Start() {
 
 	App->collision->AddCollider({245, 5527, 250, 1000}, COLLIDER_WALL);
 
+	App->enemies->Enable();
+
+	App->enemies->AddEnemy(ENEMY_TYPES::ENEMY1, 300, 500);
+	
 	return ret;
 }
 
@@ -70,6 +75,7 @@ bool ModuleStage1::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
 	water.CleanUp();
+	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();
 	App->stage1->Disable();

@@ -22,6 +22,7 @@ bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
 	graphics = App->textures->Load("spritesheets/player/spritesheet_bullets.png");
+	graphics_explosion = App->textures->Load("revamp_spritesheets/explosion1_spritesheet.png");
 
 	autoattack.anim.PushBack({ 2, 9, 2, 6 });
 	autoattack.anim.PushBack({ 6, 9, 2, 6 });
@@ -33,7 +34,25 @@ bool ModuleParticles::Start()
 	autoattack.life = 1500;
 	autoattack.speed = { 0, -8};
 	
-
+	explosion.anim.PushBack({ 142, 0, 52, 52 });
+	explosion.anim.PushBack({ 208, 0, 63, 64 });
+	explosion.anim.PushBack({ 281, 0, 61, 64 });
+	explosion.anim.PushBack({ 348, 0, 55, 64 });
+	explosion.anim.PushBack({ 414, 0, 65, 64 });
+	explosion.anim.PushBack({ 481, 0, 69, 64 });
+	explosion.anim.PushBack({ 550, 0, 69, 64 });
+	explosion.anim.animation = new int[7];
+	explosion.anim.animation[0] = 0;
+	explosion.anim.animation[1] = 1;
+	explosion.anim.animation[2] = 2;
+	explosion.anim.animation[3] = 3;
+	explosion.anim.animation[4] = 4;
+	explosion.anim.animation[5] = 5;
+	explosion.anim.animation[6] = 6;
+	explosion.anim.loop = false;
+	explosion.anim.speed = 0.3f;
+	explosion.life = 10000;
+	//explosion.speed = { 0, -8};
 	
 
 	return true;
@@ -44,6 +63,7 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
+	delete[] explosion.anim.animation;
 	delete[] autoattack.anim.animation;
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -93,6 +113,10 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay
 	case AUTOSHOT:
 		p = new Particle(autoattack);
 		break;
+	case EXPLOSION:
+		p = new Particle(explosion);
+		break;
+		
 	}
 	p->type = type;
 	p->born = SDL_GetTicks() + delay;

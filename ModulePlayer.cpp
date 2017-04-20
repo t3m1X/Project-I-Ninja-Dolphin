@@ -43,7 +43,8 @@ bool ModulePlayer::Start() {
 	state = IDLE;
 
 	
-	player_collider = App->collision->AddCollider({350, 5500, 60, 50}, COLLIDER_PLAYER, this);
+	player_collider = App->collision->AddCollider({0, 0, 60, 50}, COLLIDER_PLAYER, this);
+	//player_autoattack_collider = App->collision->AddCollider({ 0, 0, 20, 15 }, COLLIDER_PLAYER_SHOT, this);
 
 	return ret;
 }
@@ -126,27 +127,15 @@ update_status ModulePlayer::Update() {
 	}
 	
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
+		
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
-		App->particles->AddParticle(AUTOSHOT, player_x + 20, player_y);
-		App->particles->AddParticle(AUTOSHOT, player_x + 34, player_y);
+		App->particles->AddParticle(AUTOSHOT, player_x + 20, player_y, COLLIDER_PLAYER_SHOT);
+		App->particles->AddParticle(AUTOSHOT, player_x + 34, player_y, COLLIDER_PLAYER_SHOT);
 		App->audio->PlaySFX(laser_sfx);
 		
 	}
 
-	
 
-	if (App->input->keyboard[SDL_SCANCODE_B] == KEY_DOWN && sdl_clock > sdl_shot)
-	{
-		
-		App->particles->AddParticle(EXPLOSION, player_x, player_y);
-		
-	}
-
-	if (App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
-	{
-		App->collision->DebugDraw();
-	}
-	
 
 	player_collider->SetPos(player_x, player_y);
 
@@ -170,7 +159,7 @@ bool ModulePlayer::CleanUp() {
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 
-	if (c1 = player_collider)
+	if (c1 == player_collider)
 	{
 
 		App->transition->Transition(this, App->intro, 0.8f);

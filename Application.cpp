@@ -17,6 +17,7 @@ Application::Application()
 {
 	uint i = 0;
 	modules[i++] = window = new ModuleWindow();
+	modules[i++] = render = new ModuleRender();
 	modules[i++] = input = new ModuleInput();
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
@@ -28,7 +29,7 @@ Application::Application()
 	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
-	modules[i++] = render = new ModuleRender();
+	
 }	
 
 Application::~Application()

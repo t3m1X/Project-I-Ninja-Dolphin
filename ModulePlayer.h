@@ -5,6 +5,7 @@
 #include "Globals.h"
 #include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
+#include "ModuleCollision.h"
 
 #define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
@@ -32,6 +33,7 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
+	void OnCollision(Collider* c1, Collider* c2);
 
 private:
 	
@@ -44,10 +46,9 @@ private:
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
 	uint sdl_shot;
-	void OnCollision(Collider* c1, Collider* c2);
-
-	Collider* player_collider;
 	
+	Collider* player_collider;
+	Collider* player_autoattack_collider;
 };
 
 #endif

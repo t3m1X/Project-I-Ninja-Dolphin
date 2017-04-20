@@ -21,6 +21,10 @@ bool ModuleStage1::Start() {
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
 
+
+	App->collision->Enable();
+    App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
+
 	water.SetUp( 0, 0, 32, 32, 2, 2, "0,1,0");
 	water.speed = 0.025f;
 	water.loop = true;
@@ -34,10 +38,7 @@ bool ModuleStage1::Start() {
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 	background_pos = -background_rect.h  + SCREEN_HEIGHT;
 
-	App->collision->Enable();
-
-	App->collision->AddCollider({245, 5527, 250, 1000}, COLLIDER_WALL);
-
+	
 	App->enemies->Enable();
 
 	App->enemies->AddEnemy(ENEMY_TYPES::ENEMY1, 300, 500);

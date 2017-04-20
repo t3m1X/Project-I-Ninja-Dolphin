@@ -98,6 +98,13 @@ update_status ModuleCollision::Update()
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleCollision::PostUpdate()
+{
+	//DebugDraw();
+
+	return UPDATE_CONTINUE;
+}
+
 void ModuleCollision::DebugDraw()
 {
 	if(App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
@@ -122,6 +129,7 @@ void ModuleCollision::DebugDraw()
 			break;
 		case COLLIDER_PLAYER: // green
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
+			LOG("Drawing player at %d,%d %d", colliders[i]->rect.x, colliders[i]->rect.y, alpha);
 			break;
 		case COLLIDER_ENEMY: // red
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);

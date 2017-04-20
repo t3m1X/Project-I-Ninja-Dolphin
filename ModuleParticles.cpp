@@ -4,6 +4,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleParticles.h"
+#include "ModulePlayer.h"
 
 
 #include "SDL/include/SDL_timer.h"
@@ -106,15 +107,19 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
 {
+	
 	Particle* p = nullptr;
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
 		break;
+
 	case EXPLOSION:
 		p = new Particle(explosion);
+
+		
 		break;
 		
 	}
@@ -127,6 +132,11 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay
 		last_particle = 0;
 		LOG("Overwriting old particles");
 	}
+
+	if (collider_type == COLLIDER_PLAYER_SHOT)
+		p = new 
+		//p->collider = App->collision->AddCollider(p->anim.GetCurrentFrame(), collider_type, this);
+	
 }
 
 // -------------------------------------------------------------

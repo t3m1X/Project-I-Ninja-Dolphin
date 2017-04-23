@@ -23,10 +23,10 @@ bool ModuleStage1::Start() {
 
 
 	App->collision->Enable();
-    App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
+    //App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
 
-	water.SetUp( 0, 0, 32, 32, 2, 2, "0,1,0");
-	water.speed = 0.025f;
+	water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
+	water.speed = 0.05f;
 	water.loop = true;
 	
 	
@@ -41,7 +41,7 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::ENEMY1, 300, 500);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, -500);
 	
 	return ret;
 }

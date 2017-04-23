@@ -130,6 +130,7 @@ update_status ModulePlayer::Update() {
 		
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
 		App->particles->AddParticle(AUTOSHOT, player_x, App->render->camera.y + player_y);
+		App->particles->AddParticle(AUTOSHOT, player_x + 14, App->render->camera.y + player_y);
 		App->audio->PlaySFX(laser_sfx);
 		
 	}

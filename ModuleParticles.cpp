@@ -25,14 +25,14 @@ bool ModuleParticles::Start()
 	graphics = App->textures->Load("revamp_spritesheets/bullets_spritesheet.png");
 	graphics_explosion = App->textures->Load("revamp_spritesheets/explosion1_spritesheet.png");
 
-	autoattack.anim.SetUp(0, 0, 57, 49, 4, 4, "0,1,2,3");
+	autoattack.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
 
 	//autoattack.anim.PushBack({ 2, 9, 2, 6 });
 	//autoattack.anim.PushBack({ 6, 9, 2, 6 });
 	//autoattack.anim.animation = new int[2];
 	//autoattack.anim.animation[0] = 0;
 	//autoattack.anim.animation[1] = 1;
-	autoattack.anim.loop = true;
+	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
 	autoattack.life = 1500;
 	autoattack.speed = { 0, -16};

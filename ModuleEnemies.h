@@ -2,7 +2,6 @@
 #define __ModuleEnemies_H__
 
 #include "Module.h"
-#include "Enemy1.h"
 
 
 #define MAX_ENEMIES 100
@@ -12,7 +11,7 @@
 enum ENEMY_TYPES
 {
 	NO_TYPE,
-	ENEMY1,
+	LIGHTAIRSHIP,
 	
 };
 

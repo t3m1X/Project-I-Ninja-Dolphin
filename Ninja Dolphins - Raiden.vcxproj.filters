@@ -77,11 +77,11 @@
     <ClInclude Include="ModuleEnemies.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy1.h">
-      <Filter>Modules\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="Path.h">
       <Filter>Core\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy_LightAirship.h">
+      <Filter>Modules\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,7 +136,7 @@
     <ClCompile Include="ModuleEnemies.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy1.cpp">
+    <ClCompile Include="Enemy_LightAirship.cpp">
       <Filter>Modules\Enemies</Filter>
     </ClCompile>
   </ItemGroup>

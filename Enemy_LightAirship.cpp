@@ -1,8 +1,8 @@
 #include "Application.h"
-#include "Enemy1.h"
+#include "Enemy_LightAirship.h"
 #include "ModuleCollision.h"
 
-Enemy1::Enemy1(int x, int y) : Enemy(x, y)
+Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 {
 	fly.SetUp(0, 0, 50, 67, 4, 4, "0,1,2,3");
 	fly.speed = 0.2f;
@@ -15,7 +15,7 @@ Enemy1::Enemy1(int x, int y) : Enemy(x, y)
 	original_y = y;
 }
 
-void Enemy1::Move()
+void Enemy_LightAirship::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);
 }

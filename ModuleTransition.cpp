@@ -23,10 +23,10 @@ bool ModuleTransition::Start()
 {
 	LOG("Preparing transition Screen");
 	loading_screen = App->textures->Load("revamp_spritesheets/LoadingScreenAnimation.png");
-	loading_screen_animation.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "9,8,7,6,5,4,3,2,1,0");
+	loading_screen_animation.SetUp(0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 10, 10, "9,8,7,6,5,4,3,2,1,0");
 	loading_screen_animation.loop = false;
 	loading_screen_animation.speed = 0.3f;
-	loading_screen_animation_b.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 10, 10, "0,1,2,3,4,5,6,7,8,9");
+	loading_screen_animation_b.SetUp(0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 10, 10, "0,1,2,3,4,5,6,7,8,9");
 	loading_screen_animation_b.loop = false;
 	loading_screen_animation_b.speed = 0.5f;
 	SDL_SetRenderDrawBlendMode(App->render->renderer, SDL_BLENDMODE_BLEND);
@@ -54,14 +54,14 @@ update_status ModuleTransition::Update()
 			start_time = SDL_GetTicks();
 			current_step = transition_step::transition_from_black;
 		}
-		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation.GetCurrentFrame());
+		App->render->Blit(loading_screen, 0, 0, &loading_screen_animation.GetCurrentFrame());
 	} break;
 
 	case transition_step::transition_from_black:
 	{
 		if (now >= total_time && loading_screen_animation_b.Finished())
 			current_step = transition_step::none;
-		App->render->Blit(loading_screen, 0, 0, 1, &loading_screen_animation_b.GetCurrentFrame());
+		App->render->Blit(loading_screen, 0, 0, &loading_screen_animation_b.GetCurrentFrame());
 	} break;
 	}
 

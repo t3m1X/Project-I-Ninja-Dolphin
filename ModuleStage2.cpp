@@ -30,7 +30,7 @@ bool ModuleStage2::Start() {
 }
 
 update_status ModuleStage2::Update() {
-	App->render->Blit(stage_background, 0, background_pos, 2);
+	App->render->Blit(stage_background, 0, background_pos);
 	if (background_pos < 0)
 		background_pos += SCROLL_SPEED;
 

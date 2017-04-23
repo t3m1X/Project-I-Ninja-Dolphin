@@ -48,12 +48,12 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 	SDL_Rect background = { 0,0,704,6532 };
-	App->render->Blit(stage_background, 0, background_pos, 1, &background);
+	App->render->Blit(stage_background, 0, background_pos, &background);
 	int y = 0;
 	if (!((background_pos + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
 		for (int i = 0; i < 30; i++) {
 			for (int j = 0; j < SCREEN_WIDTH / 32; ++j) {
-				App->render->Blit(water_texture, j * 32, background_pos + background.h - y, 1, &water.CurrentFrame());
+				App->render->Blit(water_texture, j * 32, background_pos + background.h - y, &water.CurrentFrame());
 			}
 			y += 32;
 		}
@@ -61,9 +61,10 @@ update_status ModuleStage1::Update() {
 	}
 
 	background.x += background.w;
-	App->render->Blit(stage_background, 0, background_pos, 1, &background);
-	if (background_pos < 0)
-		background_pos += SCROLL_SPEED;
+	App->render->Blit(stage_background, 0, background_pos, &background);
+	/*if (background_pos < 0)
+		background_pos += SCROLL_SPEED;*/
+	App->render->camera.y -= SCROLL_SPEED;
 
 
 	

@@ -133,10 +133,9 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, COLLIDER_TYP
 		LOG("Overwriting old particles");
 	}
 
-	if (collider_type == COLLIDER_PLAYER_SHOT)
-		p = new 
+	if (collider_type == COLLIDER_PLAYER_SHOT) {
 		//p->collider = App->collision->AddCollider(p->anim.GetCurrentFrame(), collider_type, this);
-	
+	}
 }
 
 // -------------------------------------------------------------

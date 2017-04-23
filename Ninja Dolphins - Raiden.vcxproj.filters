@@ -80,6 +80,9 @@
     <ClInclude Include="Enemy1.h">
       <Filter>Modules\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="Path.h">
+      <Filter>Core\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

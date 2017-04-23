@@ -90,6 +90,7 @@
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="p2Point.h" />
+    <ClInclude Include="Path.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

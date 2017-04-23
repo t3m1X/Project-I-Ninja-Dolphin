@@ -43,7 +43,7 @@ public:
 	bool CleanUp();
 
 	
-	void AddParticle(particle_type type, int x, int y, COLLIDER_TYPE collider_type = COLLIDER_NONE, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, Uint32 delay = 0);
 
 private:
 

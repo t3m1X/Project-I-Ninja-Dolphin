@@ -22,18 +22,21 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("spritesheets/player/spritesheet_bullets.png");
+	graphics = App->textures->Load("revamp_spritesheets/bullets_spritesheet.png");
 	graphics_explosion = App->textures->Load("revamp_spritesheets/explosion1_spritesheet.png");
 
-	autoattack.anim.PushBack({ 2, 9, 2, 6 });
-	autoattack.anim.PushBack({ 6, 9, 2, 6 });
-	autoattack.anim.animation = new int[2];
-	autoattack.anim.animation[0] = 0;
-	autoattack.anim.animation[1] = 1;
-	autoattack.anim.loop = false;
+	autoattack.anim.SetUp(0, 0, 57, 49, 4, 4, "0,1,2,3");
+
+	//autoattack.anim.PushBack({ 2, 9, 2, 6 });
+	//autoattack.anim.PushBack({ 6, 9, 2, 6 });
+	//autoattack.anim.animation = new int[2];
+	//autoattack.anim.animation[0] = 0;
+	//autoattack.anim.animation[1] = 1;
+	autoattack.anim.loop = true;
 	autoattack.anim.speed = 0.3f;
 	autoattack.life = 1500;
-	autoattack.speed = { 0, -8};
+	autoattack.speed = { 0, -16};
+	
 	
 	explosion.anim.PushBack({ 142, 0, 52, 52 });
 	explosion.anim.PushBack({ 208, 0, 63, 64 });
@@ -90,6 +93,7 @@ update_status ModuleParticles::Update()
 
 		if (p->Update() == false)
 		{
+			App->collision->EraseCollider(p->collider);
 			delete p;
 			active[i] = nullptr;
 		}
@@ -107,19 +111,18 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, COLLIDER_TYPE collider_type, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay)
 {
 	
 	Particle* p = nullptr;
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
+		p->collider = App->collision->AddCollider(p->anim.frames[0], COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		break;
 
 	case EXPLOSION:
 		p = new Particle(explosion);
-
-		
 		break;
 		
 	}
@@ -131,10 +134,6 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, COLLIDER_TYP
 	if (last_particle > MAX_ACTIVE_PARTICLES) {
 		last_particle = 0;
 		LOG("Overwriting old particles");
-	}
-
-	if (collider_type == COLLIDER_PLAYER_SHOT) {
-		//p->collider = App->collision->AddCollider(p->anim.GetCurrentFrame(), collider_type, this);
 	}
 }
 
@@ -167,6 +166,8 @@ bool Particle::Update()
 
 	position.x += speed.x;
 	position.y += speed.y;
+
+	collider->SetPos(position.x, position.y);
 
 	return ret;
 }

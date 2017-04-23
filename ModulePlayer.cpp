@@ -79,7 +79,7 @@ update_status ModulePlayer::Update() {
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
 			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
-			player_y += PLAYER_SPEED - 1;
+			player_y += PLAYER_SPEED;
 		break;
 
 	case RIGHT:
@@ -95,7 +95,7 @@ update_status ModulePlayer::Update() {
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
 			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
-			player_y += PLAYER_SPEED - 1;
+			player_y += PLAYER_SPEED;
 		break;
 
 	case FORWARD:
@@ -115,7 +115,7 @@ update_status ModulePlayer::Update() {
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
 
 		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
-			player_y += PLAYER_SPEED - 1 / 2;
+			player_y += PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
 			state = IDLE;
@@ -129,8 +129,7 @@ update_status ModulePlayer::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
 		
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
-		App->particles->AddParticle(AUTOSHOT, player_x + 20, player_y, COLLIDER_PLAYER_SHOT);
-		App->particles->AddParticle(AUTOSHOT, player_x + 34, player_y, COLLIDER_PLAYER_SHOT);
+		App->particles->AddParticle(AUTOSHOT, player_x, App->render->camera.y + player_y);
 		App->audio->PlaySFX(laser_sfx);
 		
 	}

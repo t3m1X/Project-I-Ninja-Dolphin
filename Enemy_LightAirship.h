@@ -21,7 +21,6 @@ public:
 	Enemy_LightAirship(int x, int y);
 
 	void Move();
-	void Shot();
 };
 
 #endif

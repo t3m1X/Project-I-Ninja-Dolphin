@@ -32,25 +32,11 @@ bool ModuleParticles::Start()
 	autoattack.speed = { 0, -14};
 	
 	
-	explosion.anim.PushBack({ 142, 0, 52, 52 });
-	explosion.anim.PushBack({ 208, 0, 63, 64 });
-	explosion.anim.PushBack({ 281, 0, 61, 64 });
-	explosion.anim.PushBack({ 348, 0, 55, 64 });
-	explosion.anim.PushBack({ 414, 0, 65, 64 });
-	explosion.anim.PushBack({ 481, 0, 69, 64 });
-	explosion.anim.PushBack({ 550, 0, 69, 64 });
-	explosion.anim.animation = new int[7];
-	explosion.anim.animation[0] = 0;
-	explosion.anim.animation[1] = 1;
-	explosion.anim.animation[2] = 2;
-	explosion.anim.animation[3] = 3;
-	explosion.anim.animation[4] = 4;
-	explosion.anim.animation[5] = 5;
-	explosion.anim.animation[6] = 6;
+	explosion.anim.SetUp(0, 0, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
 	explosion.anim.loop = false;
-	explosion.anim.speed = 0.3f;
+	explosion.anim.speed = 0.05f;
 	explosion.life = 10000;
-	//explosion.speed = { 0, -8};
+	explosion.speed = { 0, 0};
 	
 
 	return true;
@@ -112,7 +98,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
-		p->collider = App->collision->AddCollider(p->anim.frames[0], COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		break;
 
 	case EXPLOSION:
@@ -161,7 +147,8 @@ bool Particle::Update()
 	position.x += speed.x;
 	position.y += speed.y;
 
-	collider->SetPos(position.x, position.y);
+	if (collider != nullptr)
+		collider->SetPos(position.x, position.y);
 
 	return ret;
 }

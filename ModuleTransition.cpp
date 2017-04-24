@@ -54,14 +54,14 @@ update_status ModuleTransition::Update()
 			start_time = SDL_GetTicks();
 			current_step = transition_step::transition_from_black;
 		}
-		App->render->Blit(loading_screen, 0, 0, &loading_screen_animation.GetCurrentFrame());
+		App->render->Blit(loading_screen, App->render->camera.x, App->render->camera.y, &loading_screen_animation.GetCurrentFrame());
 	} break;
 
 	case transition_step::transition_from_black:
 	{
 		if (now >= total_time && loading_screen_animation_b.Finished())
 			current_step = transition_step::none;
-		App->render->Blit(loading_screen, 0, 0, &loading_screen_animation_b.GetCurrentFrame());
+		App->render->Blit(loading_screen, App->render->camera.x, App->render->camera.y, &loading_screen_animation_b.GetCurrentFrame());
 	} break;
 	}
 

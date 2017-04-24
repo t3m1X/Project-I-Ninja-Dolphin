@@ -7,6 +7,7 @@
 #include "ModuleParticles.h"
 #include "ModuleTransition.h"
 #include "ModuleStageIntro.h"
+#include "ModuleStage1.h"
 
 ModulePlayer::ModulePlayer() 
 {}
@@ -68,7 +69,7 @@ update_status ModulePlayer::Update() {
 	case LEFT:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_left);
 
-		if (player_x > -SPRITE_WIDTH)
+		if (player_x > -SPRITE_WIDTH / 2)
 			player_x -= PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
@@ -77,14 +78,14 @@ update_status ModulePlayer::Update() {
 			&& player_y > 0)
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
+			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;
 		break;
 
 	case RIGHT:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_right);
 
-		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH)
+		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
 			player_x += PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
@@ -93,13 +94,13 @@ update_status ModulePlayer::Update() {
 			&& player_y> 0)
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
+			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;
 		break;
 
 	case FORWARD:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
-		if (player_y > 0 - SPRITE_HEIGHT)
+		if (player_y > 0 - SPRITE_HEIGHT / 2)
 			player_y -= PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
@@ -113,7 +114,7 @@ update_status ModulePlayer::Update() {
 	case STOP:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
 
-		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT)
+		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
@@ -128,8 +129,8 @@ update_status ModulePlayer::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
 		
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
-		App->particles->AddParticle(AUTOSHOT, player_x, App->render->camera.y + player_y);
-		App->particles->AddParticle(AUTOSHOT, player_x + 14, App->render->camera.y + player_y);
+		App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
+		App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
 		App->audio->PlaySFX(laser_sfx);
 		
 	}
@@ -155,14 +156,9 @@ bool ModulePlayer::CleanUp() {
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-
-	if (c1 == player_collider)
-	{
-
-		App->transition->Transition(this, App->intro, 0.8f);
-
+	
+	if (c2->type == COLLIDER_ENEMY) {
+		App->transition->Transition(App->stage1, App->intro, 0.8f);
+		App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 	}
-
-
-
 }

@@ -7,6 +7,7 @@
 #include "ModulePlayer.h"
 #include "ModuleCollision.h"
 #include "ModuleEnemies.h"
+#include "ModuleStageIntro.h"
 
 
 ModuleStage1::ModuleStage1() {
@@ -72,6 +73,9 @@ update_status ModuleStage1::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_HEIGHT / 2 )
 		App->render->camera.x += SCROLL_SPEED;
 
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
+		App->transition->Transition(this, App->intro, 0.8f);
+
 
 	
 	
@@ -86,7 +90,6 @@ bool ModuleStage1::CleanUp() {
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();
-	App->stage1->Disable();
 	
 	return ret;
 }

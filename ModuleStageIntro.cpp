@@ -27,7 +27,7 @@ bool ModuleStageIntro::Start() {
 	
 	App->audio->PlayMusic(music);
 	App->audio->MusicVolume(25);
-	App->stage1->Disable();
+	App->render->camera = { 0,0 };
 	
 
 	return ret;
@@ -46,7 +46,6 @@ update_status ModuleStageIntro::Update() {
 bool ModuleStageIntro::CleanUp() {
 	bool ret = true;
 	App->audio->StopMusic();
-	App->intro->Disable();
 	title_screen.CleanUp();
 
 	return ret;

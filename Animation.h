@@ -104,6 +104,7 @@ public:
 	void Reset()
 	{
 		current_frame = 0;
+		loops = 0;
 	}
 
 	void CleanUp() 		
@@ -111,6 +112,9 @@ public:
 		if (animation != nullptr)
 			delete[] animation;
 		animation = nullptr;
+		animation_size = 0;
+		loops = 0;
+		current_frame = 0;
 	}
 };
 

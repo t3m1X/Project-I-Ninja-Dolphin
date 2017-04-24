@@ -46,6 +46,7 @@ update_status ModuleRender::PreUpdate()
 
 update_status ModuleRender::PostUpdate()
 {
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderPresent(renderer);
 	return update_status::UPDATE_CONTINUE;
 }

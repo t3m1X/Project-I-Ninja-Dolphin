@@ -13,7 +13,7 @@ struct SDL_Texture;
 
 enum particle_type {
 	AUTOSHOT = 0,
-	EXPLOSION,
+	EXPLOSION
 };
 
 struct Particle

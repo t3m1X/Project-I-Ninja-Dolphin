@@ -61,7 +61,7 @@ update_status ModuleStage1::Update() {
 	}
 
 	background.x += background.w;
-	App->render->Blit(stage_background, 0, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
+	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT -6, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT)

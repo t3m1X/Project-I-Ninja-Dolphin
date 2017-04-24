@@ -55,8 +55,8 @@ update_status ModuleStage1::Update() {
 	int y = 0;
 	if (!((-STAGE_HEIGHT + SCREEN_HEIGHT + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
 		for (int i = 0; i < 30; i++) {
-			for (int j = 0; j < SCREEN_WIDTH / 32; ++j) {
-				App->render->Blit(water_texture, j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, &water.CurrentFrame());
+			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
+				App->render->Blit(water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, &water.CurrentFrame());
 			}
 			y += 32;
 		}

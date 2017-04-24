@@ -113,6 +113,7 @@ update_status ModulePlayer::Update() {
 
 	case FORWARD:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 		if (player_y > 0 - SPRITE_HEIGHT / 2)
 			player_y -= PLAYER_SPEED;
 
@@ -126,7 +127,6 @@ update_status ModulePlayer::Update() {
 
 	case STOP:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 
 		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;

@@ -22,8 +22,7 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("revamp_spritesheets/bullets_spritesheet.png");
-	graphics_explosion = App->textures->Load("revamp_spritesheets/explosion1_spritesheet.png");
+	graphics = App->textures->Load("revamp_spritesheets/particles_spritesheet.png");
 
 	autoattack.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
 	autoattack.anim.loop = false;
@@ -32,10 +31,10 @@ bool ModuleParticles::Start()
 	autoattack.speed = { 0, -14};
 	
 	
-	explosion.anim.SetUp(0, 0, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
+	explosion.anim.SetUp(0, 14, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
 	explosion.anim.loop = false;
-	explosion.anim.speed = 0.05f;
-	explosion.life = 10000;
+	explosion.anim.speed = 0.3f;
+	explosion.life = 450;
 	explosion.speed = { 0, 0};
 	
 
@@ -47,8 +46,8 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
-	delete[] explosion.anim.animation;
-	delete[] autoattack.anim.animation;
+	autoattack.anim.CleanUp();
+	explosion.anim.CleanUp();
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)

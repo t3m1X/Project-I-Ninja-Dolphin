@@ -37,6 +37,11 @@ bool ModuleParticles::Start()
 	explosion.life = 700;
 	explosion.speed = { 0, 0};
 	
+	enemyshot.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
+	enemyshot.anim.loop = false;
+	enemyshot.anim.speed = 0.3f;
+	enemyshot.life = 1500;
+	enemyshot.speed = { 0, -14};
 
 	return true;
 }
@@ -48,6 +53,7 @@ bool ModuleParticles::CleanUp()
 	App->textures->Unload(graphics);
 	autoattack.anim.CleanUp();
 	explosion.anim.CleanUp();
+	enemyshot.anim.CleanUp();
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)
@@ -102,6 +108,11 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay
 
 	case EXPLOSION:
 		p = new Particle(explosion);
+		break;
+
+	case ENEMYSHOT:
+		p = new Particle(enemyshot);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
 		break;
 		
 	}

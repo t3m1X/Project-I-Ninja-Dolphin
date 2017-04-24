@@ -17,6 +17,7 @@ public:
 	bool loop = true;
 	Step steps[MAX_STEPS];
 	fPoint accumulated_speed = {0.0f, 0.0f};
+	
 
 private:
 	uint current_frame = 0;
@@ -60,6 +61,11 @@ public:
 	void Reset()
 	{
 		current_frame = 0;
+	}
+
+	uint LastStep() 
+	{
+		return last_step;
 	}
 };
 

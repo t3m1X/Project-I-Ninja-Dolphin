@@ -3,6 +3,8 @@
 
 #include "Enemy.h"
 #include "Path.h"
+#include "Globals.h"
+
 
 class Enemy_LightAirship : public Enemy
 {
@@ -19,6 +21,7 @@ public:
 	Enemy_LightAirship(int x, int y);
 
 	void Move();
+	void Shot();
 };
 
 #endif

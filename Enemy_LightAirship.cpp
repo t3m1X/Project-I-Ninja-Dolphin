@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Enemy_LightAirship.h"
 #include "ModuleCollision.h"
+#include "ModuleParticles.h"
+#include "ModulePlayer.h"
 
 Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 {
@@ -21,4 +23,18 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 void Enemy_LightAirship::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);
+	if (path.LastStep() == 1)
+		Shoot()
+}
+
+void Enemy_LightAirship::Shoot()
+{
+	shot.speed = { 0, 0 };
+	
+	if (path.GetCurrentPosition() == path.PushBack.GetCurrentPosition(&animation))
+	{
+
+		App->particles->AddParticle(ENEMYSHOT, shot_initial_pos.x, shot_initial_pos.y);
+	}
+	
 }

@@ -173,6 +173,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	
 	if (c1->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY) {
 		App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
+		App->player->Disable();
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 }

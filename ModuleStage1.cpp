@@ -59,8 +59,8 @@ update_status ModuleStage1::Update() {
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
 	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
 	int y = 0;
-	if (!((-STAGE_HEIGHT + SCREEN_HEIGHT + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
-		for (int i = 0; i < 30; i++) {
+	if (!((-STAGE_HEIGHT - 32 * 58) >= App->render->camera.y + SCREEN_HEIGHT)) {
+		for (int i = 0; i < 58; i++) {
 			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
 				App->render->Blit(water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, &water.CurrentFrame());
 			}

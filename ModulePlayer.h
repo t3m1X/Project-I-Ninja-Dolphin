@@ -6,6 +6,7 @@
 #include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 #include "ModuleCollision.h"
+#include "Animation.h"
 
 #define PLAYER_SPEED 3
 #define SPRITE_WIDTH 57
@@ -46,9 +47,12 @@ private:
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
 	uint sdl_shot;
+
+	Animation player_fire_forward;
+	Animation player_fire_left;
+	Animation player_fire_right;
 	
 	Collider* player_collider;
-	Collider* player_autoattack_collider;
 };
 
 #endif

@@ -9,6 +9,7 @@
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
 
+
 ModulePlayer::ModulePlayer() 
 {}
 
@@ -46,6 +47,13 @@ bool ModulePlayer::Start() {
 	
 	player_collider = App->collision->AddCollider({0, 0, 60, 50}, COLLIDER_PLAYER, this);
 
+	player_fire_forward.SetUp(0, 49, 57, 66, 5, 5, "0,1,2,3,4");
+	player_fire_forward.speed = 0.2f;
+	player_fire_left.SetUp(0, 115, 57, 66, 5, 5, "0,1,2,3,4");
+	player_fire_left.speed = 0.2f;
+	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
+	player_fire_right.speed = 0.2f;
+
 	return ret;
 }
 
@@ -54,6 +62,7 @@ update_status ModulePlayer::Update() {
 	switch (state) {
 	case IDLE:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
 			state = LEFT;
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
@@ -68,6 +77,8 @@ update_status ModulePlayer::Update() {
 
 	case LEFT:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_left);
+		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_left.GetCurrentFrame());
+
 
 		if (player_x > -SPRITE_WIDTH / 2)
 			player_x -= PLAYER_SPEED;
@@ -84,6 +95,8 @@ update_status ModulePlayer::Update() {
 
 	case RIGHT:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_right);
+		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_right.GetCurrentFrame());
+
 
 		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
 			player_x += PLAYER_SPEED;
@@ -113,6 +126,7 @@ update_status ModulePlayer::Update() {
 
 	case STOP:
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 
 		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;

@@ -42,6 +42,9 @@ private:
 	SDL_Rect player_sprite;
 	SDL_Rect player_sprite_left;
 	SDL_Rect player_sprite_right;
+	SDL_Rect player_sprite_godmode;
+	SDL_Rect player_sprite_godmode_left;
+	SDL_Rect player_sprite_godmode_right;
 	int player_x, player_y;
 	player_state state;
 	Mix_Chunk* laser_sfx;
@@ -53,6 +56,8 @@ private:
 	Animation player_fire_right;
 	
 	Collider* player_collider;
+	uint player_score = 0;
+	bool godmode = false;
 };
 
 #endif

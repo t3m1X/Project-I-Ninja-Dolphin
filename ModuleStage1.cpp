@@ -45,6 +45,12 @@ bool ModuleStage1::Start() {
 	App->enemies->Enable();
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5456);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 530, 5000);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 180, 4800);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 210, 4300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 409, 3400);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 364, 2500);
+
 	
 	return ret;
 }

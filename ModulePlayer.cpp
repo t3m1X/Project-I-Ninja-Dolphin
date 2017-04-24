@@ -61,8 +61,17 @@ update_status ModulePlayer::Update() {
 	sdl_clock = SDL_GetTicks();
 	switch (state) {
 	case IDLE:
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		if (godmode == true)
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
+		}
+		else
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		}
+		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
+
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
 			state = LEFT;
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
@@ -76,7 +85,15 @@ update_status ModulePlayer::Update() {
 		break;
 
 	case LEFT:
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_left);
+		if (godmode == true)
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode_left);
+		}
+		else
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_left);
+		}
+		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_left.GetCurrentFrame());
 
 
@@ -94,7 +111,16 @@ update_status ModulePlayer::Update() {
 		break;
 
 	case RIGHT:
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_right);
+
+		if (godmode == true)
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode_right);
+		}
+		else
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_right);
+		}
+		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_right.GetCurrentFrame());
 
 
@@ -112,7 +138,16 @@ update_status ModulePlayer::Update() {
 		break;
 
 	case FORWARD:
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+
+		if (godmode == true)
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
+		}
+		else
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		}
+		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 		if (player_y > 0 - SPRITE_HEIGHT / 2)
 			player_y -= PLAYER_SPEED;
@@ -126,7 +161,16 @@ update_status ModulePlayer::Update() {
 		break;
 
 	case STOP:
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+
+		if (godmode == true)
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
+		}
+		else
+		{
+			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
+		}
+		
 
 		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;
@@ -149,6 +193,19 @@ update_status ModulePlayer::Update() {
 		
 	}
 
+	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN)
+	{
+		if (godmode == false)
+		{
+			godmode = true;
+		}
+		else
+		{
+			godmode = false;
+		}
+	}
+
+
 	player_collider->SetPos(App->render->camera.x + player_x, App->render->camera.y + player_y);
 
 	
@@ -170,10 +227,20 @@ bool ModulePlayer::CleanUp() {
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
-	
-	if (c1->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY) {
-		App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
-		App->player->Disable();
-		App->transition->Transition(App->stage1, App->intro, 0.8f);
+
+	if (godmode == true)
+	{
+		return;
+	}
+
+	else
+	{
+		if (c1->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY)
+		{
+			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
+			App->player->Disable();
+			App->transition->Transition(App->stage1, App->intro, 0.8f);
+		}
+
 	}
 }

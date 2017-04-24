@@ -7,6 +7,7 @@
 #include "SDL/include/SDL.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "ModuleFonts.h"
 
 
 struct SDL_Texture;
@@ -27,6 +28,7 @@ private:
 	SDL_Texture* water_texture = nullptr;
 	Mix_Music* music;
 	Animation water;
+	TTF_Font* font;
 	
 
 };

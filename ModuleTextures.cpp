@@ -80,6 +80,13 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 	return ret;
 }
 
+SDL_Texture * const ModuleTextures::SurfaceToTexture(SDL_Surface * surface)
+{
+	SDL_Texture* ret = SDL_CreateTextureFromSurface(App->render->renderer, surface);
+
+	return ret;
+}
+
 //// Load new texture from file path
 bool ModuleTextures::Unload(SDL_Texture* texture)
 {

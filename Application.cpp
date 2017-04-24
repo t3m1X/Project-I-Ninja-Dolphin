@@ -3,6 +3,7 @@
 #include "ModuleRender.h"
 #include "ModuleInput.h"
 #include "ModuleTextures.h"
+#include "ModuleFonts.h"
 #include "ModuleAudio.h"
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
@@ -29,6 +30,7 @@ Application::Application()
 	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
+	modules[i++] = fonts = new ModuleFonts();
 	
 }	
 
@@ -45,6 +47,7 @@ bool Application::Init()
 	//Disabling stopped modules
 	stage2->Disable();
 	stage1->Disable();
+	player->Disable();
 	//-
 
 	for(int i = 0; i < NUM_MODULES && ret == true; ++i)

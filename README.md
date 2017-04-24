@@ -1,23 +1,5 @@
-  _  _ ___ _  _    _  _     ___   ___  _    ___ _  _ ___ _  _ ___ 
- | \| |_ _| \| |_ | |/_\   |   \ / _ \| |  | _ \ || |_ _| \| / __|
- | .` || || .` | || / _ \  | |) | (_) | |__|  _/ __ || || .` \__ \
- |_|\_|___|_|\_|\__/_/ \_\ |___/ \___/|____|_| |_||_|___|_|\_|___/
-                                                                 ,--. 
-,-.----.      ,---,         ,---,    ,---,        ,---,.       ,--.'| 
-\    /  \    '  .' \     ,`--.' |  .'  .' `\    ,'  .' |   ,--,:  : | 
-;   :    \  /  ;    '.   |   :  :,---.'     \ ,---.'   |,`--.'`|  ' : 
-|   | .\ : :  :       \  :   |  '|   |  .`\  ||   |   .'|   :  :  | | 
-.   : |: | :  |   /\   \ |   :  |:   : |  '  |:   :  |-,:   |   \ | : 
-|   |  \ : |  :  ' ;.   :'   '  ;|   ' '  ;  ::   |  ;/||   : '  '; | 
-|   : .  / |  |  ;/  \   \   |  |'   | ;  .  ||   :   .''   ' ;.    ; 
-;   | |  \ '  :  | \  \ ,'   :  ;|   | :  |  '|   |  |-,|   | | \   | 
-|   | ;\  \|  |  '  '--' |   |  ''   : | /  ; '   :  ;/|'   : |  ; .' 
-:   ' | \.'|  :  :       '   :  ||   | '` ,/  |   |    \|   | '`--'   
-:   : :-'  |  | ,'       ;   |.' ;   :  .'    |   :   .''   : |       
-|   |.'    `--''         '---'   |   ,.'      |   | ,'  ;   |.'       
-`---'                            '---'        `----'    '---'         
-                                                       
-[Github] (https://github.com/t3m1X/Project-I-Ninja-Dolphin)
+  # RAIDEN
+  ### [Ninja Dolphins](https://github.com/t3m1X/Project-I-Ninja-Dolphin)
 
 Raiden is an arcade vertical scrolling shot'em originally released by Seibu Kaihatsu. 
 This is our version of the game, with new graphics and mimicking the original gameplay.
@@ -35,11 +17,11 @@ This is our version of the game, with new graphics and mimicking the original ga
 
 ## Controls
 
-F1 Activates and deactivates Debug mode.
-F2 Activates and deactivates Godmode.
-SPACEBAR while on Intro screen: Changes between scenes.
-SPACEBAR while on Gameplay screen: Shoots.
-Direction arrows move the player.
+* **F1** Activates and deactivates Debug mode.
+* **F2** Activates and deactivates Godmode.
+* **SPACEBAR while on Intro screen:** Changes between scenes.
+* **SPACEBAR while on Gameplay screen:** Shoots.
+* **Direction arrows** move the player.
 
 ## Team members:
 

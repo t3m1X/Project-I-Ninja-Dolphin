@@ -51,6 +51,7 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 409, 3400);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 364, 2500);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 370, 5500);
 	
 	return ret;
 }

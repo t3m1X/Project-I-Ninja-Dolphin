@@ -6,6 +6,7 @@
 #include "ModuleTextures.h"
 #include "Enemy.h"
 #include "Enemy_LightAirship.h"
+#include "Enemy_LightTank.h"
 
 #define SPAWN_MARGIN 50
 
@@ -128,6 +129,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 		{
 		case ENEMY_TYPES::LIGHTAIRSHIP:
 			enemies[i] = new Enemy_LightAirship(info.x, info.y);
+			break;
+		case ENEMY_TYPES::LIGHTTANK:
+			enemies[i] = new Enemy_LightTank(info.x, info.y);
 			break;
 
 		}

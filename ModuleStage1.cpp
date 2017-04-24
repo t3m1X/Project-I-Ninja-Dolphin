@@ -1,4 +1,4 @@
-#include "ModuleStage1.h"
+#include "ModuleStage1.h"<
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
@@ -36,7 +36,6 @@ bool ModuleStage1::Start() {
 	App->player->Enable();
 	SDL_Rect background_rect;
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
-	background_pos = -background_rect.h  + SCREEN_HEIGHT;
 
 	
 	App->enemies->Enable();
@@ -47,13 +46,13 @@ bool ModuleStage1::Start() {
 }
 
 update_status ModuleStage1::Update() {
-	SDL_Rect background = { 0,0,704,6532 };
-	App->render->Blit(stage_background, 0, background_pos, &background);
+	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
+	App->render->Blit(stage_background, SCREEN_HEIGHT / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
 	int y = 0;
-	if (!((background_pos + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
+	if (!((-STAGE_HEIGHT + SCREEN_HEIGHT + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
 		for (int i = 0; i < 30; i++) {
 			for (int j = 0; j < SCREEN_WIDTH / 32; ++j) {
-				App->render->Blit(water_texture, j * 32, background_pos + background.h - y, &water.CurrentFrame());
+				App->render->Blit(water_texture, j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, &water.CurrentFrame());
 			}
 			y += 32;
 		}
@@ -61,10 +60,17 @@ update_status ModuleStage1::Update() {
 	}
 
 	background.x += background.w;
-	App->render->Blit(stage_background, 0, background_pos, &background);
-	/*if (background_pos < 0)
-		background_pos += SCROLL_SPEED;*/
-	App->render->camera.y -= SCROLL_SPEED;
+	App->render->Blit(stage_background, 0, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
+	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
+		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
+	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT)
+		App->render->camera.y -= SCROLL_SPEED;
+
+	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_HEIGHT/2 - STAGE_WIDTH/2 )
+		App->render->camera.x -= SCROLL_SPEED;
+
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_HEIGHT / 2 )
+		App->render->camera.x += SCROLL_SPEED;
 
 
 	

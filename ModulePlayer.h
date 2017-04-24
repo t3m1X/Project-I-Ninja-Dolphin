@@ -7,10 +7,10 @@
 #include "SDL\include\SDL.h"
 #include "ModuleCollision.h"
 
-#define PLAYER_SPEED 4
+#define PLAYER_SPEED 3
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
-#define LASER_COOLDOWN 100
+#define LASER_COOLDOWN 200
 
 struct SDL_Texture;
 struct Collider;

@@ -6,9 +6,13 @@
 #include "ModuleAudio.h"
 #include "SDL/include/SDL.h"
 #include "Animation.h"
+#include "p2Point.h"
 
 
 struct SDL_Texture;
+
+#define STAGE_WIDTH 704
+#define STAGE_HEIGHT 6532
 
 class ModuleStage1 : public Module
 {
@@ -24,7 +28,6 @@ private:
 
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
-	int background_pos;
 	Mix_Music* music;
 	Animation water;
 	

@@ -21,7 +21,7 @@ bool ModuleStageIntro::Start() {
 	music = App->audio->LoadMusic("music/fighting_thunder.ogg");
 	title_texture = App->textures->Load("revamp_spritesheets/attract_screen.png");
 
-	title_screen.SetUp(0, 0, SCREEN_WIDTH/2, SCREEN_HEIGHT/2, 6, 11, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10");
+	title_screen.SetUp(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, 6, 11, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7,8,9,10");
 	title_screen.speed = 0.15f;
 	
 	

@@ -24,14 +24,14 @@ typedef unsigned int uint;
 
 // Configuration -----------
 #define SCREEN_SIZE 2
-#define SCREEN_WIDTH 896
-#define SCREEN_HEIGHT 1024
+#define SCREEN_WIDTH 448
+#define SCREEN_HEIGHT 512
 #define WIN_FULLSCREEN 0
 #define WIN_FULLSCREEN_DESKTOP 0
 #define WIN_BORDERLESS 0
 #define WIN_RESIZABLE 1
 #define REN_VSYNC 1
-#define SCROLL_SPEED 4
+#define SCROLL_SPEED 2
 #define SPRITE_SIZE 32
 
 #endif // __GLOBALS_H__

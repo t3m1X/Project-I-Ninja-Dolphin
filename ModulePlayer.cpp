@@ -44,7 +44,6 @@ bool ModulePlayer::Start() {
 
 	
 	player_collider = App->collision->AddCollider({0, 0, 60, 50}, COLLIDER_PLAYER, this);
-	//player_autoattack_collider = App->collision->AddCollider({ 0, 0, 20, 15 }, COLLIDER_PLAYER_SHOT, this);
 
 	return ret;
 }

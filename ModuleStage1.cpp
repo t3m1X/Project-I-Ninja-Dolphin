@@ -41,14 +41,14 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, -500);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5456);
 	
 	return ret;
 }
 
 update_status ModuleStage1::Update() {
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
-	App->render->Blit(stage_background, SCREEN_HEIGHT / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
+	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
 	int y = 0;
 	if (!((-STAGE_HEIGHT + SCREEN_HEIGHT + background.h - 32 * 30) >= SCREEN_HEIGHT)) {
 		for (int i = 0; i < 30; i++) {
@@ -67,14 +67,14 @@ update_status ModuleStage1::Update() {
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT)
 		App->render->camera.y -= SCROLL_SPEED;
 
-	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_HEIGHT/2 - STAGE_WIDTH/2 )
+	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH/2 - STAGE_WIDTH/2 )
 		App->render->camera.x -= SCROLL_SPEED;
 
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_HEIGHT / 2 )
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 )
 		App->render->camera.x += SCROLL_SPEED;
 
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->transition->Transition(this, App->intro, 0.8f);
+	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
+		App->transition->Transition(this, App->intro, 0.8f);*/
 
 
 	

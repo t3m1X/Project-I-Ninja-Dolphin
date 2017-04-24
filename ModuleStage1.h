@@ -11,9 +11,6 @@
 
 struct SDL_Texture;
 
-#define STAGE_WIDTH 704
-#define STAGE_HEIGHT 6532
-
 class ModuleStage1 : public Module
 {
 public:

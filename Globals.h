@@ -33,5 +33,7 @@ typedef unsigned int uint;
 #define REN_VSYNC 1
 #define SCROLL_SPEED 2
 #define SPRITE_SIZE 32
+#define STAGE_WIDTH 704
+#define STAGE_HEIGHT 6532
 
 #endif // __GLOBALS_H__

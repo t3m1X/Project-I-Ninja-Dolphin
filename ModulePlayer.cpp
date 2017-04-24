@@ -37,6 +37,21 @@ bool ModulePlayer::Start() {
 	player_sprite_right.x = SPRITE_WIDTH * 2;
 	player_sprite_right.y = 0;
 
+	player_sprite_godmode.h = SPRITE_HEIGHT;
+	player_sprite_godmode.w = SPRITE_WIDTH + 2;
+	player_sprite_godmode.x = 262;
+	player_sprite_godmode.y = 0;
+
+	player_sprite_godmode_left.h = SPRITE_HEIGHT;
+	player_sprite_godmode_left.w = SPRITE_WIDTH;
+	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH + 2;
+	player_sprite_godmode_left.y = 0;
+
+	player_sprite_godmode_right.h = SPRITE_HEIGHT;
+	player_sprite_godmode_right.w = SPRITE_WIDTH;
+	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2 + 2;
+	player_sprite_godmode_right.y = 0;
+
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 
@@ -61,14 +76,10 @@ update_status ModulePlayer::Update() {
 	sdl_clock = SDL_GetTicks();
 	switch (state) {
 	case IDLE:
-		if (godmode == true)
-		{
+		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
-		}
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
-		}
 		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 
@@ -85,14 +96,10 @@ update_status ModulePlayer::Update() {
 		break;
 
 	case LEFT:
-		if (godmode == true)
-		{
+		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode_left);
-		}
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_left);
-		}
 		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_left.GetCurrentFrame());
 
@@ -112,14 +119,10 @@ update_status ModulePlayer::Update() {
 
 	case RIGHT:
 
-		if (godmode == true)
-		{
+		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode_right);
-		}
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_right);
-		}
 		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_right.GetCurrentFrame());
 
@@ -139,14 +142,10 @@ update_status ModulePlayer::Update() {
 
 	case FORWARD:
 
-		if (godmode == true)
-		{
+		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
-		}
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
-		}
 		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_fire_forward.GetCurrentFrame());
 		if (player_y > 0 - SPRITE_HEIGHT / 2)
@@ -162,14 +161,10 @@ update_status ModulePlayer::Update() {
 
 	case STOP:
 
-		if (godmode == true)
-		{
+		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite_godmode);
-		}
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, &player_sprite);
-		}
 		
 
 		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -195,14 +190,7 @@ update_status ModulePlayer::Update() {
 
 	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN)
 	{
-		if (godmode == false)
-		{
-			godmode = true;
-		}
-		else
-		{
-			godmode = false;
-		}
+		godmode = !godmode;
 	}
 
 

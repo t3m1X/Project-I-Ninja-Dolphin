@@ -17,10 +17,22 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 
 	original_position = position;
 
+	sdl_clock_start = SDL_GetTicks();
+
 	original_y = y;
 }
 
 void Enemy_LightAirship::Move()
 {
+	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
+	if (sdl_clock >= sdl_clock_start + 750) {
+		iPoint origin = position;
+		origin.x += 18;
+		origin.y += fly.CurrentFrame().h;
+		Shoot(origin);
+		origin.x += 17;
+		Shoot(origin);
+		sdl_clock_start = -751;
+	}
 }

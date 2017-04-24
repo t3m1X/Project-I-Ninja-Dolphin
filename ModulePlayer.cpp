@@ -227,7 +227,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	else
 	{
-		if (c1->type == COLLIDER_ENEMY || c2->type == COLLIDER_ENEMY)
+		if (c1->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_AIR ||
+			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
 		{
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 			App->player->Disable();

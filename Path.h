@@ -63,10 +63,6 @@ public:
 		current_frame = 0;
 	}
 
-	uint LastStep() 
-	{
-		return last_step;
-	}
 };
 
 #endif // __PATH_H__

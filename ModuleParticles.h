@@ -44,7 +44,7 @@ public:
 	bool CleanUp();
 
 	
-	void AddParticle(particle_type type, int x, int y, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
 
 private:
 

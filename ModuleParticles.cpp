@@ -37,11 +37,11 @@ bool ModuleParticles::Start()
 	explosion.life = 700;
 	explosion.speed = { 0, 0};
 	
-	enemyshot.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
-	enemyshot.anim.loop = false;
+	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
+	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
 	enemyshot.life = 1500;
-	enemyshot.speed = { 0, -14};
+	enemyshot.speed = { 0, -7};
 
 	return true;
 }
@@ -96,7 +96,7 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, Uint32 delay)
 {
 	
 	Particle* p = nullptr;
@@ -116,6 +116,15 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay
 		break;
 		
 	}
+	if (direction.x != 999 && direction.y != 999) {
+		direction = direction / direction.Length(); // Normalizing
+		direction = direction * p->speed.Length();
+		p->speed.x = direction.x;
+		p->speed.y = direction.y;
+		//p->speed.x = direction.x;
+		//p->speed.y = direction.y;
+	}
+
 	p->type = type;
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;

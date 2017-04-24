@@ -37,6 +37,9 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 
+public:
+	int player_x, player_y;
+
 private:
 	
 	SDL_Texture* player;
@@ -46,7 +49,6 @@ private:
 	SDL_Rect player_sprite_godmode;
 	SDL_Rect player_sprite_godmode_left;
 	SDL_Rect player_sprite_godmode_right;
-	int player_x, player_y;
 	player_state state;
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;

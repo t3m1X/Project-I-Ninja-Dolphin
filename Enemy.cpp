@@ -3,9 +3,11 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
+#include "ModulePlayer.h"
 
 Enemy::Enemy(int x, int y) : position(x, y)
-{}
+{
+}
 
 Enemy::~Enemy()
 {
@@ -30,4 +32,10 @@ void Enemy::Draw(SDL_Texture* sprites)
 void Enemy::OnCollision(Collider* collider)
 {
 	App->particles->AddParticle(EXPLOSION, position.x, position.y);
+}
+
+void Enemy::Shoot(iPoint origin)
+{
+	iPoint player_position = { App->render->camera.x + App->player->player_x, App->render->camera.y + App->player->player_y };
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
 }

@@ -33,8 +33,8 @@ bool ModuleParticles::Start()
 	
 	explosion.anim.SetUp(0, 14, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
 	explosion.anim.loop = false;
-	explosion.anim.speed = 0.3f;
-	explosion.life = 450;
+	explosion.anim.speed = 0.19f;
+	explosion.life = 700;
 	explosion.speed = { 0, 0};
 	
 

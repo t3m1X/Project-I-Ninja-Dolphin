@@ -39,7 +39,7 @@ bool ModuleStage1::Start() {
 	SDL_Rect background_rect;
 	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 
-	font = App->fonts->LoadFont("fonts/PrStart.ttf", 16);
+	//font = App->fonts->LoadFont("fonts/PrStart.ttf", 16);
 
 	
 	App->enemies->Enable();
@@ -87,7 +87,7 @@ update_status ModuleStage1::Update() {
 
 
 	
-	App->fonts->WriteText(font, "Test", App->render->camera.x, App->render->camera.y, { 255,255,255,255 });
+	//App->fonts->WriteText(font, "Test", App->render->camera.x, App->render->camera.y, { 255,255,255,255 });
 
 	return UPDATE_CONTINUE;
 }

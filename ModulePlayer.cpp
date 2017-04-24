@@ -210,6 +210,10 @@ bool ModulePlayer::CleanUp() {
 	if (player_collider != nullptr)
 		player_collider->to_delete = true;
 
+	player_fire_forward.CleanUp();
+	player_fire_left.CleanUp();
+	player_fire_right.CleanUp();
+
 	return ret;
 }
 

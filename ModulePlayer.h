@@ -6,6 +6,7 @@
 #include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 #include "ModuleCollision.h"
+#include "ModuleFonts.h"
 #include "Animation.h"
 
 #define PLAYER_SPEED 3
@@ -57,6 +58,8 @@ private:
 	
 	Collider* player_collider;
 	uint player_score = 0;
+	TTF_Font* font;
+
 	bool godmode = false;
 };
 

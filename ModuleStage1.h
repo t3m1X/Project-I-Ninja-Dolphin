@@ -28,7 +28,7 @@ private:
 	SDL_Texture* water_texture = nullptr;
 	Mix_Music* music;
 	Animation water;
-	TTF_Font* font;
+
 	
 
 };

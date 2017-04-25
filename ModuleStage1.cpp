@@ -52,6 +52,21 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 364, 2500);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 370, 5500);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 172, 528);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 570, 528);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 480, 350);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 225, 350);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 480, 5456);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 180, 5456);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 480, 5000);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 180, 4900);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 280, 3400);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 400, 2800);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 365, 800);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 80);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 80);
 	
 	return ret;
 }

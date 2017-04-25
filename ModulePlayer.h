@@ -36,10 +36,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
+	iPoint GetPos();
 	void AddScore(uint score_add);
-
-public:
-	int player_x, player_y;
 
 private:
 	
@@ -65,6 +63,8 @@ private:
 	char* score_text;
 	char* highscore_text;
 	TTF_Font* font;
+
+	int player_x, player_y;
 
 	bool godmode = false;
 };

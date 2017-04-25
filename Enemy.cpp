@@ -25,8 +25,10 @@ void Enemy::Draw(SDL_Texture* sprites)
 	if (collider != nullptr)
 		collider->SetPos(position.x, position.y);
 
+	iPoint player_position = { App->render->camera.x + App->player->player_x, App->render->camera.y + App->player->player_y };
+
 	if (animation != nullptr)
-		App->render->Blit(sprites, position.x, position.y, { 0,1 }, &(animation->GetCurrentFrame()));
+		App->render->Blit(sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
 }
 
 void Enemy::OnCollision(Collider* collider)

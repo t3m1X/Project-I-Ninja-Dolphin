@@ -281,6 +281,11 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 }
 
+iPoint ModulePlayer::GetPos()
+{
+	return { App->render->camera.x + player_x, App->render->camera.y + player_y };
+}
+
 void ModulePlayer::AddScore(uint score_add)
 {
 	score += score_add;

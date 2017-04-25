@@ -15,6 +15,7 @@ protected:
 	Collider* collider = nullptr;
 	uint sdl_clock;
 	uint sdl_clock_start;
+	iPoint direction = { 0,1 };
 
 public:
 	iPoint position;

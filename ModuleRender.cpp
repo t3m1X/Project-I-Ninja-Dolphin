@@ -86,6 +86,8 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, iPoint direction, SD
 
 	iPoint down = { 0,1 };
   	double angle = down.Angle(direction);
+	if (direction.x > 0)
+		angle = -angle;
 
 	if(SDL_RenderCopyEx(renderer, texture, section, &rect,angle,NULL, SDL_FLIP_NONE) != 0)
 	{

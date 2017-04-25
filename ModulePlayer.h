@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "ModuleFonts.h"
 #include "Animation.h"
+#include "p2Point.h"
 
 #define PLAYER_SPEED 3
 #define SPRITE_WIDTH 57

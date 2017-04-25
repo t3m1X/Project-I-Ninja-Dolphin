@@ -5,17 +5,21 @@
 #include "Animation.h"
 #include "Globals.h"
 #include "p2Point.h"
+#include "ModuleCollision.h"
 
 #define MAX_ACTIVE_PARTICLES 100
 
 struct SDL_Texture;
 
 enum particle_type {
-	AUTOSHOT = 0
+	AUTOSHOT = 0,
+	EXPLOSION,
+	ENEMYSHOT
 };
 
 struct Particle
 {
+	Collider* collider = nullptr;
 	Animation anim;
 	uint fx = 0;
 	iPoint position;
@@ -39,7 +43,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 
-	void AddParticle(particle_type type, int x, int y, Uint32 delay = 0);
+	
+	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
 
 private:
 
@@ -50,6 +55,8 @@ private:
 public:
 
 	Particle autoattack;
+	Particle explosion;
+	Particle enemyshot;
 	
 };
 

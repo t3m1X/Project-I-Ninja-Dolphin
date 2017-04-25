@@ -6,6 +6,8 @@
 #include "ModuleAudio.h"
 #include "SDL/include/SDL.h"
 #include "Animation.h"
+#include "p2Point.h"
+#include "ModuleFonts.h"
 
 
 struct SDL_Texture;
@@ -24,9 +26,9 @@ private:
 
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
-	int background_pos;
 	Mix_Music* music;
 	Animation water;
+
 	
 
 };

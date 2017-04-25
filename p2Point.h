@@ -55,6 +55,26 @@ public:
 		return(r);
 	}
 
+	p2Point operator / (const TYPE k) const
+	{
+		p2Point r;
+
+		r.x = x / k;
+		r.y = y / k;
+
+		return (r);
+	}
+
+	p2Point operator * (const TYPE k) const
+	{
+		p2Point r;
+
+		r.x = x * k;
+		r.y = y * k;
+
+		return (r);
+	}
+
 	const p2Point& operator -=(const p2Point &v)
 	{
 		x -= v.x;
@@ -99,6 +119,11 @@ public:
 		y = -y;
 
 		return(*this);
+	}
+
+	TYPE Length()
+	{
+		return (TYPE)sqrtf(float(x*x) + float(y*y));
 	}
 
 	// Distances ---------------------------------------------

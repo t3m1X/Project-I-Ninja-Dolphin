@@ -38,7 +38,7 @@ update_status ModuleStageIntro::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->stage1, 0.8f);
 
-	App->render->Blit(title_texture, 0, 0, &title_screen.GetCurrentFrame());
+	App->render->Blit(title_texture, 0, 0, { 0,1 }, &title_screen.GetCurrentFrame());
 
 	return UPDATE_CONTINUE;
 }

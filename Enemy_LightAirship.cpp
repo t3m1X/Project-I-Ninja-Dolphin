@@ -10,10 +10,12 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	fly.speed = 0.2f;
 
 	direction = App->player->GetPos() - position;
+	fPoint fdirection = { (float)direction.x,(float)direction.y };
+	fdirection.Normalize();
 
-	path.PushBack({ 0, 3 }, 25, &fly);
+	path.PushBack(fdirection*3, 20, &fly);
 	path.PushBack({ 0, -2 }, 40, &fly);
-	path.PushBack({ 0,-5 }, 500, &fly);
+	path.PushBack(fdirection*-5, 500, &fly);
 
 	collider = App->collision->AddCollider({ 0, 0, 50, 67 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -31,15 +33,21 @@ Enemy_LightAirship::~Enemy_LightAirship()
 
 void Enemy_LightAirship::Move()
 {
+	if (!shot) {
+		direction = App->player->GetPos() - position;
+	}
+
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
-	if (sdl_clock >= sdl_clock_start + 750) {
+
+	if (sdl_clock >= sdl_clock_start + 750 && !shot) {
+
 		iPoint origin = position;
 		origin.x += 18;
 		origin.y += fly.CurrentFrame().h;
 		Shoot(origin);
 		origin.x += 17;
 		Shoot(origin);
-		sdl_clock_start = -751;
+		shot = true;
 	}
 }

@@ -84,7 +84,7 @@ update_status ModuleParticles::Update()
 		}
 		else if (SDL_GetTicks() >= p->born)
 		{
-			App->render->Blit(graphics, p->position.x, p->position.y, { 0,1 }, &(p->anim.GetCurrentFrame()));
+			App->render->Blit(graphics, p->position.x, p->position.y, p->speed, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -117,7 +117,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		
 	}
 	if (direction.x != 999 && direction.y != 999) {
-		direction = direction / direction.Length(); // Normalizing
+		direction.Normalize();
 		direction = direction * p->speed.Length();
 		p->speed.x = direction.x;
 		p->speed.y = direction.y;

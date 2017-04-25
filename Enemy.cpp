@@ -25,8 +25,6 @@ void Enemy::Draw(SDL_Texture* sprites)
 	if (collider != nullptr)
 		collider->SetPos(position.x, position.y);
 
-	iPoint player_position = { App->render->camera.x + App->player->player_x, App->render->camera.y + App->player->player_y };
-
 	if (animation != nullptr)
 		App->render->Blit(sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
 }
@@ -39,6 +37,8 @@ void Enemy::OnCollision(Collider* collider)
 
 void Enemy::Shoot(iPoint origin)
 {
-	iPoint player_position = { App->render->camera.x + App->player->player_x, App->render->camera.y + App->player->player_y };
+	iPoint player_position = App->player->GetPos();
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
+	/*fPoint fdirection = { (float)direction.x, (float)direction.y };
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, fdirection);*/
 }

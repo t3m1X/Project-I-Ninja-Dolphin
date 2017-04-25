@@ -9,9 +9,13 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fly.SetUp(200, 0, 105, 95, 1, 1, "0");
 	fly.speed = 0.2f;
 
-	path.PushBack({ 0, 3 }, 30, &fly);
-	path.PushBack({ 0, -2 }, 80, &fly);
-	path.PushBack({ 0,-5 }, 500, &fly);
+	direction = App->player->GetPos() - position;
+	fPoint fdirection = { (float)direction.x,(float)direction.y };
+	fdirection.Normalize();
+
+	path.PushBack(fdirection * 3, 20, &fly);
+	path.PushBack({ 0, -2 }, 40, &fly);
+	path.PushBack(fdirection*-5, 500, &fly);
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -27,5 +31,6 @@ Enemy_BonusAirship::~Enemy_BonusAirship()
 
 void Enemy_BonusAirship::Move()
 {
+
 	position = original_position + path.GetCurrentPosition(&animation);
 }

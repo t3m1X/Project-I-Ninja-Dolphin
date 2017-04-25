@@ -55,8 +55,8 @@ bool ModuleStage1::Start() {
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 172, 528);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 570, 528);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 480, 350);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 225, 350);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 480, 530);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 225, 460);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 480, 5456);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 180, 5456);
@@ -65,8 +65,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 280, 3400);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 400, 2800);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 365, 800);
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 80);
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 80);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 500);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 600);
 	
 	return ret;
 }
@@ -93,6 +93,12 @@ update_status ModuleStage1::Update() {
 		App->render->camera.y -= SCROLL_SPEED;
 		App->player->AddScore(1);
 	}
+	else
+	{
+		App->player->Disable();
+		App->transition->Transition(App->stage1, App->intro, 0.8f);
+	}
+
 
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH/2 - STAGE_WIDTH/2 )
 		App->render->camera.x -= SCROLL_SPEED;
@@ -100,6 +106,7 @@ update_status ModuleStage1::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 )
 		App->render->camera.x += SCROLL_SPEED;
 
+	
 	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->intro, 0.8f);*/
 

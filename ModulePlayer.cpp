@@ -19,6 +19,17 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start() {
 	bool ret = true;
 
+	score_text = new char[16];
+	char* tmp = "SCORE:        0";
+	for (int i = 0; i <= 15; i++, ++tmp)
+		score_text[i] = *tmp;
+	highscore_text = new char[20];
+	char* tmp2 = "HIGHSCORE:        0";
+	for (int i = 0; i <= 19; i++, ++tmp2)
+		highscore_text[i] = *tmp2;
+
+	score = 0;
+
 	player_x = SCREEN_WIDTH / 2 - SPRITE_SIZE;
 	player_y = SCREEN_HEIGHT / 2 - SPRITE_SIZE;
 
@@ -54,6 +65,7 @@ bool ModulePlayer::Start() {
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
+	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
 
 	sdl_shot = 0;
 
@@ -69,10 +81,22 @@ bool ModulePlayer::Start() {
 	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
 	player_fire_right.speed = 0.2f;
 
+	if (highscore != 0) {
+		uint tmp = highscore;
+		int i = 19 - 1;
+		while (tmp != 0) {
+			highscore_text[i] = '0' + tmp % 10;
+			tmp /= 10;
+			--i;
+		}
+	}
+
+
 	return ret;
 }
 
 update_status ModulePlayer::Update() {
+
 	sdl_clock = SDL_GetTicks();
 	switch (state) {
 	case IDLE:
@@ -196,9 +220,18 @@ update_status ModulePlayer::Update() {
 
 	player_collider->SetPos(App->render->camera.x + player_x, App->render->camera.y + player_y);
 
-	
-	
-		
+	if (score != 0) {
+		uint tmp = score;
+		int i = 15 - 1;
+		while (tmp != 0) {
+			score_text[i] = '0' + tmp % 10;
+			tmp /= 10;
+			--i;
+		}
+	}	
+
+	App->fonts->WriteText(font, score_text, App->render->camera.x + 5, App->render->camera.y + 5, { 255,255,255,255 });
+	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 5, { 255,255,255,255 });
 	
 
 	return UPDATE_CONTINUE;
@@ -213,6 +246,16 @@ bool ModulePlayer::CleanUp() {
 	player_fire_forward.CleanUp();
 	player_fire_left.CleanUp();
 	player_fire_right.CleanUp();
+	if (score > highscore)
+		highscore = score;
+	if (highscore_text != nullptr) {
+		delete[] highscore_text;
+		highscore_text = nullptr;
+	}
+	if (score_text != nullptr) {
+		delete[] score_text;
+		score_text = nullptr;
+	}
 
 	return ret;
 }
@@ -236,4 +279,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		}
 
 	}
+}
+
+void ModulePlayer::AddScore(uint score_add)
+{
+	score += score_add;
 }

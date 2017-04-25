@@ -36,6 +36,7 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
+	void AddScore(uint score_add);
 
 public:
 	int player_x, player_y;
@@ -59,7 +60,10 @@ private:
 	Animation player_fire_right;
 	
 	Collider* player_collider;
-	uint player_score = 0;
+	uint score = 0;
+	uint highscore = 0;
+	char* score_text;
+	char* highscore_text;
 	TTF_Font* font;
 
 	bool godmode = false;

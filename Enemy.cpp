@@ -32,6 +32,7 @@ void Enemy::Draw(SDL_Texture* sprites)
 void Enemy::OnCollision(Collider* collider)
 {
 	App->particles->AddParticle(EXPLOSION, position.x, position.y);
+	App->player->AddScore(50);
 }
 
 void Enemy::Shoot(iPoint origin)

@@ -89,8 +89,10 @@ update_status ModuleStage1::Update() {
 	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT -6, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
-	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT)
+	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;
+		App->player->AddScore(1);
+	}
 
 	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH/2 - STAGE_WIDTH/2 )
 		App->render->camera.x -= SCROLL_SPEED;

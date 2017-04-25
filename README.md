@@ -9,8 +9,8 @@ This is our version of the game, with new graphics and mimicking the original ga
 - Intro screen.
 - Gameplay screen.
 - Loading screen.
-- (2) playable characters.
-- (1) kinds of enemies.
+- (1) playable characters.
+- (3) kinds of enemies.
 - First art rework of the map, player, enemies, UI and particles.
 - Debug mode.
 - Godmode.

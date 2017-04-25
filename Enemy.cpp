@@ -31,14 +31,13 @@ void Enemy::Draw(SDL_Texture* sprites)
 
 void Enemy::OnCollision(Collider* collider)
 {
-	App->particles->AddParticle(EXPLOSION, position.x, position.y);
-	App->player->AddScore(50);
+		App->particles->AddParticle(EXPLOSION, position.x, position.y);
+		App->player->AddScore(50);
+	
 }
 
 void Enemy::Shoot(iPoint origin)
 {
 	iPoint player_position = App->player->GetPos();
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
-	/*fPoint fdirection = { (float)direction.x, (float)direction.y };
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, fdirection);*/
 }

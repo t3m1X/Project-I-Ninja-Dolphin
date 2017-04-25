@@ -137,6 +137,12 @@ public:
 		return rads * 180 / 3.141593;
 	}
 
+	void Normalize()
+	{
+		x = x / Length();
+		y = y / Length();
+	}
+
 	// Distances ---------------------------------------------
 	TYPE DistanceTo(const p2Point& v) const
 	{
@@ -162,5 +168,6 @@ public:
 
 typedef p2Point<int> iPoint;
 typedef p2Point<float> fPoint;
+
 
 #endif // __P2POINT_H__

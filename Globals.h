@@ -1,6 +1,8 @@
 #ifndef __GLOBALS_H__
 #define __GLOBALS_H__
 
+#include "SDL\include\SDL_rect.h"
+
 #define LOG(format, ...) log(__FILE__, __LINE__, format, __VA_ARGS__);
 void log(const char file[], int line, const char* format, ...);
 
@@ -21,14 +23,17 @@ enum update_status
 typedef unsigned int uint;
 
 // Configuration -----------
-#define SCREEN_WIDTH 704
-#define SCREEN_HEIGHT 621
+#define SCREEN_SIZE 2
+#define SCREEN_WIDTH 448
+#define SCREEN_HEIGHT 512
 #define WIN_FULLSCREEN 0
 #define WIN_FULLSCREEN_DESKTOP 0
 #define WIN_BORDERLESS 0
 #define WIN_RESIZABLE 1
 #define REN_VSYNC 1
-#define SCROLL_SPEED 3
+#define SCROLL_SPEED 2
 #define SPRITE_SIZE 32
+#define STAGE_WIDTH 704
+#define STAGE_HEIGHT 7642
 
 #endif // __GLOBALS_H__

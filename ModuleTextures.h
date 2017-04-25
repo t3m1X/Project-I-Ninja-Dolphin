@@ -7,6 +7,7 @@
 #define MAX_TEXTURES 50
 
 struct SDL_Texture;
+struct SDL_Surface;
 
 class ModuleTextures : public Module
 {
@@ -18,6 +19,7 @@ public:
 	bool CleanUp();
 
 	SDL_Texture* const Load(const char* path);
+	SDL_Texture* const SurfaceToTexture(SDL_Surface* surface);
 	bool Unload(SDL_Texture* texture);
 
 public:

@@ -4,6 +4,7 @@
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
 #include "ModuleParticles.h"
+#include "ModulePlayer.h"
 
 
 #include "SDL/include/SDL_timer.h"
@@ -21,20 +22,26 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
-	graphics = App->textures->Load("spritesheets/player/spritesheet_bullets.png");
+	graphics = App->textures->Load("revamp_spritesheets/particles_spritesheet.png");
 
-	autoattack.anim.PushBack({ 2, 9, 2, 6 });
-	autoattack.anim.PushBack({ 6, 9, 2, 6 });
-	autoattack.anim.animation = new int[2];
-	autoattack.anim.animation[0] = 0;
-	autoattack.anim.animation[1] = 1;
+	autoattack.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
 	autoattack.anim.loop = false;
 	autoattack.anim.speed = 0.3f;
-	autoattack.life = 800;
-	autoattack.speed = { 0, -8};
+	autoattack.life = 1500;
+	autoattack.speed = { 0, -14};
 	
-
 	
+	explosion.anim.SetUp(0, 14, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
+	explosion.anim.loop = false;
+	explosion.anim.speed = 0.19f;
+	explosion.life = 700;
+	explosion.speed = { 0, 0};
+	
+	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
+	enemyshot.anim.loop = true;
+	enemyshot.anim.speed = 0.3f;
+	enemyshot.life = 1500;
+	enemyshot.speed = { 0, -7};
 
 	return true;
 }
@@ -44,7 +51,9 @@ bool ModuleParticles::CleanUp()
 {
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
-	delete[] autoattack.anim.animation;
+	autoattack.anim.CleanUp();
+	explosion.anim.CleanUp();
+	enemyshot.anim.CleanUp();
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)
@@ -69,12 +78,13 @@ update_status ModuleParticles::Update()
 
 		if (p->Update() == false)
 		{
+			App->collision->EraseCollider(p->collider);
 			delete p;
 			active[i] = nullptr;
 		}
 		else if (SDL_GetTicks() >= p->born)
 		{
-			App->render->Blit(graphics, p->position.x, p->position.y, 2, &(p->anim.GetCurrentFrame()));
+			App->render->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -86,14 +96,35 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, Uint32 delay)
 {
+	
 	Particle* p = nullptr;
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		break;
+
+	case EXPLOSION:
+		p = new Particle(explosion);
+		break;
+
+	case ENEMYSHOT:
+		p = new Particle(enemyshot);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
+		break;
+		
 	}
+	if (direction.x != 999 && direction.y != 999) {
+		direction = direction / direction.Length(); // Normalizing
+		direction = direction * p->speed.Length();
+		p->speed.x = direction.x;
+		p->speed.y = direction.y;
+		//p->speed.x = direction.x;
+		//p->speed.y = direction.y;
+	}
+
 	p->type = type;
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
@@ -134,6 +165,9 @@ bool Particle::Update()
 
 	position.x += speed.x;
 	position.y += speed.y;
+
+	if (collider != nullptr)
+		collider->SetPos(position.x, position.y);
 
 	return ret;
 }

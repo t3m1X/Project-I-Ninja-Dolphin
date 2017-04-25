@@ -72,8 +72,7 @@ public:
 
 
 	~Animation() {
-		CleanUp();
-		//delete animation;
+		//CleanUp();
 	}
 
 	void PushBack(const SDL_Rect& rect) {

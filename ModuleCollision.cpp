@@ -51,6 +51,8 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_AIR] = false;
+
+	debug = false;
 }
 
 // Destructor
@@ -123,7 +125,7 @@ void ModuleCollision::DebugDraw()
 	if(App->input->keyboard[SDL_SCANCODE_F1] == KEY_DOWN)
 		debug = !debug;
 
-	if(debug == false)
+	if(!debug)
 		return;
 
 	Uint8 alpha = 80;

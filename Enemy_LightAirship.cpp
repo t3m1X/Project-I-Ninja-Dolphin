@@ -22,6 +22,11 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	original_y = y;
 }
 
+Enemy_LightAirship::~Enemy_LightAirship()
+{
+	fly.CleanUp();
+}
+
 void Enemy_LightAirship::Move()
 {
 	sdl_clock = SDL_GetTicks();

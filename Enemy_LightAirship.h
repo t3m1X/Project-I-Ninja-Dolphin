@@ -19,6 +19,7 @@ private:
 public:
 
 	Enemy_LightAirship(int x, int y);
+	~Enemy_LightAirship();
 
 	void Move();
 };

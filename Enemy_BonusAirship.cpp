@@ -20,6 +20,11 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	original_y = y;
 }
 
+Enemy_BonusAirship::~Enemy_BonusAirship()
+{
+	fly.CleanUp();
+}
+
 void Enemy_BonusAirship::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);

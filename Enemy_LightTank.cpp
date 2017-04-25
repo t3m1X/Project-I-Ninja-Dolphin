@@ -20,6 +20,11 @@ Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 	original_y = y;
 }
 
+Enemy_LightTank::~Enemy_LightTank()
+{
+	walk.CleanUp();
+}
+
 void Enemy_LightTank::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);

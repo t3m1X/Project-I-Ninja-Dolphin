@@ -20,6 +20,7 @@ private:
 public:
 
 	Enemy_LightTank(int x, int y);
+	~Enemy_LightTank();
 
 	void Move();
 };

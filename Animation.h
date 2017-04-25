@@ -72,6 +72,7 @@ public:
 
 
 	~Animation() {
+		CleanUp();
 		//delete animation;
 	}
 

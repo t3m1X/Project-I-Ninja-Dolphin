@@ -13,9 +13,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();
 
-	path.PushBack(fdirection * 3, 20, &fly);
-	path.PushBack({ 0, -2 }, 40, &fly);
-	path.PushBack(fdirection*-5, 500, &fly);
+	path.PushBack(fdirection * 3, 500, &fly);
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 

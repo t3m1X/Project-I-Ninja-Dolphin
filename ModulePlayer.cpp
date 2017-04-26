@@ -114,6 +114,7 @@ bool ModulePlayer::Start() {
 update_status ModulePlayer::Update() {
 
 	sdl_clock = SDL_GetTicks();
+
 	switch (state) {
 	case IDLE:
 		if (godmode)
@@ -164,7 +165,7 @@ update_status ModulePlayer::Update() {
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
 			state = IDLE;
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-			&& player_y > 0)
+			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
 			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -193,10 +194,10 @@ update_status ModulePlayer::Update() {
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
 			state = IDLE;
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-			&& player_y> 0)
+			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
 		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+			&& player_y  < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 			player_y += PLAYER_SPEED;
 		break;
 
@@ -215,7 +216,7 @@ update_status ModulePlayer::Update() {
 		
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 
-		if (player_y > 0 - SPRITE_HEIGHT / 2)
+		if (player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)

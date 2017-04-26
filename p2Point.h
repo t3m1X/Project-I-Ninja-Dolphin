@@ -75,6 +75,11 @@ public:
 		return (r);
 	}
 
+	TYPE operator * (const p2Point &v) const
+	{
+		return (x*v.x + y*v.y);
+	}
+
 	const p2Point& operator -=(const p2Point &v)
 	{
 		x -= v.x;
@@ -121,9 +126,21 @@ public:
 		return(*this);
 	}
 
-	TYPE Length()
+	TYPE Length() const
 	{
 		return (TYPE)sqrtf(float(x*x) + float(y*y));
+	}
+
+	double Angle(const p2Point& v) const
+	{
+		float rads = acos(float(*this * v) / float(Length()*v.Length()));
+		return rads * 180 / 3.141593;
+	}
+
+	void Normalize()
+	{
+		x = x / Length();
+		y = y / Length();
 	}
 
 	// Distances ---------------------------------------------
@@ -151,5 +168,6 @@ public:
 
 typedef p2Point<int> iPoint;
 typedef p2Point<float> fPoint;
+
 
 #endif // __P2POINT_H__

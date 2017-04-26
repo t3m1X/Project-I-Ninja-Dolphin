@@ -6,7 +6,7 @@
 
 Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 {
-	walk.SetUp(0, 67, 33, 44, 3, 3, "0,1,2");
+	walk.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
 	path.PushBack({ 0, 3 }, 25, &walk);

@@ -38,14 +38,17 @@ update_status ModuleStageIntro::Update() {
 	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->stage1, 0.8f);
 
-	App->render->Blit(title_texture, 0, 0, &title_screen.GetCurrentFrame());
+	App->render->Blit(title_texture, 0, 0, { 0,1 }, &title_screen.GetCurrentFrame());
 
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleStageIntro::CleanUp() {
 	bool ret = true;
+	App->textures->Unload(title_texture);
+
 	App->audio->StopMusic();
+	App->audio->FreeMusic(music);
 	title_screen.CleanUp();
 
 	return ret;

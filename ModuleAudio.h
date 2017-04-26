@@ -19,7 +19,9 @@ public:
 	bool CleanUp();
 
 	Mix_Chunk* const LoadSFX(const char* path);
+	void FreeSFX(Mix_Chunk* sfx);
 	Mix_Music* const LoadMusic(const char* path);
+	void FreeMusic(Mix_Music* music);
 
 	void const PlaySFX(Mix_Chunk* sfx);
 	void const PlayMusic(Mix_Music* music);
@@ -27,7 +29,7 @@ public:
 	void const StopMusic();
 
 public:
-	Mix_Chunk* sfx[MAX_SFX];
+	Mix_Chunk* sfxs[MAX_SFX];
 	uint last_sfx = 0;
 
 	Mix_Music* musics[MAX_MUSIC];

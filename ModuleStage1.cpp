@@ -1,4 +1,4 @@
-#include "ModuleStage1.h"<
+#include "ModuleStage1.h"
 #include "Application.h"
 #include "ModuleTextures.h"
 #include "ModuleRender.h"
@@ -44,13 +44,87 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5456);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 530, 5000);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 215, 5550);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5485);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 465, 5550);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 270, 5200);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 5200);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 215, 4950);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4900);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 465, 4950);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 160, 4600);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 290, 4600);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 420, 4600);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 550, 4600);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 4500);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 4350);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 4350);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4280);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 4100);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 3800);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 220, 3800);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 3800);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 3720);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 190, 3500);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 3500);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 275, 3450);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 455, 3450);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 3400);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 245, 3100);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 450, 3100);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 3100);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 3000);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 260, 2780);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 2850);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 2780);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 2400);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 170, 2440);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 470, 2370);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 470, 2370);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 2440);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 2000);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 220, 1900);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 1900);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 190, 1450);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 290, 1300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 1370);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 420, 1300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 1450);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 1100);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 150, 870);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 780);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 600, 780);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 210, 300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 520, 300);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 466, 160);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 400);
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 284, 160);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 195, 260);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 530, 260);
+	/*App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5456);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 5000);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 180, 4800);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 210, 4300);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 409, 3400);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 364, 2500);
-
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 370, 5500);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 172, 528);
@@ -67,18 +141,18 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 365, 800);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 500);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 600);
-	
+	*/
 	return ret;
 }
 
 update_status ModuleStage1::Update() {
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
-	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, &background);
+	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
 	if (!((-STAGE_HEIGHT - 32 * 58) >= App->render->camera.y + SCREEN_HEIGHT)) {
 		for (int i = 0; i < 58; i++) {
 			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
-				App->render->Blit(water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, &water.CurrentFrame());
+				App->render->Blit(water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, { 0,1 }, &water.CurrentFrame());
 			}
 			y += 32;
 		}
@@ -86,7 +160,7 @@ update_status ModuleStage1::Update() {
 	}
 
 	background.x += background.w;
-	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT -6, &background);
+	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
@@ -119,7 +193,10 @@ update_status ModuleStage1::Update() {
 
 bool ModuleStage1::CleanUp() {
 	bool ret = true;
+	App->textures->Unload(water_texture);
+	App->textures->Unload(stage_background);
 	App->audio->StopMusic();
+	App->audio->FreeMusic(music);
 	water.CleanUp();
 	//App->fonts->EraseFont(font);
 	App->enemies->Disable();

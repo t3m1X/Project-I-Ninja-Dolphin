@@ -36,7 +36,9 @@ bool ModuleParticles::Start()
 	explosion.anim.speed = 0.19f;
 	explosion.life = 700;
 	explosion.speed = { 0, 0};
+	explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 	
+
 	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
@@ -54,6 +56,7 @@ bool ModuleParticles::CleanUp()
 	autoattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
+	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)
@@ -84,11 +87,18 @@ update_status ModuleParticles::Update()
 		}
 		else if (SDL_GetTicks() >= p->born)
 		{
-			App->render->Blit(graphics, p->position.x, p->position.y, &(p->anim.GetCurrentFrame()));
+			iPoint view = { 0,1 };
+			if (p->speed != iPoint(0, 0))
+				view = p->speed;
+			App->render->Blit(graphics, p->position.x, p->position.y, view, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
 				// Play particle fx here
+				if (p->fx != NULL)
+				{
+					App->audio->PlaySFX(explosion.fx);
+				}
 			}
 		}
 	}
@@ -117,7 +127,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		
 	}
 	if (direction.x != 999 && direction.y != 999) {
-		direction = direction / direction.Length(); // Normalizing
+		direction.Normalize();
 		direction = direction * p->speed.Length();
 		p->speed.x = direction.x;
 		p->speed.y = direction.y;

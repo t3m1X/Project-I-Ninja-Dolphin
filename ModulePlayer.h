@@ -8,10 +8,13 @@
 #include "ModuleCollision.h"
 #include "ModuleFonts.h"
 #include "Animation.h"
+#include "p2Point.h"
 
 #define PLAYER_SPEED 3
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
+#define SHADOW_WIDTH 29
+#define SHADOW_HEIGHT 25
 #define LASER_COOLDOWN 200
 
 struct SDL_Texture;
@@ -36,10 +39,8 @@ public:
 	update_status Update();
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
+	iPoint GetPos();
 	void AddScore(uint score_add);
-
-public:
-	int player_x, player_y;
 
 private:
 	
@@ -50,6 +51,12 @@ private:
 	SDL_Rect player_sprite_godmode;
 	SDL_Rect player_sprite_godmode_left;
 	SDL_Rect player_sprite_godmode_right;
+	SDL_Rect shadow_idle;
+	SDL_Rect shadow_left;
+	SDL_Rect shadow_right;
+
+
+
 	player_state state;
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
@@ -65,6 +72,8 @@ private:
 	char* score_text;
 	char* highscore_text;
 	TTF_Font* font;
+
+	int player_x, player_y;
 
 	bool godmode = false;
 };

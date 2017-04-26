@@ -64,7 +64,7 @@ bool ModuleRender::CleanUp()
 }
 
 // Blit to screen
-bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section)
+bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, iPoint direction, SDL_Rect* section)
 {
 	bool ret = true;
 	SDL_Rect rect;
@@ -84,7 +84,12 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, SDL_Rect* section)
 	rect.w *= SCREEN_SIZE;
 	rect.h *= SCREEN_SIZE;
 
-	if(SDL_RenderCopy(renderer, texture, section, &rect) != 0)
+	iPoint down = { 0,1 };
+  	double angle = down.Angle(direction);
+	if (direction.x > 0)
+		angle = -angle;
+
+   	if(SDL_RenderCopyEx(renderer, texture, section, &rect,angle,NULL, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

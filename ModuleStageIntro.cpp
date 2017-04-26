@@ -48,6 +48,7 @@ bool ModuleStageIntro::CleanUp() {
 	App->textures->Unload(title_texture);
 
 	App->audio->StopMusic();
+	App->audio->FreeMusic(music);
 	title_screen.CleanUp();
 
 	return ret;

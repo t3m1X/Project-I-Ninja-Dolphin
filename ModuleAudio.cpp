@@ -4,7 +4,7 @@
 ModuleAudio::ModuleAudio() 
 {
 	for (uint i = 0; i < MAX_SFX; ++i)
-		sfx[i] = nullptr;
+		sfxs[i] = nullptr;
 
 	for (uint i = 0; i < MAX_MUSIC; ++i)
 		musics[i] = nullptr;
@@ -36,9 +36,9 @@ bool ModuleAudio::CleanUp()
 
 	Mix_HaltChannel(-1); //Stop playing all sfx to avoid problems.
 	for (int i = MAX_SFX - 1; i >= 0; --i) {
-		if (sfx[i] != nullptr)
-			Mix_FreeChunk(sfx[i]);
-		sfx[i] = nullptr;
+		if (sfxs[i] != nullptr)
+			Mix_FreeChunk(sfxs[i]);
+		sfxs[i] = nullptr;
 	}
 
 	if (Mix_PlayingMusic())
@@ -63,15 +63,28 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 		last_sfx = 0;
 	}
 
-	sfx[last_sfx] = Mix_LoadWAV(path);
+	sfxs[last_sfx] = Mix_LoadWAV(path);
 
-	if (sfx[last_sfx] == NULL) {
+	if (sfxs[last_sfx] == NULL) {
 		LOG("MixLoadWav: Failed to load wav from path \"%s\": %s\n", path, Mix_GetError());
 	}
 	else
-		ret = sfx[last_sfx++];
+		ret = sfxs[last_sfx++];
 
 	return ret;
+}
+
+void ModuleAudio::FreeSFX(Mix_Chunk * sfx)
+{
+	if (sfx == nullptr)
+		return;
+
+	for (int i = 0; i < MAX_SFX; ++i) {
+		if (sfxs[i] == sfx)
+			sfxs[i] = nullptr;
+	}
+	Mix_FreeChunk(sfx);
+
 }
 
 Mix_Music * const ModuleAudio::LoadMusic(const char * path) 
@@ -92,6 +105,18 @@ Mix_Music * const ModuleAudio::LoadMusic(const char * path)
 		ret = musics[last_music++];
 
 	return ret;
+}
+
+void ModuleAudio::FreeMusic(Mix_Music * music)
+{
+	if (music = nullptr)
+		return;
+	for (int i = 0; i < MAX_MUSIC; ++i) {
+		if (musics[i] == music)
+			musics[i] = nullptr;
+	}
+	Mix_FreeMusic(music);
+
 }
 
 void const ModuleAudio::PlaySFX(Mix_Chunk * sfx) 

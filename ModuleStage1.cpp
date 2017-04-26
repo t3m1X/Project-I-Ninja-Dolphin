@@ -193,7 +193,10 @@ update_status ModuleStage1::Update() {
 
 bool ModuleStage1::CleanUp() {
 	bool ret = true;
+	App->textures->Unload(water_texture);
+	App->textures->Unload(stage_background);
 	App->audio->StopMusic();
+	App->audio->FreeMusic(music);
 	water.CleanUp();
 	//App->fonts->EraseFont(font);
 	App->enemies->Disable();

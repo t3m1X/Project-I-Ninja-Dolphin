@@ -77,6 +77,9 @@ TTF_Font * const ModuleFonts::LoadFont(const char * path, int ptsize)
 
 void const ModuleFonts::EraseFont(TTF_Font * font)
 {
+	if (font == nullptr)
+		return;
+
 	for (uint i = 0; i < MAX_FONTS; ++i) {
 		if (fonts[i] == font)
 			fonts[i] = nullptr;

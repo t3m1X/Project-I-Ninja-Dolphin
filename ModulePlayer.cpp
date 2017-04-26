@@ -272,6 +272,15 @@ bool ModulePlayer::CleanUp() {
 	player_fire_forward.CleanUp();
 	player_fire_left.CleanUp();
 	player_fire_right.CleanUp();
+	App->textures->Unload(player);
+	if (laser_sfx != nullptr) {
+		App->audio->FreeSFX(laser_sfx);
+		laser_sfx = nullptr;
+	}
+	if (font != nullptr) {
+		App->fonts->EraseFont(font);
+		font = nullptr;
+	}
 	if (score > highscore)
 		highscore = score;
 	if (highscore_text != nullptr) {

@@ -80,10 +80,12 @@ void ModuleAudio::FreeSFX(Mix_Chunk * sfx)
 		return;
 
 	for (int i = 0; i < MAX_SFX; ++i) {
-		if (sfxs[i] == sfx)
+		if (sfxs[i] == sfx) {
+			Mix_FreeChunk(sfxs[i]);
 			sfxs[i] = nullptr;
+		}
 	}
-	Mix_FreeChunk(sfx);
+
 
 }
 
@@ -112,10 +114,12 @@ void ModuleAudio::FreeMusic(Mix_Music * music)
 	if (music = nullptr)
 		return;
 	for (int i = 0; i < MAX_MUSIC; ++i) {
-		if (musics[i] == music)
+		if (musics[i] == music) {
+			Mix_FreeMusic(musics[i]);
 			musics[i] = nullptr;
+		}
 	}
-	Mix_FreeMusic(music);
+	
 
 }
 

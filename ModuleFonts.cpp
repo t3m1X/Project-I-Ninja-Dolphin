@@ -82,9 +82,10 @@ void const ModuleFonts::EraseFont(TTF_Font * font)
 
 	for (uint i = 0; i < MAX_FONTS; ++i) {
 		if (fonts[i] == font)
+			TTF_CloseFont(fonts[i]);
 			fonts[i] = nullptr;
 	}
-	TTF_CloseFont(font);
+	
 }
 
 void const ModuleFonts::WriteText(TTF_Font * font, const char * text, int x, int y, SDL_Color color)

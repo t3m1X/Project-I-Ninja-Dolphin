@@ -89,7 +89,7 @@ bool ModuleRender::Blit(SDL_Texture* texture, int x, int y, iPoint direction, SD
 	if (direction.x > 0)
 		angle = -angle;
 
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect,angle,NULL, SDL_FLIP_NONE) != 0)
+   	if(SDL_RenderCopyEx(renderer, texture, section, &rect,angle,NULL, SDL_FLIP_NONE) != 0)
 	{
 		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
 		ret = false;

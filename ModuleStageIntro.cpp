@@ -45,6 +45,8 @@ update_status ModuleStageIntro::Update() {
 
 bool ModuleStageIntro::CleanUp() {
 	bool ret = true;
+	App->textures->Unload(title_texture);
+
 	App->audio->StopMusic();
 	title_screen.CleanUp();
 

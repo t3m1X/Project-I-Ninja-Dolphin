@@ -61,6 +61,14 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 		LOG("Failed to load image IMG_Load: %s\n", IMG_GetError());
 	}
 	else {
+		last_texture = MAX_TEXTURES;
+
+		for (int i = 0; i < MAX_TEXTURES; ++i) {
+			if (textures[i] == nullptr) {
+				last_texture = i;
+				break;
+			}
+		}
 		if (last_texture == MAX_TEXTURES) {
 			LOG("Overflow error: Overwriting textures. \n");
 			last_texture = 0;
@@ -73,7 +81,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 			LOG("Failed to create texture from surface SDL_CreateTextureFromSurface: %s\n", SDL_GetError());
 		}
 		else 
-			ret = textures[last_texture++];
+			ret = textures[last_texture];
 
 		SDL_FreeSurface(image);
 	}

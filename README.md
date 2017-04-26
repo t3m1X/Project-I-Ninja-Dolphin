@@ -3,6 +3,30 @@
 
 Raiden is an arcade vertical scrolling shot'em originally released by Seibu Kaihatsu. 
 This is our version of the game, with new graphics and mimicking the original gameplay.
+In order to get the highest score you must destroy the enemies and try to advance as far as possible.
+If you get shot, you will need to start from the beggining. Good luck!
+
+## Team members:
+
+[Ivan Papiol](https://github.com/IVREI0T) - Art
+
+[Oscar Larios](https://github.com/Megaoski) - Management
+
+[Sergi Parra](https://github.com/t3m1X) - Code
+
+[Francesc Ripoll](https://github.com/FrancescRipoll) - QA
+
+
+## Controls
+
+* **F1** Activates and deactivates Debug mode.
+* **F2** Activates and deactivates Godmode.
+* **SPACEBAR while on Intro screen:** Changes between scenes.
+* **SPACEBAR while on Gameplay screen:** Shoots.
+* **Direction arrows** move the player.
+
+
+## Changelist
 
 ### This version of the game includes:
 
@@ -15,22 +39,20 @@ This is our version of the game, with new graphics and mimicking the original ga
 - Debug mode.
 - Godmode.
 
-## Controls
+### Release v0.3 included:
 
-* **F1** Activates and deactivates Debug mode.
-* **F2** Activates and deactivates Godmode.
-* **SPACEBAR while on Intro screen:** Changes between scenes.
-* **SPACEBAR while on Gameplay screen:** Shoots.
-* **Direction arrows** move the player.
+- Background animation.
+- Animation for loading screen.
+- Intro screen with animation.
+- Optimal player state machine and player shooting.
 
-## Team members:
+### Release v0.2 included:
 
+- Implemented another stage.
+- Fading between stages.
 
-[Ivan Papiol](https://github.com/IVREI0T) - Art
+### Release v0.1 included:
 
-[Oscar Larios](https://github.com/Megaoski) - Management
-
-[Sergi Parra](https://github.com/t3m1X) - Code
-
-[Francesc Ripoll](https://github.com/FrancescRipoll) - QA
-
+- Scrolling background.
+- Simple player movement.
+- Background music.

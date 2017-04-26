@@ -13,6 +13,8 @@
 #define PLAYER_SPEED 3
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
+#define SHADOW_WIDTH 29
+#define SHADOW_HEIGHT 25
 #define LASER_COOLDOWN 200
 
 struct SDL_Texture;
@@ -49,6 +51,12 @@ private:
 	SDL_Rect player_sprite_godmode;
 	SDL_Rect player_sprite_godmode_left;
 	SDL_Rect player_sprite_godmode_right;
+	SDL_Rect shadow_idle;
+	SDL_Rect shadow_left;
+	SDL_Rect shadow_right;
+
+
+
 	player_state state;
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;

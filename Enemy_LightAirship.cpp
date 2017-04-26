@@ -15,7 +15,6 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 
 	path.PushBack(fdirection*3, 20, &fly);
 	path.PushBack({ 0, -2 }, 40, &fly);
-	path.PushBack(fdirection*-5, 500, &fly);
 
 	collider = App->collision->AddCollider({ 0, 0, 50, 67 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -40,8 +39,10 @@ void Enemy_LightAirship::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start + 750 && !shot) {
-
+	if (sdl_clock >= sdl_clock_start + 400 && !shot) {
+		fPoint fdirection = { (float)direction.x, (float)direction.y };
+		fdirection.Normalize();
+		path.PushBack(fdirection*-5, 500, &fly);
 		iPoint origin = position;
 		origin.x += 18;
 		origin.y += fly.CurrentFrame().h;

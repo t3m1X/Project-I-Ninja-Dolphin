@@ -45,10 +45,17 @@ update_status ModuleStageIntro::Update() {
 
 bool ModuleStageIntro::CleanUp() {
 	bool ret = true;
-	App->textures->Unload(title_texture);
+	if (title_texture != nullptr) {
+		App->textures->Unload(title_texture);
+		title_texture = nullptr;
+	}
 
 	App->audio->StopMusic();
-	App->audio->FreeMusic(music);
+	if (music != nullptr) {
+		App->audio->FreeMusic(music);
+		music = nullptr;
+	}
+
 	title_screen.CleanUp();
 
 	return ret;

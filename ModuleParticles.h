@@ -6,6 +6,7 @@
 #include "Globals.h"
 #include "p2Point.h"
 #include "ModuleCollision.h"
+#include "ModuleAudio.h"
 
 #define MAX_ACTIVE_PARTICLES 100
 
@@ -21,7 +22,7 @@ struct Particle
 {
 	Collider* collider = nullptr;
 	Animation anim;
-	uint fx = 0;
+	Mix_Chunk* fx = 0;
 	iPoint position;
 	iPoint speed;
 	Uint32 born = 0;

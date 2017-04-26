@@ -36,7 +36,9 @@ bool ModuleParticles::Start()
 	explosion.anim.speed = 0.19f;
 	explosion.life = 700;
 	explosion.speed = { 0, 0};
+	explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 	
+
 	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
@@ -54,6 +56,7 @@ bool ModuleParticles::CleanUp()
 	autoattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
+	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
 		if (active[i] != nullptr)
@@ -92,6 +95,10 @@ update_status ModuleParticles::Update()
 			{
 				p->fx_played = true;
 				// Play particle fx here
+				if (p->fx != NULL)
+				{
+					App->audio->PlaySFX(explosion.fx);
+				}
 			}
 		}
 	}

@@ -256,8 +256,10 @@ update_status ModulePlayer::Update() {
 		}
 	}	
 
-	App->fonts->WriteText(font, score_text, App->render->camera.x + 5, App->render->camera.y + 5, { 255,255,255,255 });
-	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 5, { 255,255,255,255 });
+	App->fonts->WriteText(font, score_text, App->render->camera.x +5, App->render->camera.y + 8, { 0,0,0});
+	App->fonts->WriteText(font, score_text, App->render->camera.x + 5, App->render->camera.y + 5, { 255,255,255 });
+	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 5, { 255,255,255 });
 	
 
 	return UPDATE_CONTINUE;

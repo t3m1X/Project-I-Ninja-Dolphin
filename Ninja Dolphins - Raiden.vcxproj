@@ -94,6 +94,7 @@
     <ClInclude Include="ModuleWindow.h" />
     <ClInclude Include="p2Point.h" />
     <ClInclude Include="Path.h" />
+    <ClInclude Include="pQueue.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />

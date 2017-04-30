@@ -6,6 +6,7 @@
 
 Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 {
+	fly.SetUp(200, 0, 150, 95, 1, 1, "0");
 	fly.speed = 0.2f;
 
 	direction = App->player->GetPos() - position;

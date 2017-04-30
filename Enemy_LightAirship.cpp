@@ -6,7 +6,7 @@
 
 Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(0, 0, 50, 67, 4, 4, "0,1,2,3");
+	fly.SetUp(0, 0, 74, 67, 4, 4, "0,1,2,3");
 	fly.speed = 0.2f;
 
 	direction = App->player->GetPos() - position;

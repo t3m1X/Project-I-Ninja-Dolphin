@@ -22,6 +22,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_AIR] = true;
 	matrix[COLLIDER_PLAYER][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_PLAYER][COLLIDER_ENEMY_SHOT] = true;
+	matrix[COLLIDER_PLAYER][COLLIDER_BONUS] = true;
 
 	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_PLAYER] = false;
@@ -29,6 +30,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_ENEMY_AIR] = false;
+	matrix[COLLIDER_ENEMY_GROUND][COLLIDER_BONUS] = false;
 
 	matrix[COLLIDER_ENEMY_AIR][COLLIDER_WALL] = true;
 	matrix[COLLIDER_ENEMY_AIR][COLLIDER_PLAYER] = true;
@@ -36,6 +38,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_AIR][COLLIDER_PLAYER_SHOT] = true;
 	matrix[COLLIDER_ENEMY_AIR][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_AIR][COLLIDER_ENEMY_AIR] = false;
+	matrix[COLLIDER_ENEMY_AIR][COLLIDER_BONUS] = false;
 
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_WALL] = true;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER] = false;
@@ -43,6 +46,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_ENEMY_AIR] = true;
+	matrix[COLLIDER_PLAYER_SHOT][COLLIDER_BONUS] = false;
 
 
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_WALL] = true;
@@ -51,6 +55,7 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_PLAYER_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_SHOT] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_AIR] = false;
+	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_BONUS] = false;
 
 	debug = false;
 }
@@ -157,6 +162,9 @@ void ModuleCollision::DebugDraw()
 			break;
 		case COLLIDER_ENEMY_SHOT: // magenta
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 255, alpha);
+			break;
+		case COLLIDER_BONUS://pink
+			App->render->DrawQuad(colliders[i]->rect, 255, 0, 127, alpha);
 			break;
 		}
 	}

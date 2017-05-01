@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "ModuleEnemies.h"
 #include "ModuleStageIntro.h"
+#include "ModuleBonus.h"
 
 
 
@@ -142,6 +143,11 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 500);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 600);
 	*/
+
+	App->bonus->Enable();
+	
+	App->bonus->AddBonus(BONUS_TYPE::RED, 220, 5540);
+
 	return ret;
 }
 

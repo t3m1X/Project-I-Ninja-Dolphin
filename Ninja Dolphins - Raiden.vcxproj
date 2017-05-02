@@ -77,6 +77,7 @@
     <ClInclude Include="Enemy_BonusAirship.h" />
     <ClInclude Include="Enemy_LightAirship.h" />
     <ClInclude Include="Enemy_LightTank.h" />
+    <ClInclude Include="Enemy_Proyectil.h" />
     <ClInclude Include="Globals.h" />
     <ClInclude Include="MemLeaks.h" />
     <ClInclude Include="Module.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="Enemy_BonusAirship.cpp" />
     <ClCompile Include="Enemy_LightAirship.cpp" />
     <ClCompile Include="Enemy_LightTank.cpp" />
+    <ClCompile Include="Enemy_Proyectil.cpp" />
     <ClCompile Include="Globals.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="ModuleAudio.cpp" />

@@ -97,6 +97,11 @@ bool ModulePlayer::Start() {
 	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
 	player_fire_right.speed = 0.2f;
 
+	player_midle_left.SetUp(330, 49, 46, 48, 1, 1, "0");
+	player_midle_left.speed = 0.2f;
+	player_midle_right.SetUp(377, 49, 46, 48, 1, 1, "0");
+	player_midle_right.speed = 0.2f;
+
 	if (highscore != 0) {
 		uint tmp = highscore;
 		int i = 19 - 1;
@@ -141,12 +146,15 @@ update_status ModulePlayer::Update() {
 	case LEFT:
 		if (godmode)
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_left);
-		else
+		
+		else 
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_left);
 		
+			
+
 		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-
+		
 
 		if (player_x > -SPRITE_WIDTH / 2)
 			player_x -= PLAYER_SPEED;

@@ -60,11 +60,15 @@ private:
 	player_state state;
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
+	uint timing = 0;
 	uint sdl_shot;
 
 	Animation player_fire_forward;
 	Animation player_fire_left;
 	Animation player_fire_right;
+
+	Animation player_midle_left;
+	Animation player_midle_right;
 	
 	Collider* player_collider;
 	uint score = 0;

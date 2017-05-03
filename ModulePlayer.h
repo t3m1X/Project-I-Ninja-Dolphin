@@ -67,8 +67,10 @@ private:
 	Animation player_fire_left;
 	Animation player_fire_right;
 
-	Animation player_midle_left;
-	Animation player_midle_right;
+	Animation player_left;
+	Animation player_right;
+	Animation player_left_godmode;
+	Animation player_right_godmode;
 	
 	Collider* player_collider;
 	uint score = 0;

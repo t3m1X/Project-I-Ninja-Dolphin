@@ -118,13 +118,13 @@ update_status ModulePlayer::Update() {
 	switch (state) {
 	case IDLE:
 		if (godmode)
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite_godmode);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite_godmode);
 
 		else
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite);
 
-		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
+		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 		
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
 			state = LEFT;
@@ -140,12 +140,12 @@ update_status ModulePlayer::Update() {
 
 	case LEFT:
 		if (godmode)
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_left);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_left);
 		else
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_left);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_left);
 		
-		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
+		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
 
 
 		if (player_x > -SPRITE_WIDTH / 2)
@@ -164,12 +164,12 @@ update_status ModulePlayer::Update() {
 	case RIGHT:
 
 		if (godmode)
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_right);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_right);
 		else
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_right);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_right);
 		
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
-		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_right);
+		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
+		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_right);
 
 
 		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
@@ -188,12 +188,12 @@ update_status ModulePlayer::Update() {
 	case FORWARD:
 
 		if (godmode)
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode);
 		else
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
 		
-		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
-		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
+		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
 
 		if (player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
@@ -209,11 +209,11 @@ update_status ModulePlayer::Update() {
 	case STOP:
 
 		if (godmode)
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode);
 		else
-			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
 
-		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
 
 		
 

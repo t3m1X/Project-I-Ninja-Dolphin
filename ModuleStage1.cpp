@@ -147,12 +147,12 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
-	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
+	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
 	if (!((-STAGE_HEIGHT - 32 * 58) >= App->render->camera.y + SCREEN_HEIGHT)) {
 		for (int i = 0; i < 58; i++) {
 			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
-				App->render->Blit(water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, { 0,1 }, &water.CurrentFrame());
+				App->render->Blit(0, water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, { 0,1 }, &water.CurrentFrame());
 			}
 			y += 32;
 		}
@@ -160,7 +160,7 @@ update_status ModuleStage1::Update() {
 	}
 
 	background.x += background.w;
-	App->render->Blit(stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
+	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {

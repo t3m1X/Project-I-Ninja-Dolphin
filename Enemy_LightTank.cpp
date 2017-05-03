@@ -18,6 +18,8 @@ Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	original_y = y;
+
+	type = GROUND;
 }
 
 Enemy_LightTank::~Enemy_LightTank()

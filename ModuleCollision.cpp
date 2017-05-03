@@ -108,14 +108,13 @@ update_status ModuleCollision::Update()
 		}
 	}
 
-	DebugDraw();
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleCollision::PostUpdate()
 {
-	//DebugDraw();
+	DebugDraw();
 
 	return UPDATE_CONTINUE;
 }

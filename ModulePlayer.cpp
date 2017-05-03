@@ -49,33 +49,33 @@ bool ModulePlayer::Start() {
 	player_sprite_right.y = 0;
 
 	player_sprite_godmode.h = SPRITE_HEIGHT;
-	player_sprite_godmode.w = SPRITE_WIDTH + 2;
-	player_sprite_godmode.x = 262;
-	player_sprite_godmode.y = 0;
+	player_sprite_godmode.w = SPRITE_WIDTH;
+	player_sprite_godmode.x = 0;
+	player_sprite_godmode.y = 417;
 
 	player_sprite_godmode_left.h = SPRITE_HEIGHT;
 	player_sprite_godmode_left.w = SPRITE_WIDTH;
-	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH + 2;
+	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH;
 	player_sprite_godmode_left.y = 0;
 
 	player_sprite_godmode_right.h = SPRITE_HEIGHT;
 	player_sprite_godmode_right.w = SPRITE_WIDTH;
-	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2 + 2;
+	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2;
 	player_sprite_godmode_right.y = 0;
 
 	shadow_idle.h = SHADOW_HEIGHT;
 	shadow_idle.w = SHADOW_WIDTH;
-	shadow_idle.x = 171;
+	shadow_idle.x = 285;
 	shadow_idle.y = 0;
 
 	shadow_left.h = SHADOW_HEIGHT;
 	shadow_left.w = SHADOW_WIDTH;
-	shadow_left.x = 171 + SHADOW_WIDTH;
+	shadow_left.x = 285 + SHADOW_WIDTH;
 	shadow_left.y = 0;
 
 	shadow_right.h = SHADOW_HEIGHT;
 	shadow_right.w = SHADOW_WIDTH;
-	shadow_right.x = 171 + SHADOW_WIDTH * 2;
+	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
 
 
@@ -97,20 +97,20 @@ bool ModulePlayer::Start() {
 	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
 	player_fire_right.speed = 0.2f;
 
-	player_left.SetUp( 0, 0, 56, 48, 5, 5, "4, 2");
-	player_left.speed = 0.2f;
+	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 3, 2, "0,1");
+	player_left.speed = 0.05f;
 	player_left.loop = false;
 
-	player_right.SetUp(0, 0, 56, 48, 5, 5, "5, 3");;
-	player_right.speed = 0.2f;
+	player_right.SetUp(171, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 5, 2, "0,1");
+	player_right.speed = 0.05f;
 	player_right.loop = false;
 
-	player_left_godmode.SetUp(330, 49, 46, 48, 1, 1, "0");
-	player_left_godmode.speed = 0.2f;
+	player_left_godmode.SetUp(66, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 3, 2, "0,1");
+	player_left_godmode.speed = 0.05f;
 	player_left_godmode.loop = false;
 
-	player_right_godmode.SetUp;
-	player_right_godmode.speed = 0.2f;
+	player_right_godmode.SetUp(181, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 5, 2, "0,1");
+	player_right_godmode.speed = 0.05f;
 	player_right_godmode.loop = false;
 
 	if (highscore != 0) {
@@ -156,19 +156,11 @@ update_status ModulePlayer::Update() {
 
 	case LEFT:
 		if (godmode)
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left_godmode.GetCurrentFrame());
-			/*App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_left);*/
-			player_left_godmode.Reset();
-		}
-
+	
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
-			/*	App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_left);*/
-            player_left.Reset();
-		}
-
+			
 		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
 		
@@ -177,7 +169,15 @@ update_status ModulePlayer::Update() {
 			player_x -= PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+		{
 			state = IDLE;
+			if (godmode)
+				player_left_godmode.Reset();
+			else
+				player_left.Reset();
+				 
+		}
+		
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
 			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
@@ -189,19 +189,10 @@ update_status ModulePlayer::Update() {
 	case RIGHT:
 
 		if (godmode)
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right_godmode.GetCurrentFrame());
-			player_right_godmode.Reset();
-			/*App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_right);*/
-		}
+
 		else
-		{
 			App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
-			player_right.Reset();
-			/*App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_right);*/
-		}
-		
-		
 
 		App->render->Blit(player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
 		App->render->Blit(player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_right);
@@ -211,7 +202,14 @@ update_status ModulePlayer::Update() {
 			player_x += PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+		{
 			state = IDLE;
+			if (godmode)
+				player_right_godmode.Reset();
+			else
+				player_right.Reset();
+			
+		}
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
 			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;

@@ -171,10 +171,9 @@ update_status ModulePlayer::Update() {
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
 		{
 			state = IDLE;
-			if (godmode)
-				player_left_godmode.Reset();
-			else
-				player_left.Reset();
+		
+			player_left_godmode.Reset();
+			player_left.Reset();
 				 
 		}
 		
@@ -204,10 +203,9 @@ update_status ModulePlayer::Update() {
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
 		{
 			state = IDLE;
-			if (godmode)
-				player_right_godmode.Reset();
-			else
-				player_right.Reset();
+
+			player_right_godmode.Reset();
+			player_right.Reset();
 			
 		}
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
@@ -307,6 +305,10 @@ bool ModulePlayer::CleanUp() {
 	player_fire_forward.CleanUp();
 	player_fire_left.CleanUp();
 	player_fire_right.CleanUp();
+	player_left.CleanUp();
+	player_right.CleanUp();
+	player_left_godmode.CleanUp();
+	player_right_godmode.CleanUp();
 	App->textures->Unload(player);
 	if (laser_sfx != nullptr) {
 		App->audio->FreeSFX(laser_sfx);

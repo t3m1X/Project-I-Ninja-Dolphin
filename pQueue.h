@@ -7,8 +7,8 @@ template <class T>
 class pQueue {
 private:
 	struct q_item {
-		q_item* next;
-		q_item* prev;
+		q_item* next = nullptr;
+		q_item* prev = nullptr;
 		unsigned int priority;
 
 		T data;
@@ -28,32 +28,40 @@ public:
 
 	void push_back(const T& item, const unsigned int& priority)
 	{
-		q_item new_item = new q_item(item, priority);
+		q_item* new_item = new q_item(item, priority);
 		if (size == 0) {
 			start = new_item;
 			end = new_item;
 		}
 		else {
-			q_item tmp = end;
+			q_item* tmp = end;
 			while (tmp->priority > priority && tmp != start)
-				tmp = end->prev;
+				tmp = tmp->prev;
 
-			tmp->prev->next = new_item;
-			new_item->prev = tmp->prev;
-			new_item->next = tmp;
-			tmp->prev = new_item;
+			if (tmp != start || start->priority <= priority) {
+				new_item->next = tmp->next;
+				tmp->next = new_item;
+				new_item->prev = tmp;
+				if (tmp == end)
+					end = new_item;
+			}
+			else {
+				new_item->next = start;
+				start->prev = new_item;
+				start = new_item;
+			}
 		}
 		++size;
 	}
 
-	T pop_front()
+	void pop_front()
 	{
 		
 		if (size == 0)
-			return NULL;
+			return;
 
-		T ret = start->data;
-		q_item tmp = start;
+		/*T ret = start->data;*/
+		q_item* tmp = start;
 
 		if (size > 1) {
 			start->next->prev = nullptr;
@@ -67,7 +75,7 @@ public:
 		delete tmp;
 		--size;
 
-		return ret;
+		return;
 	}
 
 	T pop_back()
@@ -76,7 +84,7 @@ public:
 			return NULL;
 
 		T ret = end->data;
-		q_item tmp = end;
+		q_item* tmp = end;
 
 		if (size > 1) {
 			end->prev->next = nullptr;
@@ -91,6 +99,18 @@ public:
 		--size;
 
 		return ret;
+	}
+
+	T operator [] (int position) {
+		q_item* ret = start;
+		for (int i = 0; i < position && i < size; ++i) 
+			ret = ret->next;
+
+		return ret->data;
+	}
+
+	int Size() {
+		return size;
 	}
 };
 

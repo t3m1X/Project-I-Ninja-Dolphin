@@ -63,7 +63,7 @@ bool ModuleStage1::Start() {
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 270, 5200);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 5200);
-	App->enemies->AddEnemy(ENEMY_TYPES::PROYECTIL, 350, 5200);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 350, 5200);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 215, 4950);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4900);
@@ -82,7 +82,7 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 4350);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4280);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 4100);
-	App->enemies->AddEnemy(ENEMY_TYPES::PROYECTIL, 250, 4300);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 250, 4300);
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 220, 4200);
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 500, 4250);
 
@@ -101,7 +101,7 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 245, 3100);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 450, 3100);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 3100);
-	App->enemies->AddEnemy(ENEMY_TYPES::PROYECTIL, 450, 3150);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 450, 3150);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 3000);
 

@@ -10,7 +10,6 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fly.speed = 0.2f;
 
 	animation_hurt.SetUp(0, 253, 150, 95, 2, 2, "1,0,1,0,1");
-	animation_hurt.speed = 0.2f;
 
 	direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };

@@ -7,6 +7,7 @@
 
 Enemy::Enemy(int x, int y) : position(x, y)
 {
+	animation_hurt.speed = 0.4f;
 }
 
 Enemy::~Enemy()

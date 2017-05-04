@@ -1,19 +1,19 @@
 #include "Application.h"
-#include "Enemy_BonusAirship.h"
+#include "Enemy_Kamikaze.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 
-Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
+Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(0, 253, 150, 95, 1, 1, "0");
+	fly.SetUp(518, 0, 145, 107, 1, 1, "0");
 	fly.speed = 0.2f;
 
-	direction = App->player->GetPos() - position;
+	/*direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
-	fdirection.Normalize();
+	fdirection.Normalize();*/
 
-	path.PushBack(fdirection * 3, 500, &fly);
+	path.PushBack({ 0, 1.0f }, 100, &fly);
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -22,12 +22,12 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	original_y = y;
 }
 
-Enemy_BonusAirship::~Enemy_BonusAirship()
+Enemy_Kamikaze::~Enemy_Kamikaze()
 {
 	fly.CleanUp();
 }
 
-void Enemy_BonusAirship::Move()
+void Enemy_Kamikaze::Move()
 {
 
 	position = original_position + path.GetCurrentPosition(&animation);

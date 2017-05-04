@@ -45,6 +45,7 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 	App->enemies->AddEnemy(ENEMY_TYPES::PROYECTIL, 300, 5550);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 5000);
      
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 215, 5550);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5485);

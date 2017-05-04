@@ -9,8 +9,9 @@
 #include "Enemy_LightTank.h"
 #include "Enemy_BonusAirship.h"
 #include "Enemy_Proyectil.h"
+#include "Enemy_Kamikaze.h"
 
-#define SPAWN_MARGIN 100
+#define SPAWN_MARGIN 125
 
 ModuleEnemies::ModuleEnemies()
 {
@@ -140,6 +141,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			break;
 		case ENEMY_TYPES::PROYECTIL:
 			enemies[i] = new Enemy_Proyectil(info.x, info.y);
+			break;
+		case ENEMY_TYPES::KAMIKAZE:
+			enemies[i] = new Enemy_Kamikaze(info.x, info.y);
 			break;
 
 		}

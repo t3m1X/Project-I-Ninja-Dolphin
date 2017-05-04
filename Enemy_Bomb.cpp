@@ -1,10 +1,10 @@
 #include "Application.h"
-#include "Enemy_Proyectil.h"
+#include "Enemy_Bomb.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 
-Enemy_Proyectil::Enemy_Proyectil(int x, int y) : Enemy(x, y)
+Enemy_Bomb::Enemy_Bomb(int x, int y) : Enemy(x, y)
 {
 	walk.SetUp(0, 181, 63, 71, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
@@ -24,22 +24,22 @@ Enemy_Proyectil::Enemy_Proyectil(int x, int y) : Enemy(x, y)
 
 }
 
-Enemy_Proyectil::~Enemy_Proyectil()
+Enemy_Bomb::~Enemy_Bomb()
 {
 	walk.CleanUp();
 }
 
-void Enemy_Proyectil::Move()
+void Enemy_Bomb::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);
 }
 
-void Enemy_Proyectil::Damaged()
+void Enemy_Bomb::Damaged()
 {
 	damage.SetUp(196, 182, 55, 70, 1, 1, "0");
 }
 
-void Enemy_Proyectil::OnCollision(Collider* collider) {
+void Enemy_Bomb::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);

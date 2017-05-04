@@ -104,10 +104,10 @@
     <ClInclude Include="Bonus_RedBonus.h">
       <Filter>Modules\Bonus</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_Proyectil.h">
+    <ClInclude Include="Enemy_Kamikaze.h">
       <Filter>Modules\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy_Kamikaze.h">
+    <ClInclude Include="Enemy_Bomb.h">
       <Filter>Modules\Enemies</Filter>
     </ClInclude>
   </ItemGroup>
@@ -184,10 +184,10 @@
     <ClCompile Include="Bonus_RedBonus.cpp">
       <Filter>Modules\Bonus</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_Proyectil.cpp">
+    <ClCompile Include="Enemy_Kamikaze.cpp">
       <Filter>Modules\Enemies</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy_Kamikaze.cpp">
+    <ClCompile Include="Enemy_Bomb.cpp">
       <Filter>Modules\Enemies</Filter>
     </ClCompile>
   </ItemGroup>

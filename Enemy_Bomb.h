@@ -1,12 +1,12 @@
-#ifndef __ENEMY_PROYECTIL_H__
-#define __ENEMY_PROYECTIL_H__
+#ifndef __ENEMY_BOMB_H__
+#define __ENEMY_BOMB_H__
 
 #include "Enemy.h"
 #include "Path.h"
 #include "Globals.h"
 
 
-class Enemy_Proyectil : public Enemy
+class Enemy_Bomb : public Enemy
 {
 private:
 	float wave = -1.0f;
@@ -19,8 +19,8 @@ private:
 
 public:
 
-	Enemy_Proyectil(int x, int y);
-	~Enemy_Proyectil();
+	Enemy_Bomb(int x, int y);
+	~Enemy_Bomb();
 
 	void Move();
 	void Damaged();

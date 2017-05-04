@@ -38,3 +38,26 @@ void Enemy_Proyectil::Damaged()
 {
 	damage.SetUp(196, 182, 55, 70, 1, 1, "0");
 }
+
+void Enemy_Proyectil::OnCollision(Collider* collider) {
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 1,0 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { -1,0 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 0,1 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 0,-1 });
+
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 1,1 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { -1,1 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 1,-1 });
+			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { -1,-1 });
+
+		}
+		else
+			state = HURT;
+	}
+
+}

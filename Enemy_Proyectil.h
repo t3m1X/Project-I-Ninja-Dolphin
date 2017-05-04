@@ -24,6 +24,7 @@ public:
 
 	void Move();
 	void Damaged();
+	void OnCollision(Collider * collider);
 };
 
 

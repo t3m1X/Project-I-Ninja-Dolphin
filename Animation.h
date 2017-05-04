@@ -61,7 +61,7 @@ public:
 			frames[i].w = sprite_w;
 			frames[i].h = sprite_h;
 			if (frames[i].x >= frames[0].x + columns * sprite_w) {
-				frames[i].x = 0;
+				frames[i].x = frames[0].x;
 				frames[i].y = frames[i - 1].y + sprite_h;
 			}
 		}

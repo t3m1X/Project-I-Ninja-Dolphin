@@ -9,6 +9,9 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fly.SetUp(0, 253, 150, 95, 1, 1, "0");
 	fly.speed = 0.2f;
 
+	animation_hurt.SetUp(0, 253, 150, 95, 2, 2, "1,0,1,0,1");
+	animation_hurt.speed = 0.2f;
+
 	direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();
@@ -20,6 +23,8 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	original_y = y;
+
+	hitpoints = 3;
 }
 
 Enemy_BonusAirship::~Enemy_BonusAirship()

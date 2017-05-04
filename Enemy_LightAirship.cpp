@@ -23,6 +23,9 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	sdl_clock_start = SDL_GetTicks();
 
 	original_y = y;
+
+	hitpoints = 1;
+
 }
 
 Enemy_LightAirship::~Enemy_LightAirship()

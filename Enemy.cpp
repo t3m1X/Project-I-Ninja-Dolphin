@@ -13,6 +13,7 @@ Enemy::~Enemy()
 {
 	if (collider != nullptr)
 		collider->to_delete = true;
+	animation_hurt.CleanUp();
 }
 
 const Collider* Enemy::GetCollider() const
@@ -25,14 +26,31 @@ void Enemy::Draw(SDL_Texture* sprites)
 	if (collider != nullptr)
 		collider->SetPos(position.x, position.y);
 
-	if (animation != nullptr)
-		App->render->Blit(sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+	switch (state) {
+	case REGULAR:
+		if (animation != nullptr)
+			App->render->Blit(sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+		break;
+	case HURT:
+		App->render->Blit(sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
+		if (animation_hurt.Finished()) {
+			state = REGULAR;
+			animation_hurt.Reset();
+		}
+		break;
+	}
 }
 
 void Enemy::OnCollision(Collider* collider)
 {
-		App->particles->AddParticle(EXPLOSION, position.x, position.y);
-		App->player->AddScore(50);
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+		else
+			state = HURT;
+	}
 	
 }
 

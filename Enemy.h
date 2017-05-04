@@ -8,15 +8,22 @@
 struct SDL_Texture;
 struct Collider;
 
+enum EnemyState {
+	REGULAR = 0,
+	HURT = 1
+};
+
 class Enemy
 {
 protected:
 	Animation* animation = nullptr;
+	Animation animation_hurt;
 	Collider* collider = nullptr;
 	uint sdl_clock;
 	uint sdl_clock_start;
 	iPoint direction = { 0,1 };
 	bool shot = false;
+	EnemyState state = REGULAR;
 
 public:
 	iPoint position;
@@ -32,6 +39,9 @@ public:
 	virtual void Shoot(iPoint origin);
 	virtual void Draw(SDL_Texture* sprites);
 	virtual void OnCollision(Collider* collider);
+
+public:
+	int hitpoints;
 };
 
 #endif

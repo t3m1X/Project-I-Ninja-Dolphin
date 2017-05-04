@@ -9,6 +9,9 @@ Enemy_Proyectil::Enemy_Proyectil(int x, int y) : Enemy(x, y)
 	walk.SetUp(0, 181, 63, 71, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
+	animation_hurt.SetUp(0, 181, 63, 71, 4, 4, "3,0,3,0,3");
+	animation_hurt.speed = 0.2f;
+
 	path.PushBack({ 0, 0.5f }, 100, &walk);
 	
 
@@ -17,6 +20,9 @@ Enemy_Proyectil::Enemy_Proyectil(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	original_y = y;
+
+	hitpoints = 3;
+
 }
 
 Enemy_Proyectil::~Enemy_Proyectil()

@@ -18,6 +18,9 @@ Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	original_y = y;
+
+	hitpoints = 1;
+
 }
 
 Enemy_LightTank::~Enemy_LightTank()

@@ -12,7 +12,7 @@ Enemy_Proyectil::Enemy_Proyectil(int x, int y) : Enemy(x, y)
 	path.PushBack({ 0, 0.5f }, 100, &walk);
 	
 
-	collider = App->collision->AddCollider({ 0, 67, 33, 44 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 0, 190, 45, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 

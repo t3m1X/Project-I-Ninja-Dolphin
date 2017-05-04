@@ -6,7 +6,7 @@
 
 Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(518, 0, 145, 107, 1, 1, "0");
+	fly.SetUp(518, 0, 146, 107, 1, 1, "0");
 	fly.speed = 0.2f;
 
 	/*direction = App->player->GetPos() - position;

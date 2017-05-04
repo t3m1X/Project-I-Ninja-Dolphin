@@ -11,7 +11,7 @@
 #include "Enemy_Proyectil.h"
 #include "Enemy_Kamikaze.h"
 
-#define SPAWN_MARGIN 150
+#define SPAWN_MARGIN 170
 
 ModuleEnemies::ModuleEnemies()
 {

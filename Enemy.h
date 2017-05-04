@@ -10,7 +10,8 @@ struct Collider;
 
 enum EnemyState {
 	REGULAR = 0,
-	HURT = 1
+	HURT,
+	SHOOTING
 };
 
 class Enemy
@@ -18,6 +19,7 @@ class Enemy
 protected:
 	Animation* animation = nullptr;
 	Animation animation_hurt;
+	Animation animation_shooting;
 	Collider* collider = nullptr;
 	uint sdl_clock;
 	uint sdl_clock_start;

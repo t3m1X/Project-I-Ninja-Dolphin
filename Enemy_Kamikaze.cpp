@@ -6,9 +6,11 @@
 
 Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(518, 0, 146, 107, 1, 1, "0");
+	fly.SetUp(518, 108, 146, 108, 4, 4, "0,1,2,3");
 	fly.speed = 0.2f;
 
+	animation_shooting.SetUp(518, 0, 146, 108, 3, 3, "0,1,2");
+	animation_shooting.speed = 0.2;
 	/*direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();*/

@@ -20,6 +20,8 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	original_y = y;
+
+	type = AIRBORNE;
 }
 
 Enemy_BonusAirship::~Enemy_BonusAirship()

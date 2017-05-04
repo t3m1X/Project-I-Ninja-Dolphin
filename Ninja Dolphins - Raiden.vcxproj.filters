@@ -92,6 +92,9 @@
     <ClInclude Include="Enemy_BonusAirship.h">
       <Filter>Modules\Enemies</Filter>
     </ClInclude>
+    <ClInclude Include="pQueue.h">
+      <Filter>Core\Utilities</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">

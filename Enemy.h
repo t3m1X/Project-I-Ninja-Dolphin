@@ -8,9 +8,15 @@
 struct SDL_Texture;
 struct Collider;
 
+enum unit_type {
+	GROUND = 3,
+	AIRBORNE = 6
+};
+
 class Enemy
 {
 protected:
+	unit_type type;
 	Animation* animation = nullptr;
 	Collider* collider = nullptr;
 	uint sdl_clock;

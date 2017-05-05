@@ -139,9 +139,17 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
+
+	if (active[last_particle] != nullptr) 	{
+		Particle* temp = active[last_particle];
+        App->collision->EraseCollider(temp->collider);
+		delete temp;
+		active[last_particle] = nullptr;
+	}
+
 	active[last_particle++] = p;
-	if (last_particle > MAX_ACTIVE_PARTICLES) {
-		last_particle = 0;
+	if (last_particle >= MAX_ACTIVE_PARTICLES) {
+        last_particle = 0;
 		LOG("Overwriting old particles");
 	}
 }

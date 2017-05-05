@@ -69,7 +69,7 @@ update_status ModuleBonus::PostUpdate()
 			if (bonus[i]->position.y * SCREEN_SIZE > App->render->camera.y + (App->render->camera.h * SCREEN_SIZE) + SPAWN_MARGIN)
 			{
 				LOG("DeSpawning bonus at %d", bonus[i]->position.y * SCREEN_SIZE);
-				delete bonus[i];
+				delete[] bonus[i];
 				bonus[i] = nullptr;
 			}
 		}
@@ -88,7 +88,7 @@ bool ModuleBonus::CleanUp()
 	{
 		if (bonus[i] != nullptr)
 		{
-			delete bonus[i];
+			delete[] bonus[i];
 			bonus[i] = nullptr;
 		}
 	}

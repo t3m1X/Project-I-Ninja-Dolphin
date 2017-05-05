@@ -17,6 +17,7 @@ Enemy::~Enemy()
 {
 	if (collider != nullptr)
 		collider->to_delete = true;
+
 	animation_hurt.CleanUp();
 	animation_shooting.CleanUp();
 }

@@ -18,6 +18,8 @@ private:
 	Animation turret;
 	Path path;
 	iPoint original_position;
+	int x_offset, y_offset = 0;
+
 public:
 
 	Enemy_LightTank(int x, int y);
@@ -25,6 +27,7 @@ public:
 	~Enemy_LightTank();
 
 	void Move();
+	void OnCollision(Collider * collider);
 };
 
 

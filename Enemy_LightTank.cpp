@@ -38,8 +38,8 @@ void Enemy_LightTank::Draw(SDL_Texture* sprites)
 		if (animation != nullptr)
 			App->render->Blit(sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
 		if (hitpoints == 2) {
-			int x_offset = animation->CurrentFrame().w / 2 - turret.CurrentFrame().w / 2;
-			int y_offset = animation->CurrentFrame().h / 2 - turret.CurrentFrame().h / 2;
+			x_offset = animation->CurrentFrame().w / 2 - turret.CurrentFrame().w / 2;
+			y_offset = animation->CurrentFrame().h / 2 - turret.CurrentFrame().h / 2;
 			iPoint turret_direction = App->player->GetPos() - position;
 			App->render->Blit(sprites, position.x + x_offset, position.y + y_offset, turret_direction, &(turret.GetCurrentFrame()));
 		}
@@ -59,9 +59,27 @@ void Enemy_LightTank::Draw(SDL_Texture* sprites)
 Enemy_LightTank::~Enemy_LightTank()
 {
 	walk.CleanUp();
+	turret.CleanUp();
 }
 
 void Enemy_LightTank::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);
+}
+
+void Enemy_LightTank::OnCollision(Collider* collider) {
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+		else if (hitpoints == 1) {
+			App->particles->AddParticle(EXPLOSION, position.x + x_offset, position.y + y_offset);
+			state = HURT;
+		}
+
+		else
+			state = HURT;
+	}
+
 }

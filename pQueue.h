@@ -49,6 +49,8 @@ public:
 
 			if (tmp != start || start->priority <= priority) {
 				new_item->next = tmp->next;
+				if (new_item->next != nullptr)
+					new_item->next->prev = new_item;
 				tmp->next = new_item;
 				new_item->prev = tmp;
 				if (tmp == end)

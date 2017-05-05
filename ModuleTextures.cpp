@@ -40,7 +40,7 @@ bool ModuleTextures::Init()
 // Called before q	uitting
 bool ModuleTextures::CleanUp()
 {
-	LOG("Freeing textures and Image library");
+	LOG("Freeing textures and Image library\n");
 
 	for (int i = (MAX_TEXTURES - 1); i >= 0; --i) {
 		if (textures[i] != nullptr) 
@@ -58,7 +58,7 @@ SDL_Texture* const ModuleTextures::Load(const char* path)
 	SDL_Surface* image = IMG_Load(path);
 	SDL_Texture* ret = nullptr;
 	if (image == NULL) {
-		LOG("Failed to load image IMG_Load: %s\n", IMG_GetError());
+		LOG("Failed to load image \"%s\" IMG_Load: %s\n", path, IMG_GetError());
 	}
 	else {
 		last_texture = MAX_TEXTURES;

@@ -71,6 +71,7 @@ void Enemy_LightTank::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			App->particles->AddParticle(CRATER, position.x + x_offset, position.y + y_offset);
 			App->player->AddScore(50);
 		}
 		else if (hitpoints == 1) {

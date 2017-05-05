@@ -45,6 +45,13 @@ bool ModuleParticles::Start()
 	enemyshot.life = 1500;
 	enemyshot.speed = { 0, -7};
 
+	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
+	crater.anim.loop = true;
+	crater.anim.speed = 0.2f;
+	crater.life = 4270;
+	crater.speed = { 0,0 };
+
+
 	return true;
 }
 
@@ -56,6 +63,7 @@ bool ModuleParticles::CleanUp()
 	autoattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
+	crater.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -124,7 +132,10 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p = new Particle(enemyshot);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
 		break;
-		
+
+	case CRATER:
+		p = new Particle(crater);
+		break;
 	}
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();

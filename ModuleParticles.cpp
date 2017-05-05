@@ -79,7 +79,7 @@ update_status ModuleParticles::Update()
 		if (p == nullptr)
 			continue;
 
-		if (p->Update() == false)
+		if (p->Update() == false || p->to_delete == true)
 		{
 			App->collision->EraseCollider(p->collider);
 			delete p;
@@ -147,6 +147,14 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 }
 
 // -------------------------------------------------------------
+void ModuleParticles::OnCollision(Collider* c1, Collider* c2) {
+	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i) {
+		if (active[i] != nullptr && active[i]->collider == c1) {
+			active[i]->to_delete = true;
+			break;
+		}
+	}
+}
 // -------------------------------------------------------------
 
 Particle::Particle()
@@ -170,8 +178,10 @@ bool Particle::Update()
 			ret = false;
 	}
 	else
-		if (anim.Finished())
+		if (anim.Finished()) {
 			ret = false;
+			to_delete = true;
+		}
 
 	position.x += speed.x;
 	position.y += speed.y;

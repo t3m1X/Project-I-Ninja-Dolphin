@@ -29,6 +29,7 @@ struct Particle
 	Uint32 life = 0;
 	particle_type type;
 	bool fx_played = false;
+	bool to_delete = false;
 
 	Particle();
 	Particle(const Particle& p);
@@ -46,6 +47,8 @@ public:
 
 	
 	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
+
+	void OnCollision(Collider * c1, Collider * c2);
 
 private:
 

@@ -7,6 +7,7 @@
 #include "Globals.h"
 
 
+
 class Enemy_LightTank : public Enemy
 {
 private:
@@ -14,12 +15,13 @@ private:
 	bool going_up = true;
 	int original_y = 0;
 	Animation walk;
+	Animation turret;
 	Path path;
 	iPoint original_position;
-
 public:
 
 	Enemy_LightTank(int x, int y);
+	void Draw(SDL_Texture * sprites);
 	~Enemy_LightTank();
 
 	void Move();

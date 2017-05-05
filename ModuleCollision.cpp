@@ -151,8 +151,8 @@ void ModuleCollision::DebugDraw()
 			App->render->DrawQuad(colliders[i]->rect, 0, 255, 0, alpha);
 			LOG("Drawing player at %d,%d %d", colliders[i]->rect.x, colliders[i]->rect.y, alpha);
 			break;
-		case COLLIDER_ENEMY_GROUND: // red
-			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);
+		case COLLIDER_ENEMY_GROUND: // ORANGE
+			App->render->DrawQuad(colliders[i]->rect, 255, 69, 0, alpha);
 			break;
 		case COLLIDER_ENEMY_AIR: //RED
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 0, alpha);

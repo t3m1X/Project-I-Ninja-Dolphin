@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "ModuleInput.h"
 #include "ModuleRender.h"
-#include "ModuleEnemies.h"
 #include "ModuleParticles.h"
 #include "ModuleTextures.h"
 #include "ModuleBonus.h"
@@ -12,7 +11,7 @@
 
 ModuleBonus::ModuleBonus()
 {
-	for (uint i = 0; i < MAX_ENEMIES; ++i)
+	for (uint i = 0; i < MAX_BONUS; ++i)
 		bonus[i] = nullptr;
 }
 

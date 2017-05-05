@@ -9,6 +9,8 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fly.SetUp(0, 253, 150, 95, 1, 1, "0");
 	fly.speed = 0.2f;
 
+
+	animation_shooting.SetUp(190, 253, 150, 95, 3, 3, "0,1,2");
 	animation_hurt.SetUp(0, 253, 150, 95, 2, 2, "1,0,1,0,1");
 
 	direction = App->player->GetPos() - position;

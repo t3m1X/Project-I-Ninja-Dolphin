@@ -45,6 +45,13 @@ bool ModuleParticles::Start()
 	enemyshot.life = 1500;
 	enemyshot.speed = { 0, -7};
 
+	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
+	crater.anim.loop = true;
+	crater.anim.speed = 0.2f;
+	crater.life = 4270;
+	crater.speed = { 0,0 };
+
+
 	return true;
 }
 
@@ -56,6 +63,7 @@ bool ModuleParticles::CleanUp()
 	autoattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
+	crater.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -79,7 +87,7 @@ update_status ModuleParticles::Update()
 		if (p == nullptr)
 			continue;
 
-		if (p->Update() == false)
+		if (p->Update() == false || p->to_delete == true)
 		{
 			App->collision->EraseCollider(p->collider);
 			delete p;
@@ -90,7 +98,7 @@ update_status ModuleParticles::Update()
 			iPoint view = { 0,1 };
 			if (p->speed != iPoint(0, 0))
 				view = p->speed;
-			App->render->Blit(6, graphics, p->position.x, p->position.y, view, &(p->anim.GetCurrentFrame()));
+			App->render->Blit(p->layer, graphics, p->position.x, p->position.y, view, &(p->anim.GetCurrentFrame()));
 			if (p->fx_played == false)
 			{
 				p->fx_played = true;
@@ -114,17 +122,24 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	case AUTOSHOT:
 		p = new Particle(autoattack);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->layer = 6;
 		break;
 
 	case EXPLOSION:
 		p = new Particle(explosion);
+		p->layer = 6;
 		break;
 
 	case ENEMYSHOT:
 		p = new Particle(enemyshot);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
+		p->layer = 6;
 		break;
-		
+
+	case CRATER:
+		p = new Particle(crater);
+		p->layer = 2;
+		break;
 	}
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();
@@ -139,14 +154,30 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	p->born = SDL_GetTicks() + delay;
 	p->position.x = x;
 	p->position.y = y;
+
+	if (active[last_particle] != nullptr) 	{
+		Particle* temp = active[last_particle];
+        App->collision->EraseCollider(temp->collider);
+		delete temp;
+		active[last_particle] = nullptr;
+	}
+
 	active[last_particle++] = p;
-	if (last_particle > MAX_ACTIVE_PARTICLES) {
-		last_particle = 0;
+	if (last_particle >= MAX_ACTIVE_PARTICLES) {
+        last_particle = 0;
 		LOG("Overwriting old particles");
 	}
 }
 
 // -------------------------------------------------------------
+void ModuleParticles::OnCollision(Collider* c1, Collider* c2) {
+	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i) {
+		if (active[i] != nullptr && active[i]->collider == c1) {
+			active[i]->to_delete = true;
+			break;
+		}
+	}
+}
 // -------------------------------------------------------------
 
 Particle::Particle()
@@ -170,8 +201,10 @@ bool Particle::Update()
 			ret = false;
 	}
 	else
-		if (anim.Finished())
+		if (anim.Finished()) {
 			ret = false;
+			to_delete = true;
+		}
 
 	position.x += speed.x;
 	position.y += speed.y;

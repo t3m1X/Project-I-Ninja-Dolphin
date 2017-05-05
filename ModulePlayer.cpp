@@ -49,33 +49,33 @@ bool ModulePlayer::Start() {
 	player_sprite_right.y = 0;
 
 	player_sprite_godmode.h = SPRITE_HEIGHT;
-	player_sprite_godmode.w = SPRITE_WIDTH + 2;
-	player_sprite_godmode.x = 262;
-	player_sprite_godmode.y = 0;
+	player_sprite_godmode.w = SPRITE_WIDTH;
+	player_sprite_godmode.x = 0;
+	player_sprite_godmode.y = 417;
 
 	player_sprite_godmode_left.h = SPRITE_HEIGHT;
 	player_sprite_godmode_left.w = SPRITE_WIDTH;
-	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH + 2;
+	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH;
 	player_sprite_godmode_left.y = 0;
 
 	player_sprite_godmode_right.h = SPRITE_HEIGHT;
 	player_sprite_godmode_right.w = SPRITE_WIDTH;
-	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2 + 2;
+	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2;
 	player_sprite_godmode_right.y = 0;
 
 	shadow_idle.h = SHADOW_HEIGHT;
 	shadow_idle.w = SHADOW_WIDTH;
-	shadow_idle.x = 171;
+	shadow_idle.x = 285;
 	shadow_idle.y = 0;
 
 	shadow_left.h = SHADOW_HEIGHT;
 	shadow_left.w = SHADOW_WIDTH;
-	shadow_left.x = 171 + SHADOW_WIDTH;
+	shadow_left.x = 285 + SHADOW_WIDTH;
 	shadow_left.y = 0;
 
 	shadow_right.h = SHADOW_HEIGHT;
 	shadow_right.w = SHADOW_WIDTH;
-	shadow_right.x = 171 + SHADOW_WIDTH * 2;
+	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
 
 
@@ -96,6 +96,22 @@ bool ModulePlayer::Start() {
 	player_fire_left.speed = 0.2f;
 	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
 	player_fire_right.speed = 0.2f;
+
+	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_left.speed = 0.05f;
+	player_left.loop = false;
+
+	player_right.SetUp(171, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_right.speed = 0.05f;
+	player_right.loop = false;
+
+	player_left_godmode.SetUp(66, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_left_godmode.speed = 0.05f;
+	player_left_godmode.loop = false;
+
+	player_right_godmode.SetUp(181, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_right_godmode.speed = 0.05f;
+	player_right_godmode.loop = false;
 
 	if (highscore != 0) {
 		uint tmp = highscore;
@@ -140,19 +156,27 @@ update_status ModulePlayer::Update() {
 
 	case LEFT:
 		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_left);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left_godmode.GetCurrentFrame());
+	
 		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_left);
-		
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
+			
 		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-
+		
 
 		if (player_x > -SPRITE_WIDTH / 2)
 			player_x -= PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
+		{
 			state = IDLE;
+		
+			player_left_godmode.Reset();
+			player_left.Reset();
+				 
+		}
+		
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
 			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
@@ -164,10 +188,11 @@ update_status ModulePlayer::Update() {
 	case RIGHT:
 
 		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode_right);
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right_godmode.GetCurrentFrame());
+
 		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_right);
-		
+			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
+
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
 		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_right);
 
@@ -176,7 +201,13 @@ update_status ModulePlayer::Update() {
 			player_x += PLAYER_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
+		{
 			state = IDLE;
+
+			player_right_godmode.Reset();
+			player_right.Reset();
+			
+		}
 		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
 			&& player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
@@ -274,6 +305,10 @@ bool ModulePlayer::CleanUp() {
 	player_fire_forward.CleanUp();
 	player_fire_left.CleanUp();
 	player_fire_right.CleanUp();
+	player_left.CleanUp();
+	player_right.CleanUp();
+	player_left_godmode.CleanUp();
+	player_right_godmode.CleanUp();
 	App->textures->Unload(player);
 	if (laser_sfx != nullptr) {
 		App->audio->FreeSFX(laser_sfx);
@@ -309,6 +344,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	{
 		if (c1->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_AIR ||
 			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
+			
 		{
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 			App->player->Disable();

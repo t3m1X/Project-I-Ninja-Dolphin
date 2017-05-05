@@ -8,6 +8,7 @@
 #include "ModuleCollision.h"
 #include "ModuleEnemies.h"
 #include "ModuleStageIntro.h"
+#include "ModuleBonus.h"
 
 
 
@@ -44,16 +45,31 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
+	
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 200, 6000);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 5900);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 550, 5800);
+     
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 215, 5550);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5485);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 465, 5550);
 
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 350, 5400);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 550, 5300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 200, 5400);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 4350);
+
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 270, 5200);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 5200);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 350, 5200);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 215, 4950);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4900);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 465, 4950);
+
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 4800);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 160, 4600);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 290, 4600);
@@ -66,6 +82,9 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 4350);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 4280);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 4100);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 250, 4300);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 220, 4200);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 500, 4250);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 3800);
 
@@ -82,6 +101,7 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 245, 3100);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 450, 3100);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 3100);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 450, 3150);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 25, 3000);
 
@@ -142,6 +162,9 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 200, 500);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 530, 600);
 	*/
+	
+	//App->bonus->AddBonus(BONUS_TYPE::RED, 220, 5540);
+
 	return ret;
 }
 

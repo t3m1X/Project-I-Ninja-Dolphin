@@ -1,44 +1,38 @@
 #include "Application.h"
-#include "Enemy_LightAirship.h"
+#include "Bonus_RedBonus.h"
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 
-Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
+Bonus_RedBonus::Bonus_RedBonus(int x, int y) : Bonus(x, y)
 {
-	fly.SetUp(0, 0, 74, 67, 4, 4, "0,1,2,3");
+	fly.SetUp(0, 0, 29, 25, 1, 1, "0");
 	fly.speed = 0.2f;
-
-	animation_shooting.SetUp(296, 0, 74, 67, 4, 4, "0,1,2");
-	animation_shooting.speed = 0.2;
 
 	direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();
 
-	path.PushBack(fdirection*3, 20, &fly);
+	path.PushBack(fdirection * 3, 20, &fly);
 	path.PushBack({ 0, -2 }, 40, &fly);
 
-	collider = App->collision->AddCollider({ 0, 0, 50, 67 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 0, 0, 29, 25 }, COLLIDER_TYPE::COLLIDER_BONUS, (Module*)App->enemies);
 
 	original_position = position;
 
 	sdl_clock_start = SDL_GetTicks();
 
 	original_y = y;
-
-	type = AIRBORNE;
-	hitpoints = 1;
 }
 
-Enemy_LightAirship::~Enemy_LightAirship()
+Bonus_RedBonus::~Bonus_RedBonus()
 {
 	fly.CleanUp();
 }
 
-void Enemy_LightAirship::Move()
+void Bonus_RedBonus::Move()
 {
-	if (!shot) {
+	/*if (!shot) {
 		direction = App->player->GetPos() - position;
 	}
 
@@ -56,5 +50,5 @@ void Enemy_LightAirship::Move()
 		origin.x += 17;
 		Shoot(origin);
 		shot = true;
-	}
+	}*/
 }

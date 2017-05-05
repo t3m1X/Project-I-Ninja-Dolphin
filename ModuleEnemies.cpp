@@ -8,8 +8,10 @@
 #include "Enemy_LightAirship.h"
 #include "Enemy_LightTank.h"
 #include "Enemy_BonusAirship.h"
+#include "Enemy_Bomb.h"
+#include "Enemy_Kamikaze.h"
 
-#define SPAWN_MARGIN 100
+#define SPAWN_MARGIN 170
 
 ModuleEnemies::ModuleEnemies()
 {
@@ -137,6 +139,12 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 		case ENEMY_TYPES::BONUSAIRSHIP:
 			enemies[i] = new Enemy_BonusAirship(info.x, info.y);
 			break;
+		case ENEMY_TYPES::BOMB:
+			enemies[i] = new Enemy_Bomb(info.x, info.y);
+			break;
+		case ENEMY_TYPES::KAMIKAZE:
+			enemies[i] = new Enemy_Kamikaze(info.x, info.y);
+			break;
 
 		}
 	}
@@ -149,9 +157,11 @@ void ModuleEnemies::OnCollision(Collider* c1, Collider* c2)
 		if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
 		{
 			enemies[i]->OnCollision(c2);
-			delete enemies[i];
-			enemies[i] = nullptr;
-			break;
+			if (enemies[i]->hitpoints == 0) {
+				delete enemies[i];
+				enemies[i] = nullptr;
+				break;
+			}
 		}
 	}
 }

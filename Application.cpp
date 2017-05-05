@@ -13,6 +13,7 @@
 #include "ModuleTransition.h"
 #include "ModuleParticles.h"
 #include "ModuleEnemies.h"
+#include "ModuleBonus.h"
 
 Application::Application()
 {
@@ -26,8 +27,9 @@ Application::Application()
 	modules[i++] = stage1 = new ModuleStage1();
 	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = enemies = new ModuleEnemies();
-	modules[i++] = player = new ModulePlayer();
+	modules[i++] = bonus = new ModuleBonus();
 	modules[i++] = particles = new ModuleParticles();
+	modules[i++] = player = new ModulePlayer();
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
 	modules[i++] = fonts = new ModuleFonts();

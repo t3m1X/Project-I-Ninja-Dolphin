@@ -15,7 +15,8 @@ struct SDL_Texture;
 enum particle_type {
 	AUTOSHOT = 0,
 	EXPLOSION,
-	ENEMYSHOT
+	ENEMYSHOT,
+	CRATER
 };
 
 struct Particle
@@ -29,6 +30,8 @@ struct Particle
 	Uint32 life = 0;
 	particle_type type;
 	bool fx_played = false;
+	bool to_delete = false;
+	int layer;
 
 	Particle();
 	Particle(const Particle& p);
@@ -47,6 +50,8 @@ public:
 	
 	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
 
+	void OnCollision(Collider * c1, Collider * c2);
+
 private:
 
 	SDL_Texture* graphics = nullptr;
@@ -58,6 +63,7 @@ public:
 	Particle autoattack;
 	Particle explosion;
 	Particle enemyshot;
+	Particle crater;
 	
 };
 

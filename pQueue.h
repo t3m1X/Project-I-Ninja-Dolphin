@@ -26,6 +26,15 @@ public:
 	pQueue() : start(nullptr), end(nullptr), size(0) 
 	{}
 
+	~pQueue() {
+		q_item* tmp = nullptr;
+		while (end != nullptr) {
+			tmp = end;
+			end = end->prev;
+			delete[] tmp;
+		}
+	}
+
 	void push_back(const T& item, const unsigned int& priority)
 	{
 		q_item* new_item = new q_item(item, priority);

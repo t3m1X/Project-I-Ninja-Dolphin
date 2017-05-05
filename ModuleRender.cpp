@@ -77,6 +77,17 @@ bool ModuleRender::CleanUp()
 {
 	LOG("Destroying renderer");
 
+	while (b_requests.Size() != 0)
+	{
+		if (b_requests[0].section != nullptr)
+			delete[] b_requests[0].section;
+
+		b_requests.pop_front();
+	}
+
+	while (quads.Size() != 0)
+		quads.pop_front();
+
 	//Destroy window
 	if(renderer != nullptr)
 		SDL_DestroyRenderer(renderer);

@@ -10,7 +10,7 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	fly.speed = 0.2f;
 
 	animation_shooting.SetUp(200, 0, 50, 67, 4, 4, "0,1,2");
-	animation_shooting.speed = 0.2;
+	animation_shooting.speed = 0.2f;
 	shadow.SetUp(350, 38, 25, 29, 1, 1, "0");
 
 

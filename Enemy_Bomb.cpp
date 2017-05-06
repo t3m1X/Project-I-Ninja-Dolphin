@@ -35,10 +35,7 @@ void Enemy_Bomb::Move()
 	position = original_position + path.GetCurrentPosition(&animation);
 }
 
-void Enemy_Bomb::Damaged()
-{
-	damage.SetUp(196, 182, 55, 70, 1, 1, "0");
-}
+
 
 void Enemy_Bomb::OnCollision(Collider* collider) {
 	if (state != HURT) {

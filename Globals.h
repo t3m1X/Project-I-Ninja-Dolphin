@@ -31,7 +31,7 @@ typedef unsigned int uint;
 #define WIN_BORDERLESS 0
 #define WIN_RESIZABLE 1
 #define REN_VSYNC 1
-#define SCROLL_SPEED 2
+#define SCROLL_SPEED 1
 #define STAGE_WIDTH 704
 #define STAGE_HEIGHT 7642
 #define SHADOW_DISTANCE_X 30

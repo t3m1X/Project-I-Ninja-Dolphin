@@ -361,5 +361,6 @@ iPoint ModulePlayer::GetPos()
 
 void ModulePlayer::AddScore(uint score_add)
 {
-	score += score_add;
+	if (!godmode)
+		score += score_add;
 }

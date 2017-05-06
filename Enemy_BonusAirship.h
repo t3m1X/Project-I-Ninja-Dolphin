@@ -14,6 +14,9 @@ private:
 	Animation fly;
 	Path path;
 	iPoint original_position;
+	iPoint direction2;
+	iPoint direction3;
+	
 
 public:
 

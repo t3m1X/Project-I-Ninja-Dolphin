@@ -48,7 +48,7 @@ bool ModuleParticles::Start()
 	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
 	crater.anim.loop = true;
 	crater.anim.speed = 0.2f;
-	crater.life = 4270;
+	crater.life = 8000;
 	crater.speed = { 0,0 };
 
 
@@ -155,17 +155,29 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	p->position.x = x;
 	p->position.y = y;
 
-	if (active[last_particle] != nullptr) 	{
-		Particle* temp = active[last_particle];
-        App->collision->EraseCollider(temp->collider);
-		delete temp;
-		active[last_particle] = nullptr;
+	bool found = false;
+
+	for (int i = 0; i < MAX_ACTIVE_PARTICLES; ++i) 		{
+		if (active[i] == nullptr) 			{
+			found = true;
+			active[i] = p;
+			break;
+		}
 	}
 
-	active[last_particle++] = p;
-	if (last_particle >= MAX_ACTIVE_PARTICLES) {
-        last_particle = 0;
+	if (!found) {
 		LOG("Overwriting old particles");
+
+		if (active[last_particle] != nullptr) {
+			Particle* temp = active[last_particle];
+			App->collision->EraseCollider(temp->collider);
+			delete temp;
+			active[last_particle] = nullptr;
+		}
+
+		active[last_particle++] = p;
+		if (last_particle >= MAX_ACTIVE_PARTICLES)
+			last_particle = 0;		
 	}
 }
 

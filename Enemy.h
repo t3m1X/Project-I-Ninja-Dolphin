@@ -27,6 +27,7 @@ protected:
 	Animation* animation = nullptr;
 	Animation animation_hurt;
 	Animation animation_shooting;
+	Animation shadow;
 	Collider* collider = nullptr;
 	uint sdl_clock;
 	uint sdl_clock_start;

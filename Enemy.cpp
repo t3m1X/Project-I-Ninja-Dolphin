@@ -20,6 +20,7 @@ Enemy::~Enemy()
 
 	animation_hurt.CleanUp();
 	animation_shooting.CleanUp();
+	shadow.CleanUp();
 }
 
 const Collider* Enemy::GetCollider() const
@@ -54,6 +55,11 @@ void Enemy::Draw(SDL_Texture* sprites)
 		}
 		break;
 	}
+	if (type == AIRBORNE) {
+		iPoint shadow_position = position + iPoint(animation->CurrentFrame().w / 2 + SHADOW_DISTANCE_X, animation->CurrentFrame().h / 2 + SHADOW_DISTANCE_Y);
+		App->render->Blit(5, sprites, shadow_position.x, shadow_position.y, direction, &(shadow.GetCurrentFrame()));
+	}
+
 }
 
 void Enemy::OnCollision(Collider* collider)

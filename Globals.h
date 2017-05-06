@@ -32,8 +32,9 @@ typedef unsigned int uint;
 #define WIN_RESIZABLE 1
 #define REN_VSYNC 1
 #define SCROLL_SPEED 2
-#define SPRITE_SIZE 32
 #define STAGE_WIDTH 704
 #define STAGE_HEIGHT 7642
+#define SHADOW_DISTANCE_X 18
+#define SHADOW_DISTANCE_Y 13
 
 #endif // __GLOBALS_H__

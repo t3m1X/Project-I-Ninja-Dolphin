@@ -30,8 +30,8 @@ bool ModulePlayer::Start() {
 
 	score = 0;
 
-	player_x = SCREEN_WIDTH / 2 - SPRITE_SIZE;
-	player_y = SCREEN_HEIGHT / 2 - SPRITE_SIZE;
+	player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
+	player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
 
 	player_sprite.h = SPRITE_HEIGHT;
 	player_sprite.w = SPRITE_WIDTH;
@@ -139,7 +139,7 @@ update_status ModulePlayer::Update() {
 		else
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite);
 
-		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 		
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
@@ -161,7 +161,7 @@ update_status ModulePlayer::Update() {
 		else
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
 			
-		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_left);
+		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
 		
 
@@ -194,7 +194,7 @@ update_status ModulePlayer::Update() {
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
 
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
-		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_right);
+		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
 
 
 		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
@@ -224,7 +224,7 @@ update_status ModulePlayer::Update() {
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
 		
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
-		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 
 		if (player_y > SPRITE_HEIGHT)
 			player_y -= PLAYER_SPEED;
@@ -244,7 +244,7 @@ update_status ModulePlayer::Update() {
 		else
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
 
-		App->render->Blit(5, player, App->render->camera.x + player_x + 47, App->render->camera.y + player_y + 38, { 0,1 }, &shadow_idle);
+		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH/2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 
 		
 

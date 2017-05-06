@@ -11,6 +11,8 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 
 	animation_shooting.SetUp(518, 0, 146, 108, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2;
+	shadow.SetUp(959, 162, 73, 54, 1, 1, "0");
+
 	/*direction = App->player->GetPos() - position;
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();*/

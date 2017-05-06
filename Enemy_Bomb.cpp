@@ -6,13 +6,13 @@
 
 Enemy_Bomb::Enemy_Bomb(int x, int y) : Enemy(x, y)
 {
-	walk.SetUp(0, 181, 63, 71, 3, 3, "0,1,2");
+	walk.SetUp(0, 181, 44, 68, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
-	animation_hurt.SetUp(0, 181, 63, 71, 4, 4, "3,0,3,0,3");
+	animation_hurt.SetUp(0, 181, 44, 68, 4, 4, "3,0,3,0,3");
+	shadow.SetUp(176, 215, 22, 35, 1, 1, "0");
 
 	path.PushBack({ 0, 0.5f }, 100, &walk);
-	
 
 	collider = App->collision->AddCollider({ 0, 190, 45, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 

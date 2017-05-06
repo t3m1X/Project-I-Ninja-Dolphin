@@ -6,7 +6,7 @@
 
 Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(521, 108, 146, 108, 4, 4, "0,1,2,3");
+	fly.SetUp(375, 108, 146, 108, 4, 4, "0,1,2,3");
 	fly.speed = 0.2f;
 
 	animation_shooting.SetUp(518, 0, 146, 108, 3, 3, "0,1,2");

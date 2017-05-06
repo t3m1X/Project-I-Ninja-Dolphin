@@ -169,6 +169,13 @@ bool ModuleStage1::Start() {
 }
 
 update_status ModuleStage1::Update() {
+
+	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
+		App->render->camera.x -= SCROLL_SPEED;
+
+	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
+		App->render->camera.x += SCROLL_SPEED;
+
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
 	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
@@ -195,13 +202,6 @@ update_status ModuleStage1::Update() {
 		App->player->Disable();
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
-
-
-	if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH/2 - STAGE_WIDTH/2 )
-		App->render->camera.x -= SCROLL_SPEED;
-
-	if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 )
-		App->render->camera.x += SCROLL_SPEED;
 
 	
 	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)

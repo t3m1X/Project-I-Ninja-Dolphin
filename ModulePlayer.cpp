@@ -145,7 +145,7 @@ update_status ModulePlayer::Update() {
 		if (App->input->HasController(1)) {
 			if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < 0)
 				state = LEFT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < 0)
 				state = FORWARD;
@@ -233,7 +233,7 @@ update_status ModulePlayer::Update() {
 			if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
 				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) <= 0) {
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) <= 0.3) {
 				state = IDLE;
 
 				player_left_godmode.Reset();
@@ -285,7 +285,7 @@ update_status ModulePlayer::Update() {
 
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) >= 0)
 				state = IDLE;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < 0)
 				state = LEFT;
@@ -320,7 +320,7 @@ update_status ModulePlayer::Update() {
 
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) == 0.0f)
 				state = IDLE;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < 0)
 				state = LEFT;
@@ -354,8 +354,7 @@ update_status ModulePlayer::Update() {
 		godmode = !godmode;
 	}
 
-
-	player_collider->SetPos(App->render->camera.x + player_x, App->render->camera.y + player_y);
+	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
 
 	if (score != 0) {
 		uint tmp = score;
@@ -426,9 +425,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
 			
 		{
+			App->input->ShakeController(1, 2000, 1.0);
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 			App->player->Disable();
-			App->input->ShakeController(1, 2000);
 			App->transition->Transition(App->stage1, App->intro, 0.8f);
 		}
 

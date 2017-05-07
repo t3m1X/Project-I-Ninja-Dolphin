@@ -90,6 +90,7 @@ update_status ModuleParticles::Update()
 		if (p->Update() == false || p->to_delete == true)
 		{
 			App->collision->EraseCollider(p->collider);
+			p->collider = nullptr;
 			delete p;
 			active[i] = nullptr;
 		}
@@ -126,8 +127,8 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		break;
 
 	case EXPLOSION:
-		App->input->ShakeController(1, 500, 0.1);
-		App->input->ShakeController(2, 500, 0.1);
+		App->input->ShakeController(1, 500, 0.1f);
+		App->input->ShakeController(2, 500, 0.1f);
 		p = new Particle(explosion);
 		p->layer = 6;
 		break;
@@ -173,6 +174,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		if (active[last_particle] != nullptr) {
 			Particle* temp = active[last_particle];
 			App->collision->EraseCollider(temp->collider);
+			temp->collider = nullptr;
 			delete temp;
 			active[last_particle] = nullptr;
 		}
@@ -223,8 +225,7 @@ bool Particle::Update()
 	position.x += speed.x;
 	position.y += speed.y;
 
-	if (collider != nullptr)
-		collider->SetPos(position.x, position.y);
+	App->collision->SetPosition(collider, position.x, position.y);
 
 	return ret;
 }

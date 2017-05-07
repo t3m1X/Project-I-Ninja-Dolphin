@@ -105,11 +105,11 @@ bool ModulePlayer::Start() {
 	player_right.speed = 0.15f;
 	player_right.loop = false;
 
-	player_left_godmode.SetUp(66, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_left_godmode.SetUp(61, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
 	player_left_godmode.speed = 0.15f;
 	player_left_godmode.loop = false;
 
-	player_right_godmode.SetUp(181, 417, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+	player_right_godmode.SetUp(177, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
 	player_right_godmode.speed = 0.15f;
 	player_right_godmode.loop = false;
 

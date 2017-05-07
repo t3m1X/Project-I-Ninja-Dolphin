@@ -196,6 +196,7 @@ void ModuleInput::ShakeController(int player, int time, float strength){
 	if (controllers[player - 1] != nullptr) {
 		if (SDL_HapticRumbleInit(controllers[player - 1]->haptic) == -1)
 			LOG("Cannot init rumble for controller number %d", player);
+		SDL_HapticRumbleStop(controllers[player - 1]->haptic);
 		SDL_HapticRumblePlay(controllers[player - 1]->haptic, strength, time);
 	}
 

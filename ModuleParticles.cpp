@@ -5,7 +5,7 @@
 #include "ModuleRender.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
-
+#include "ModuleInput.h"
 
 #include "SDL/include/SDL_timer.h"
 
@@ -126,6 +126,8 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		break;
 
 	case EXPLOSION:
+		App->input->ShakeController(1, 500, 0.1);
+		App->input->ShakeController(2, 500, 0.1);
 		p = new Particle(explosion);
 		p->layer = 6;
 		break;

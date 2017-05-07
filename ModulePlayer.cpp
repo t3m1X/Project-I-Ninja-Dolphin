@@ -426,9 +426,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
 			
 		{
-			App->input->ShakeController(1, 1000);
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 			App->player->Disable();
+			App->input->ShakeController(1, 2000);
 			App->transition->Transition(App->stage1, App->intro, 0.8f);
 		}
 

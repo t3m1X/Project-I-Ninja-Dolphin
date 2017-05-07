@@ -4,7 +4,6 @@
 #include "SDL/include/SDL.h"
 
 
-
 ModuleInput::ModuleInput() : Module()
 {}
 
@@ -38,17 +37,6 @@ bool ModuleInput::Init()
 	for (int i = 0; i < MAX_CONTROLLERS; ++i)
 		controllers[i] = nullptr;
 
-	int NumJoysticks = SDL_NumJoysticks();
-	int connected_controllers = 0;
-
-	for (int i = 0; i < NumJoysticks; ++i) {
-		if (SDL_IsGameController(i)) {
-			controllers[connected_controllers++] = new Controller(SDL_GameControllerOpen(i), SDL_HapticOpen(i), i);
-			if (connected_controllers == MAX_CONTROLLERS)
-				break;
-		}
-	}
-
 	for (int i = 0; i < MAX_KEYS; ++i)
 		keyboard[i] = KEY_IDLE;
 
@@ -79,7 +67,7 @@ update_status ModuleInput::Update()
 		if (controllers[pad] == nullptr)
 			continue;
 
-		for (int i = 0; i < CONTROLLER_BUTTONS; ++i) {
+		for (int i = 0; i < SDL_CONTROLLER_BUTTON_MAX; ++i) {
 			if (controllers[pad]->buttons[i] == KEY_DOWN)
 				controllers[pad]->buttons[i] = KEY_REPEAT;
 			if (controllers[pad]->buttons[i] == KEY_UP)
@@ -97,8 +85,11 @@ update_status ModuleInput::Update()
 			if (SDL_IsGameController(event.cdevice.which)) {
 				int index = event.cdevice.which;
 				for (int i = 0; i < MAX_CONTROLLERS; ++i) {
-					if (controllers[i] == nullptr)
-						controllers[i] = new Controller(SDL_GameControllerOpen(index),SDL_HapticOpen(index), index);
+					if (controllers[i] == nullptr) {
+						controllers[i] = new Controller(SDL_GameControllerOpen(index), SDL_HapticOpen(index));
+						controllers[i]->index = SDL_JoystickInstanceID(SDL_GameControllerGetJoystick(controllers[i]->controller));
+						break;
+					}
 				}
 			}
 			break;
@@ -109,6 +100,7 @@ update_status ModuleInput::Update()
 					SDL_GameControllerClose(controllers[i]->controller);
 					delete[] controllers[i];
 					controllers[i] = nullptr;
+					break;
 				}
 			}
 			break;
@@ -117,7 +109,7 @@ update_status ModuleInput::Update()
 			for (int i = 0; i < MAX_CONTROLLERS; ++i) {
 				if (controllers[i] == nullptr)
 					continue;
-				if (controllers[i]->index == event.cdevice.which) {
+				if (controllers[i]->index == event.cbutton.which) {
 					controllers[i]->buttons[event.cbutton.button] = KEY_DOWN;
 					break;
 				}
@@ -128,7 +120,7 @@ update_status ModuleInput::Update()
 			for (int i = 0; i < MAX_CONTROLLERS; ++i) {
 				if (controllers[i] == nullptr)
 					continue;
-				if (controllers[i]->index == event.cdevice.which) {
+				if (controllers[i]->index == event.cbutton.which) {
 					controllers[i]->buttons[event.cbutton.button] = KEY_UP;
 					break;
 				}
@@ -139,17 +131,21 @@ update_status ModuleInput::Update()
 			for (int i = 0; i < MAX_CONTROLLERS; ++i) {
 				if (controllers[i] == nullptr)
 					continue;
-				if (controllers[i]->index == event.cdevice.which) {
+				if (controllers[i]->index == event.caxis.which) {
 					if (event.caxis.axis == SDL_CONTROLLER_AXIS_INVALID)
 						break;
 					else {
 						int value;
 						if (event.caxis.value > 0)
-							value = event.caxis.value / 3276.7f;
+							value = event.caxis.value / (32767 * 0.05f);
 						else if (event.caxis.value < 0)
-							value = event.caxis.value / 3276.8f;
+							value = event.caxis.value / (32768 * 0.05f);
 						else
 							value = event.caxis.value;
+						if (value > 10)
+							value = 10;
+						if (value < -10)
+							value = -10;
 						controllers[i]->axes[event.caxis.axis] = value / 10.0f;
 					}
 					break;
@@ -193,11 +189,20 @@ bool ModuleInput::HasController(int player) 	{
 void ModuleInput::ShakeController(int player, int time, float strength){
 	if (player > 2)
 		return;
+
 	if (controllers[player - 1] != nullptr) {
+		int curr_time = SDL_GetTicks();
+		if (curr_time < controllers[player - 1]->end_time && strength < controllers[player - 1]->intensity)
+				return;
+
 		if (SDL_HapticRumbleInit(controllers[player - 1]->haptic) == -1)
 			LOG("Cannot init rumble for controller number %d", player);
 		SDL_HapticRumbleStop(controllers[player - 1]->haptic);
-		SDL_HapticRumblePlay(controllers[player - 1]->haptic, strength, time);
+		if (SDL_HapticRumblePlay(controllers[player - 1]->haptic, strength, time) == 0)
+			LOG("Vibrating controller %d with intensity %f for %f seconds", player, strength, time/1000.0f);
+
+		controllers[player - 1]->end_time = curr_time + time;
+		controllers[player - 1]->intensity = strength;
 	}
 
 }

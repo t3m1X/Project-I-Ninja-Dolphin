@@ -48,20 +48,20 @@ bool ModulePlayer::Start() {
 	player_sprite_right.x = SPRITE_WIDTH * 2;
 	player_sprite_right.y = 0;
 
-	player_sprite_godmode.h = SPRITE_HEIGHT;
-	player_sprite_godmode.w = SPRITE_WIDTH;
+	player_sprite_godmode.h = SPRITE_HEIGHT + 1;
+	player_sprite_godmode.w = SPRITE_WIDTH + 2;
 	player_sprite_godmode.x = 0;
-	player_sprite_godmode.y = 417;
+	player_sprite_godmode.y = 416;
 
 	player_sprite_godmode_left.h = SPRITE_HEIGHT;
 	player_sprite_godmode_left.w = SPRITE_WIDTH;
 	player_sprite_godmode_left.x = 262 + SPRITE_WIDTH;
 	player_sprite_godmode_left.y = 0;
 
-	player_sprite_godmode_right.h = SPRITE_HEIGHT;
+	player_sprite_godmode_right.h = SPRITE_HEIGHT + 4;
 	player_sprite_godmode_right.w = SPRITE_WIDTH;
-	player_sprite_godmode_right.x = 262 + SPRITE_WIDTH * 2;
-	player_sprite_godmode_right.y = 0;
+	player_sprite_godmode_right.x = 177;
+	player_sprite_godmode_right.y = 413;
 
 	shadow_idle.h = SHADOW_HEIGHT;
 	shadow_idle.w = SHADOW_WIDTH;

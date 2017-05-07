@@ -35,7 +35,7 @@ bool ModuleStageIntro::Start() {
 
 update_status ModuleStageIntro::Update() {
 
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
+	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1,SDL_CONTROLLER_BUTTON_START) == KEY_REPEAT)
 		App->transition->Transition(this, App->stage1, 0.8f);
 
 	App->render->Blit(7, title_texture, 0, 0, { 0,1 }, &title_screen.GetCurrentFrame());

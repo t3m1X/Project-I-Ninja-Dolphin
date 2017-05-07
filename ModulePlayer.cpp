@@ -142,14 +142,26 @@ update_status ModulePlayer::Update() {
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 		
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-			state = LEFT;
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-			state = RIGHT;
-		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
-			state = FORWARD;
-		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
-			state = STOP;
+		if (App->input->HasController(1)) {
+			if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+				state = LEFT;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+				state = RIGHT;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+				state = FORWARD;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+				state = STOP;
+		}
+		else {
+			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
+				state = LEFT;
+			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
+				state = RIGHT;
+			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
+				state = FORWARD;
+			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
+				state = STOP;
+		}
 			
 
 		break;
@@ -162,27 +174,56 @@ update_status ModulePlayer::Update() {
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
 			
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
 		
+		if (App->input->HasController(1)) {
+			if (player_x > -SPRITE_WIDTH / 2)
+				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX);
 
-		if (player_x > -SPRITE_WIDTH / 2)
-			player_x -= PLAYER_SPEED;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) >= -0.3) {
+				state = IDLE;
 
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT)
-		{
-			state = IDLE;
-		
-			player_left_godmode.Reset();
-			player_left.Reset();
-				 
+				player_left_godmode.Reset();
+				player_left.Reset();
+
+			}
+
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			else {
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			}
+
+			if (player_y <= SPRITE_HEIGHT)
+				player_y = SPRITE_HEIGHT;
+			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
 		}
-		
-		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-			&& player_y > SPRITE_HEIGHT)
-			player_y -= PLAYER_SPEED;
-		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-			player_y += PLAYER_SPEED;
+
+		else {
+			if (player_x > -SPRITE_WIDTH / 2)
+				player_x -= PLAYER_SPEED;
+
+			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT) {
+				state = IDLE;
+
+				player_left_godmode.Reset();
+				player_left.Reset();
+
+			}
+
+			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+				&& player_y > SPRITE_HEIGHT)
+				player_y -= PLAYER_SPEED;
+			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
+				player_y += PLAYER_SPEED;
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+			}
+				
+		}
+
 		break;
 
 	case RIGHT:
@@ -193,27 +234,54 @@ update_status ModulePlayer::Update() {
 		else
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
 
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
 
+		if (App->input->HasController(1)) {
+			if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
 
-		if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
-			player_x += PLAYER_SPEED;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) <= 0.3) {
+				state = IDLE;
 
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT)
-		{
-			state = IDLE;
+				player_left_godmode.Reset();
+				player_left.Reset();
 
-			player_right_godmode.Reset();
-			player_right.Reset();
-			
+			}
+
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			else {
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			}
+
+			if (player_y <= SPRITE_HEIGHT)
+				player_y = SPRITE_HEIGHT;
+			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
 		}
-		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-			&& player_y > SPRITE_HEIGHT)
-			player_y -= PLAYER_SPEED;
-		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			&& player_y  < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-			player_y += PLAYER_SPEED;
+
+		else {
+			if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+				player_x += PLAYER_SPEED;
+
+			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT) {
+				state = IDLE;
+
+				player_right_godmode.Reset();
+				player_right.Reset();
+
+			}
+			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+				&& player_y > SPRITE_HEIGHT)
+				player_y -= PLAYER_SPEED;
+			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
+				player_y += PLAYER_SPEED;
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+			}
+		}
 		break;
 
 	case FORWARD:
@@ -226,15 +294,30 @@ update_status ModulePlayer::Update() {
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 
-		if (player_y > SPRITE_HEIGHT)
-			player_y -= PLAYER_SPEED;
+		if (App->input->HasController(1)) {
+			if (player_y > SPRITE_HEIGHT)
+				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
 
-		if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-			state = IDLE;
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-			state = LEFT;
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-			state = RIGHT;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) >= -0.3)
+				state = IDLE;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+				state = RIGHT;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+				state = LEFT;
+		}
+
+		else {
+			if (player_y > SPRITE_HEIGHT)
+				player_y -= PLAYER_SPEED;
+
+			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
+				state = IDLE;
+			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
+				state = LEFT;
+			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
+				state = RIGHT;
+		}
+
 		break;
 
 	case STOP:
@@ -246,21 +329,33 @@ update_status ModulePlayer::Update() {
 
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH/2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 
-		
+		if (App->input->HasController(1)) {
+			if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
 
-		if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-			player_y += PLAYER_SPEED;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) <= 0.3)
+				state = IDLE;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+				state = RIGHT;
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+				state = LEFT;
+		}
 
-		if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-			state = IDLE;
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-			state = LEFT;
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-			state = RIGHT;
+		else {
+			if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				player_y += PLAYER_SPEED;
+
+			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
+				state = IDLE;
+			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
+				state = LEFT;
+			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
+				state = RIGHT;
+		}
 		break;
 	}
 	
-	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT && sdl_clock > sdl_shot) {
+	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
 		
 		sdl_shot = sdl_clock + LASER_COOLDOWN; 
 		App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
@@ -274,8 +369,7 @@ update_status ModulePlayer::Update() {
 		godmode = !godmode;
 	}
 
-
-	player_collider->SetPos(App->render->camera.x + player_x, App->render->camera.y + player_y);
+	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
 
 	if (score != 0) {
 		uint tmp = score;
@@ -342,10 +436,9 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	else
 	{
-		if (c1->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_AIR ||
-			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
-			
+		if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT)	
 		{
+			App->input->ShakeController(1, 2000, 1.0);
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
 			App->player->Disable();
 			App->transition->Transition(App->stage1, App->intro, 0.8f);

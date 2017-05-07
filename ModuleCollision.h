@@ -56,6 +56,7 @@ public:
 
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
+	void SetPosition(Collider * collider, int position_x, int position_y);
 	void DebugDraw();
 
 private:

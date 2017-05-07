@@ -22,8 +22,7 @@ const Collider* Bonus::GetCollider() const
 
 void Bonus::Draw(SDL_Texture* sprites)
 {
-	if (collider != nullptr)
-		collider->SetPos(position.x, position.y);
+	App->collision->SetPosition(collider, position.x, position.y);
 
 	if (animation != nullptr)
 		App->render->Blit(6, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));

@@ -49,8 +49,9 @@ update_status ModuleRender::PostUpdate()
 {
 	while (b_requests.Size() != 0) {
 		SDL_Rect temp_rect = b_requests[0].rect;
-		if (SDL_RenderCopyEx(renderer, b_requests[0].text, b_requests[0].section, &temp_rect, b_requests[0].angle, NULL, SDL_FLIP_NONE) != 0)
-			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+		if (SDL_RenderCopyEx(renderer, b_requests[0].text, b_requests[0].section, &temp_rect, b_requests[0].angle, NULL, SDL_FLIP_NONE) != 0) {
+			/*LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());*/
+		}
 		if (b_requests[0].section != nullptr)
 			delete[] b_requests[0].section;
 		b_requests.pop_front();
@@ -98,6 +99,9 @@ bool ModuleRender::CleanUp()
 // Blit to screen
 bool ModuleRender::Blit(int layer, SDL_Texture* texture, int x, int y, iPoint direction, SDL_Rect* section)
 {
+	if (texture == nullptr)
+		LOG("Cannot blit to screen: Invalid texture");
+
 	bool ret = true;
 	SDL_Rect rect;
 	rect.x = (int)(-camera.x + x) * SCREEN_SIZE;

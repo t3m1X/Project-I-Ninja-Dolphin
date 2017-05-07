@@ -204,17 +204,31 @@ Collider* ModuleCollision::AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module
 
 bool ModuleCollision::EraseCollider(Collider* collider)
 {
+	if (collider == nullptr)
+		return false; 
+
 	for (uint i = 0; i < MAX_COLLIDERS; ++i)
 	{
 		if (colliders[i] == collider)
 		{
-			delete colliders[i];
-			colliders[i] = nullptr;
-			return true;
+			colliders[i]->to_delete = true;
+			break;
 		}
 	}
 
 	return false;
+}
+
+void ModuleCollision::SetPosition(Collider* collider, int position_x, int position_y) 	{
+	if (collider == nullptr)
+		return;
+
+	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
+		if (colliders[i] == collider) {
+			colliders[i]->SetPos(position_x, position_y);
+			break;
+		}
+	}
 }
 
 // -----------------------------------------------------
@@ -222,14 +236,9 @@ bool ModuleCollision::EraseCollider(Collider* collider)
 bool Collider::CheckCollision(const SDL_Rect& r) const
 {
 	
-
-
 	return (rect.x < r.x + r.w &&
 		rect.x + rect.w > r.x &&
 		rect.y < r.y + r.h &&
 		rect.h + rect.y > r.y);
-
-
-
 
 }

@@ -30,8 +30,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 
 void Enemy_LightTank::Draw(SDL_Texture* sprites)
 {
-	if (collider != nullptr)
-		collider->SetPos(position.x, position.y);
+	App->collision->SetPosition(collider, position.x, position.y);
 
  	switch (state) {
 	case HURT:

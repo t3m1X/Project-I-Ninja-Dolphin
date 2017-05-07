@@ -143,13 +143,13 @@ update_status ModulePlayer::Update() {
 		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
 		
 		if (App->input->HasController(1)) {
-			if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < 0)
+			if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
 				state = LEFT;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
 				state = FORWARD;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 				state = STOP;
 		}
 		else {
@@ -174,13 +174,12 @@ update_status ModulePlayer::Update() {
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
 			
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
 		
 		if (App->input->HasController(1)) {
 			if (player_x > -SPRITE_WIDTH / 2)
 				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX);
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) >= 0) {
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) >= -0.3) {
 				state = IDLE;
 
 				player_left_godmode.Reset();
@@ -188,8 +187,14 @@ update_status ModulePlayer::Update() {
 
 			}
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) != 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			else {
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			}
+
 			if (player_y <= SPRITE_HEIGHT)
 				player_y = SPRITE_HEIGHT;
 			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -212,8 +217,11 @@ update_status ModulePlayer::Update() {
 				&& player_y > SPRITE_HEIGHT)
 				player_y -= PLAYER_SPEED;
 			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
 				player_y += PLAYER_SPEED;
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+			}
+				
 		}
 
 		break;
@@ -226,7 +234,6 @@ update_status ModulePlayer::Update() {
 		else
 			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
 
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_right.GetCurrentFrame());
 		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
 
 		if (App->input->HasController(1)) {
@@ -241,8 +248,14 @@ update_status ModulePlayer::Update() {
 
 			}
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) != 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			else {
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
+			}
+
 			if (player_y <= SPRITE_HEIGHT)
 				player_y = SPRITE_HEIGHT;
 			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -264,8 +277,10 @@ update_status ModulePlayer::Update() {
 				&& player_y > SPRITE_HEIGHT)
 				player_y -= PLAYER_SPEED;
 			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
 				player_y += PLAYER_SPEED;
+				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
+			}
 		}
 		break;
 
@@ -283,11 +298,11 @@ update_status ModulePlayer::Update() {
 			if (player_y > SPRITE_HEIGHT)
 				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) >= 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) >= -0.3)
 				state = IDLE;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
 				state = LEFT;
 		}
 
@@ -318,11 +333,11 @@ update_status ModulePlayer::Update() {
 			if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
 
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) == 0.0f)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) <= 0.3)
 				state = IDLE;
 			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
 				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < 0)
+			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
 				state = LEFT;
 		}
 
@@ -421,9 +436,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	else
 	{
-		if (c1->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_AIR ||
-			c1->type == COLLIDER_ENEMY_SHOT || c2->type == COLLIDER_ENEMY_SHOT)
-			
+		if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT)	
 		{
 			App->input->ShakeController(1, 2000, 1.0);
 			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);

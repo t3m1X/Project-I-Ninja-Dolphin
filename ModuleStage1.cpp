@@ -170,12 +170,19 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 
-	if (App->input->HasController(1)) 		{
-		if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-			App->render->camera.x -= SCROLL_SPEED;
+	if (App->input->HasController(1)) {
+		float axis_x = App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
+		if (axis_x < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2) {
+			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
+			if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
+				App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
+		}
 
-		if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-			App->render->camera.x += SCROLL_SPEED;
+		if (axis_x > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2) {
+			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
+			if (App->render->camera.x > STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
+				App->render->camera.x = STAGE_WIDTH / 2 - SCREEN_WIDTH / 2;
+		}
 	}
 	else {
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)

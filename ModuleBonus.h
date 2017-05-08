@@ -4,6 +4,7 @@
 #include "Module.h"
 
 #define MAX_BONUS 100
+#define SPAWN_MARGIN 200
 
 enum BONUS_TYPE
 {
@@ -11,12 +12,20 @@ enum BONUS_TYPE
 	RED
 };
 
-class Bonus;
-
-struct BonusInfo
-{
+class Bonus {
+	iPoint position;
 	BONUS_TYPE type = BONUS_TYPE::NO_BONUS_TYPE;
-	int x, y;
+
+	Bonus(iPoint _position, BONUS_TYPE _type) : position(_position), type(_type) 
+	{}
+
+	virtual void Update() {}
+	void OnColl(Collider* player);
+};
+
+class PowerUp : public Bonus {
+	iPoint bonus_position;
+	int circle_iterations = 0;
 };
 
 class ModuleBonus : public Module
@@ -27,7 +36,6 @@ public:
 	~ModuleBonus();
 
 	bool Start();
-	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
@@ -37,11 +45,6 @@ public:
 
 private:
 
-	void SpawnBonus(const BonusInfo& info);
-
-private:
-
-	BonusInfo queue[MAX_BONUS];
 	Bonus* bonus[MAX_BONUS];
 	SDL_Texture* sprites;
 };

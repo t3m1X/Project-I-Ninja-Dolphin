@@ -4,10 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModuleTextures.h"
 #include "ModuleBonus.h"
-#include "Bonus.h"
-#include "Bonus_RedBonus.h"
-
-#define SPAWN_MARGIN 100
+#include "ModulePlayer.h"
 
 ModuleBonus::ModuleBonus()
 {
@@ -28,52 +25,33 @@ bool ModuleBonus::Start()
 	return true;
 }
 
-update_status ModuleBonus::PreUpdate()//problemos con spawn margin
-{
-	// check camera position to decide what to spawn
-	for (uint i = 0; i < MAX_BONUS; ++i)
-	{
-		if (queue[i].type != BONUS_TYPE::NO_BONUS_TYPE)
-		{
-			if (queue[i].y * SCREEN_SIZE > App->render->camera.y * SCREEN_SIZE - SPAWN_MARGIN)
-			{
-				SpawnBonus(queue[i]);
-				queue[i].type = BONUS_TYPE::NO_BONUS_TYPE;
-				LOG("Spawning bonus at %d", queue[i].y * SCREEN_SIZE);
-			}
-		}
-	}
-
-	return UPDATE_CONTINUE;
-}
-
 // Called before render is available
 update_status ModuleBonus::Update()
 {
-	for (uint i = 0; i < MAX_BONUS; ++i)
-		if (bonus[i] != nullptr) bonus[i]->Move();
+	//for (uint i = 0; i < MAX_BONUS; ++i)
+	//	if (bonus[i] != nullptr) bonus[i]->Move();
 
-	for (uint i = 0; i < MAX_BONUS; ++i)
-		if (bonus[i] != nullptr) bonus[i]->Draw(sprites);
+	//for (uint i = 0; i < MAX_BONUS; ++i)
+	//	if (bonus[i] != nullptr) bonus[i]->Draw(sprites);
 
 	return UPDATE_CONTINUE;
 }
 
 update_status ModuleBonus::PostUpdate()
 {
-	// check camera position to decide what to spawn
-	for (uint i = 0; i < MAX_BONUS; ++i)
-	{
-		if (bonus[i] != nullptr)
-		{
-			if (bonus[i]->position.y * SCREEN_SIZE > App->render->camera.y + (App->render->camera.h * SCREEN_SIZE) + SPAWN_MARGIN)
-			{
-				LOG("DeSpawning bonus at %d", bonus[i]->position.y * SCREEN_SIZE);
-				delete[] bonus[i];
-				bonus[i] = nullptr;
-			}
-		}
-	}
+	//// check camera position to decide what to spawn
+	//for (uint i = 0; i < MAX_BONUS; ++i)
+	//{
+	//	if (bonus[i] != nullptr)
+	//	{
+	//		if (bonus[i]->position.y * SCREEN_SIZE > App->render->camera.y + (App->render->camera.h * SCREEN_SIZE) + SPAWN_MARGIN)
+	//		{
+	//			LOG("DeSpawning bonus at %d", bonus[i]->position.y * SCREEN_SIZE);
+	//			delete[] bonus[i];
+	//			bonus[i] = nullptr;
+	//		}
+	//	}
+	//}
 
 	return UPDATE_CONTINUE;
 }
@@ -100,7 +78,7 @@ bool ModuleBonus::AddBonus(BONUS_TYPE type, int x, int y)
 {
 	bool ret = false;
 
-	for (uint i = 0; i < MAX_BONUS; ++i)
+	/*for (uint i = 0; i < MAX_BONUS; ++i)
 	{
 		if (queue[i].type == BONUS_TYPE::NO_BONUS_TYPE)
 		{
@@ -110,39 +88,25 @@ bool ModuleBonus::AddBonus(BONUS_TYPE type, int x, int y)
 			ret = true;
 			break;
 		}
-	}
+	}*/
 
 	return ret;
 }
 
-void ModuleBonus::SpawnBonus(const BonusInfo& info)
-{
-	// find room for the new bonus
-	uint i = 0;
-	for (; bonus[i] != nullptr && i < MAX_BONUS; ++i);
-
-	if (i != MAX_BONUS)
-	{
-		switch (info.type)
-		{
-		case BONUS_TYPE::RED:
-			bonus[i] = new Bonus_RedBonus(info.x, info.y);
-			break;
-
-		}
-	}
-}
-
 void ModuleBonus::OnCollision(Collider* c1, Collider* c2)
 {
-	for (uint i = 0; i < MAX_BONUS; ++i)
+	/*for (uint i = 0; i < MAX_BONUS; ++i)
 	{
 		if (bonus[i] != nullptr && bonus[i]->GetCollider() == c1)
 		{
-			bonus[i]->OnCollision(c2);
+			bonus[i]->OnColl(c2);
 			delete bonus[i];
 			bonus[i] = nullptr;
 			break;
 		}
-	}
+	}*/
+}
+
+void Bonus::OnColl(Collider * player) {
+	//player->callback->AddBonus(type);
 }

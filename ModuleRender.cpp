@@ -104,8 +104,10 @@ bool ModuleRender::Blit(int layer, SDL_Texture* texture, int x, int y, iPoint di
 
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (int)(-camera.x + x) * SCREEN_SIZE;
-	rect.y = (int)(-camera.y + y) * SCREEN_SIZE;
+	int screen_w, screen_h;
+	SDL_GetRendererOutputSize(renderer, &screen_w, &screen_h);
+	rect.x = (int)((-camera.x + x) * SCREEN_SIZE) + (screen_w / 2 - (SCREEN_WIDTH * SCREEN_SIZE) / 2);
+	rect.y = (int)((-camera.y + y) * SCREEN_SIZE) + (screen_h / 2 - (SCREEN_HEIGHT * SCREEN_SIZE) / 2);
 
 	if(section != nullptr)
 	{
@@ -137,8 +139,10 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_Rect rec(rect);
 	if (use_camera)
 	{
-		rec.x = (int)(-camera.x + rect.x) * SCREEN_SIZE;
-		rec.y = (int)(-camera.y + rect.y) * SCREEN_SIZE;
+		int screen_w, screen_h;
+		SDL_GetRendererOutputSize(renderer, &screen_w, &screen_h);
+		rec.x = (int)((-camera.x + rect.x) * SCREEN_SIZE) + (screen_w / 2 - (SCREEN_WIDTH * SCREEN_SIZE) / 2);
+		rec.y = (int)((-camera.y + rect.y) * SCREEN_SIZE) + (screen_h / 2 - (SCREEN_HEIGHT * SCREEN_SIZE) / 2);
 		rec.w *= SCREEN_SIZE;
 		rec.h *= SCREEN_SIZE;
 	}

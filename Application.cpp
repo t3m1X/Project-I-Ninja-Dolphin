@@ -23,6 +23,7 @@ Application::Application()
 	modules[i++] = input = new ModuleInput();
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
+	modules[i++] = fonts = new ModuleFonts();
 	modules[i++] = stage2 = new ModuleStage2();
 	modules[i++] = stage1 = new ModuleStage1();
 	modules[i++] = intro = new ModuleStageIntro();
@@ -32,7 +33,6 @@ Application::Application()
 	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
-	modules[i++] = fonts = new ModuleFonts();
 	
 }	
 

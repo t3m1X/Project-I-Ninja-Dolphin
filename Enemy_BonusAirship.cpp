@@ -58,14 +58,11 @@ Enemy_BonusAirship::~Enemy_BonusAirship()
 
 void Enemy_BonusAirship::Move()
 {
-
 	if (!has_transitioned && position.y - App->render->camera.y >= SCREEN_HEIGHT * 5 / 8)
 	{
 		path.PushBack({ 0,2 }, 100, &fly);
 		has_transitioned = true;
 	}
-
-	
 
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
@@ -76,12 +73,23 @@ void Enemy_BonusAirship::Move()
 		origin.x += 45;
 		origin.y += fly.CurrentFrame().h;
 		Shoot(origin);
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
 		sdl_clock_start = sdl_clock + 3167;
 	}
 
+}
 
+void Enemy_BonusAirship::Shoot(iPoint origin)
+{
+	state = SHOOTING;
+	animation_shooting.Reset();
 
-	
+	sdl_clock = SDL_GetTicks();
+
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+	sdl_clock_start = sdl_clock + 3167;
 }

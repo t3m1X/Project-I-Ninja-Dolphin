@@ -25,6 +25,7 @@ public:
 	~Enemy_BonusAirship();
 
 	void Move();
+	void Shoot(iPoint origin);
 };
 
 #endif

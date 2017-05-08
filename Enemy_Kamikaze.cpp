@@ -9,13 +9,14 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	fly.SetUp(375, 108, 146, 108, 4, 4, "0,1,2,3");
 	fly.speed = 0.2f;
 
-	animation_shooting.SetUp(518, 0, 146, 108, 3, 3, "0,1,2");
+	animation_shooting.SetUp(375, 0, 146, 108, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
+
 	shadow.SetUp(959, 162, 73, 54, 1, 1, "0");
 
-	/*direction = App->player->GetPos() - position;
-	fPoint fdirection = { (float)direction.x,(float)direction.y };
-	fdirection.Normalize();*/
+	animation_hurt.SetUp(375, 0, 146, 108, 5, 4, "3,4,3,4,3");
+	
+	
 
 	path.PushBack({ 0,1 }, 350, &fly);
 	path.PushBack({ 0,-1 -SCROLL_SPEED }, 750, &fly);
@@ -26,7 +27,10 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	original_position = position;
 	y_transition = position.y + 300;
 	type = AIRBORNE;
-	hitpoints = 1;
+	hitpoints = 20;
+
+	sdl_clock_start = SDL_GetTicks();
+
 }
 
 Enemy_Kamikaze::~Enemy_Kamikaze()
@@ -41,6 +45,22 @@ void Enemy_Kamikaze::Move()
 	
 	if (position.y >= y_transition)
 		Enemy::direction = { 0,-1 };
+
+	if (path.IsFinished())
+		to_delete = true;
 			
+
+	sdl_clock = SDL_GetTicks();
+
+	if (sdl_clock >= sdl_clock_start + 2100) { 
+
+		iPoint origin = position;
+		origin.x += 45;
+		origin.y += fly.CurrentFrame().h;
+		Shoot(origin);
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+		sdl_clock_start = sdl_clock + 3167;
+	}
 }
 

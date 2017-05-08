@@ -12,6 +12,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 	animation_shooting.SetUp(210, 253, 105, 96, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
+	animation_shooting.loop = false;
 
 	animation_hurt.SetUp(0, 253, 105, 96, 2, 2, "1,0,1,0,1");
 
@@ -47,7 +48,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 
 	type = AIRBORNE;
-	hitpoints = 3;
+	hitpoints = 12;
 }
 
 Enemy_BonusAirship::~Enemy_BonusAirship()
@@ -69,7 +70,7 @@ void Enemy_BonusAirship::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start + 2100 && !shot) { //seconds that the ship takes to shoot
+	if (sdl_clock >= sdl_clock_start + 2100 && !has_transitioned) { //seconds that the ship takes to shoot
 		
 		iPoint origin = position;
 		origin.x += 45;
@@ -77,9 +78,7 @@ void Enemy_BonusAirship::Move()
 		Shoot(origin);
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
-		shot = true;
-
-		
+		sdl_clock_start = sdl_clock + 3167;
 	}
 
 

@@ -3,6 +3,7 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
+#include "ModuleRender.h"
 
 Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 {
@@ -33,9 +34,10 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	
 	
 	path.PushBack(fdirection *2, 20, &fly); // Arrives
-	path.PushBack({ 0,0 }, 30, &fly); //Stays for some time
-	path.PushBack(fdirection2 *0.5f, 80, &fly);//goes right
-	path.PushBack(fdirection3 *0.5f, 80, &fly);//goes left
+	path.PushBack({ 0, - SCROLL_SPEED }, 30, &fly); //Stays for some time
+	path.PushBack(fdirection2 * SCROLL_SPEED / 2, 80, &fly);//goes right
+	path.PushBack(fdirection3 * SCROLL_SPEED / 2, 80, &fly);//goes left
+	path.LoopStart(20);
 	
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -43,7 +45,6 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 	sdl_clock_start = SDL_GetTicks();
 
-	original_y = y;
 
 	type = AIRBORNE;
 	hitpoints = 3;
@@ -56,6 +57,12 @@ Enemy_BonusAirship::~Enemy_BonusAirship()
 
 void Enemy_BonusAirship::Move()
 {
+
+	if (!has_transitioned && position.y - App->render->camera.y >= SCREEN_HEIGHT * 5 / 8)
+	{
+		path.PushBack({ 0,2 }, 100, &fly);
+		has_transitioned = true;
+	}
 
 	
 
@@ -74,6 +81,8 @@ void Enemy_BonusAirship::Move()
 
 		
 	}
+
+
 
 	
 }

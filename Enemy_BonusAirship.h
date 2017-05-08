@@ -16,7 +16,8 @@ private:
 	iPoint original_position;
 	iPoint direction2;
 	iPoint direction3;
-	
+	int y_transition;
+	bool has_transitioned = false;
 
 public:
 

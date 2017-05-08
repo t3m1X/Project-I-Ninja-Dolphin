@@ -98,19 +98,19 @@ bool ModulePlayer::Start() {
 	player_fire_right.speed = 0.2f;
 
 	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
-	player_left.speed = 0.15f;
+	player_left.speed = 0.05f;
 	player_left.loop = false;
 
 	player_right.SetUp(171, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
-	player_right.speed = 0.15f;
+	player_right.speed = 0.05f;
 	player_right.loop = false;
 
 	player_left_godmode.SetUp(61, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
-	player_left_godmode.speed = 0.15f;
+	player_left_godmode.speed = 0.05f;
 	player_left_godmode.loop = false;
 
 	player_right_godmode.SetUp(177, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
-	player_right_godmode.speed = 0.15f;
+	player_right_godmode.speed = 0.05f;
 	player_right_godmode.loop = false;
 
 	if (highscore != 0) {

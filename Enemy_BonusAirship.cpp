@@ -19,8 +19,8 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 	
 	direction = { 0,1 };
-	direction2 = { 1,0 };
-	direction3 = { -1,0 };
+	direction2 = { 1,-1 };
+	direction3 = { -1,-1 };
 	
 	
 	fPoint fdirection = { (float)direction.x,(float)direction.y };

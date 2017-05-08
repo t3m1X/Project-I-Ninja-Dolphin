@@ -52,6 +52,7 @@ public:
 
 public:
 	int hitpoints;
+	bool to_delete = false;
 };
 
 #endif

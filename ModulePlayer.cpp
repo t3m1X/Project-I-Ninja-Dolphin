@@ -90,11 +90,13 @@ bool ModulePlayer::Start() {
 	
 	player_collider = App->collision->AddCollider({0, 0, 60, 50}, COLLIDER_PLAYER, this);
 
-	player_fire_forward.SetUp(0, 49, 57, 66, 5, 5, "0,1,2,3,4");
+	player_fire_forward.SetUp(0, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
 	player_fire_forward.speed = 0.2f;
-	player_fire_left.SetUp(0, 115, 57, 66, 5, 5, "0,1,2,3,4");
+
+	player_fire_left.SetUp(0, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
 	player_fire_left.speed = 0.2f;
-	player_fire_right.SetUp(0, 181, 57, 66, 5, 5, "0,1,2,3,4");
+
+	player_fire_right.SetUp(0, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
 	player_fire_right.speed = 0.2f;
 
 	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");

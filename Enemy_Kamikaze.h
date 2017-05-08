@@ -14,6 +14,7 @@ private:
 	Path path;
 	iPoint original_position;
 	int y_transition;
+	bool has_transitioned = false;
 
 public:
 

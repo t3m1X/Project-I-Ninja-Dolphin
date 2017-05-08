@@ -3,6 +3,7 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
+#include "ModuleRender.h"
 
 Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 {
@@ -18,8 +19,15 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	
 	
 
-	path.PushBack({ 0,1 }, 350, &fly);
-	path.PushBack({ 0,-1 -SCROLL_SPEED }, 750, &fly);
+	path.PushBack({ 0,1 }, 200, &fly);
+
+	if(position.x > (App->render->camera.x + SCREEN_WIDTH) / 2)
+		path.PushBack({ -1,2 }, 150, &fly);
+	else
+		path.PushBack({ 1,2 }, 150, &fly);
+
+	path.PushBack({ 0,-1 - SCROLL_SPEED }, 750, &fly);
+	
 	path.loop = false;
 
 	collider = App->collision->AddCollider({ 518, 0, 146, 103 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
@@ -40,25 +48,26 @@ Enemy_Kamikaze::~Enemy_Kamikaze()
 
 void Enemy_Kamikaze::Move()
 {
-	position = original_position + path.GetCurrentPosition(&animation);
+	
 
 	
+
 	if (position.y >= y_transition)
 		Enemy::direction = { 0,-1 };
 
 	if (path.IsFinished())
 		to_delete = true;
 			
-
+	position = original_position + path.GetCurrentPosition(&animation);
 	sdl_clock = SDL_GetTicks();
 
-	if (sdl_clock >= sdl_clock_start + 2100) { 
+	if (sdl_clock >= sdl_clock_start + 2000) { 
 
 		iPoint origin = position;
 		origin.x += 45;
 		origin.y += fly.CurrentFrame().h;
 		Shoot(origin);
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
 		sdl_clock_start = sdl_clock + 3167;
 	}

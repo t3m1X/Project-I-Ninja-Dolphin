@@ -18,7 +18,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	fdirection.Normalize();*/
 
 	path.PushBack({ 0,1 }, 350, &fly);
-	path.PushBack({ 0,-3 }, 400, &fly);
+	path.PushBack({ 0,-1 -SCROLL_SPEED }, 750, &fly);
 	path.loop = false;
 
 	collider = App->collision->AddCollider({ 518, 0, 146, 103 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
@@ -36,17 +36,11 @@ Enemy_Kamikaze::~Enemy_Kamikaze()
 
 void Enemy_Kamikaze::Move()
 {
-
 	position = original_position + path.GetCurrentPosition(&animation);
-	LOG("Kamikaze position y %d, y_transition is %d", position.y, y_transition);
+
+	
 	if (position.y >= y_transition)
-	{
-		
-		
-		
-			Enemy::direction = { 0,-1 };
+		Enemy::direction = { 0,-1 };
 			
-		
-	}
 }
 

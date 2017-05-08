@@ -93,10 +93,12 @@ bool ModulePlayer::Start() {
 	player_fire_forward.SetUp(0, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
 	player_fire_forward.speed = 0.2f;
 
-	player_fire_left.SetUp(0, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,4,5,6,7,8,9");
+	player_fire_left.SetUp(0, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+	player_fire_left.LoopStart(4);
 	player_fire_left.speed = 0.2f;
 
-	player_fire_right.SetUp(0, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,4,5,6,7,8,9");
+	player_fire_right.SetUp(0, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+	player_fire_right.LoopStart(4);
 	player_fire_right.speed = 0.2f;
 
 	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");

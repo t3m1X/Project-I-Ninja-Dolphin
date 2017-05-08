@@ -10,10 +10,10 @@ class Enemy_Kamikaze : public Enemy
 private:
 	float wave = -1.0f;
 	bool going_up = true;
-	int original_y = 0;
 	Animation fly;
 	Path path;
 	iPoint original_position;
+	int y_transition;
 
 public:
 
@@ -21,6 +21,7 @@ public:
 	~Enemy_Kamikaze();
 
 	void Move();
+
 };
 
 #endif

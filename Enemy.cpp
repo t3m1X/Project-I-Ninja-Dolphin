@@ -4,6 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
+#include "ModuleEnemies.h"
 
 Enemy::Enemy(int x, int y) : position(x, y)
 {
@@ -82,3 +83,4 @@ void Enemy::Shoot(iPoint origin)
 	iPoint player_position = App->player->GetPos();
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
 }
+

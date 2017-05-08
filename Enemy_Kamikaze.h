@@ -15,6 +15,7 @@ private:
 	iPoint original_position;
 	int y_transition;
 	bool has_transitioned = false;
+	int shots = 0;
 
 public:
 

@@ -1,7 +1,7 @@
 #ifndef __ModuleCollision_H__
 #define __ModuleCollision_H__
 
-#define MAX_COLLIDERS 150
+#define MAX_COLLIDERS 300
 
 #include "Module.h"
 #include "SDL\include\SDL.h"

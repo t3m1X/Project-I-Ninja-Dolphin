@@ -202,10 +202,11 @@ update_status ModulePlayer::Update() {
 				&& player_y > SPRITE_HEIGHT)
 				player_y -= PLAYER_SPEED;
 			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) 
 				player_y += PLAYER_SPEED;
+			else
 				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-			}
+
 				
 		}
 
@@ -262,10 +263,11 @@ update_status ModulePlayer::Update() {
 				&& player_y > SPRITE_HEIGHT)
 				player_y -= PLAYER_SPEED;
 			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) {
+				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) 
 				player_y += PLAYER_SPEED;
+			else
 				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-			}
+
 		}
 		break;
 

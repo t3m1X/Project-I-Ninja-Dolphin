@@ -27,6 +27,7 @@ private:
 	iPoint original_position;
 	int x_offset, y_offset = 0;
 	int subtype;
+	int shots = 0;
 
 public:
 

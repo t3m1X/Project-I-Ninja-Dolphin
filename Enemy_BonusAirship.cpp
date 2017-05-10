@@ -8,16 +8,20 @@
 
 Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(0, 253, 105, 96, 1, 1, "0");
+	fly.SetUp(0, 253, 105, 123, 1, 1, "0");
 	fly.speed = 0.1f;
 
-	animation_shooting.SetUp(210, 253, 105, 96, 3, 3, "0,1,2");
+	acceleration.SetUp(578, 253, 105, 123, 4, 4, "0,1,2,3");
+	acceleration.speed = 0.1f;
+	
+
+	animation_shooting.SetUp(210, 253, 105, 123, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
 	animation_shooting.loop = false;
 
-	animation_hurt.SetUp(0, 253, 105, 96, 2, 2, "1,0,1,0,1");
+	animation_hurt.SetUp(0, 253, 105, 123, 2, 2, "1,0,1,0,1");
 
-	shadow.SetUp(525, 301, 53, 48, 1, 1, "0");
+	shadow.SetUp(525, 327, 53, 48, 1, 1, "0");
 
 
 	
@@ -62,7 +66,7 @@ void Enemy_BonusAirship::Move()
 {
 	if (!has_transitioned && position.y - App->render->camera.y >= SCREEN_HEIGHT * 5 / 8)
 	{
-		path.PushBack({ 0,2 }, 100, &fly);
+		path.PushBack({ 0,2 }, 100, &acceleration);
 		has_transitioned = true;
 	}
 
@@ -94,4 +98,16 @@ void Enemy_BonusAirship::Shoot(iPoint origin)
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
 	sdl_clock_start = sdl_clock + 3167;
+}
+
+void Enemy_BonusAirship::OnCollision(Collider* collider)
+{
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+		else
+			state = HURT;
+	}
 }

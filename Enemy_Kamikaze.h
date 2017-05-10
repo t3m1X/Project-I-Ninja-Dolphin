@@ -23,6 +23,7 @@ public:
 	~Enemy_Kamikaze();
 
 	void Move();
+	void OnCollision(Collider* collider);
 
 };
 

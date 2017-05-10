@@ -97,3 +97,17 @@ void Enemy_Kamikaze::Move()
 		to_delete = true;
 }
 
+void Enemy_Kamikaze::OnCollision(Collider* collider)
+{
+	if (state != HURT)
+	{
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+
+		else
+			state = HURT;
+	}
+
+}

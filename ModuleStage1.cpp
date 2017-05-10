@@ -54,6 +54,7 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5485);
 	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 465, 5550);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 720, 5500);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 350, 5375 + SPAWN_MARGIN);//it's static that why the spawn margin addition
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 200, 5420 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 500, 5420 + SPAWN_MARGIN);

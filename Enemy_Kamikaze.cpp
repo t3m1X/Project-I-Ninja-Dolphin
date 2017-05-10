@@ -102,7 +102,7 @@ void Enemy_Kamikaze::OnCollision(Collider* collider)
 	if (state != HURT)
 	{
 		if (--hitpoints == 0) {
-			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y - 20);
 			App->player->AddScore(50);
 		}
 

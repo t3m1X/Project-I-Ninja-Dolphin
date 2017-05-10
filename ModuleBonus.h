@@ -9,23 +9,42 @@
 enum BONUS_TYPE
 {
 	NO_BONUS_TYPE,
-	RED
+	RED_BONUS,
+	MEDAL
 };
 
 class Bonus {
+protected:
 	iPoint position;
+	Animation animation;
 	BONUS_TYPE type = BONUS_TYPE::NO_BONUS_TYPE;
 
-	Bonus(iPoint _position, BONUS_TYPE _type) : position(_position), type(_type) 
+public:
+	Bonus(int x, int y, BONUS_TYPE _type) : position(iPoint(x,y)), type(_type) 
 	{}
 
 	virtual void Update() {}
-	void OnColl(Collider* player);
+	virtual void OnColl(Collider* player);
+	virtual iPoint getPosition() {
+		return position;
+	}
+	virtual void Draw(SDL_Texture* sprite);
 };
 
 class PowerUp : public Bonus {
+private:
 	iPoint bonus_position;
 	int circle_iterations = 0;
+
+public:
+	PowerUp(int x, int y, BONUS_TYPE _type) : Bonus(x, y, _type) 
+	{}
+
+	iPoint getPosition() {
+		return bonus_position;
+	}
+
+	void Update();
 };
 
 class ModuleBonus : public Module

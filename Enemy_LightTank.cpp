@@ -27,6 +27,10 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	case VARIATION1:
 		path.PushBack({ 0,0 }, 200, &walk);
 		break;
+
+	case VARIATION2:
+		path.PushBack({ -0.5f,0 }, 300, &walk);
+		break;
 	}
 		
 	
@@ -41,7 +45,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	type = GROUND;
 	hitpoints = 2;
 
-	sdl_clock_start = SDL_GetTicks() + 1500;
+	sdl_clock_start = SDL_GetTicks() + 2000;
 }
 
 void Enemy_LightTank::Draw(SDL_Texture* sprites)
@@ -63,12 +67,15 @@ void Enemy_LightTank::Draw(SDL_Texture* sprites)
 		break;
 
 	case SHOOTING:
-		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_shooting.GetCurrentFrame()));
-		if (animation_shooting.Finished()) {
-			state = REGULAR;
-			animation_hurt.Reset();
+		if (animation != nullptr)
+			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+		if (hitpoints == 2) {
+			x_offset = animation->CurrentFrame().w / 2 - turret.CurrentFrame().w / 2;
+			y_offset = animation->CurrentFrame().h / 2 - turret.CurrentFrame().h / 2;
+			iPoint turret_direction = App->player->GetPos() - position;
+			App->render->Blit(type, sprites, position.x + x_offset, position.y + y_offset, turret_direction, &(turret.GetCurrentFrame()));
 		}
-		break; 
+		state = REGULAR;
 	}
 }
 

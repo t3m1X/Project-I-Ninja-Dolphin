@@ -419,13 +419,10 @@ update_status ModulePlayer::Update() {
 		}
 	}
 
-	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN)
+	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
 	{
 		godmode = !godmode;
 	}
-
-	if (App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
-		App->bonus->AddBonus(RED_BONUS, App->render->camera.x + player_x, App->render->camera.y + player_y - 100);
 
 	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
 

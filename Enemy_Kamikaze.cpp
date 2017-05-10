@@ -53,7 +53,7 @@ void Enemy_Kamikaze::Move()
 	position = original_position + path.GetCurrentPosition(&animation);
 	sdl_clock = SDL_GetTicks();
 
-	if (position.y >= y_transition)
+	if (position.y - 50 >= y_transition)
 	{
 		Enemy::direction = { 0,-1 };
 		has_transitioned = true;

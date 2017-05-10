@@ -13,6 +13,9 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	turret.SetUp(0, 112, 68, 69, 1, 1, "0");
 	turret.speed = 0.2f;
 
+	animation_shooting.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
+	animation_shooting.speed = 0.3f;
+
 	switch (subtype)
 	{
 	case NORMAL:
@@ -38,6 +41,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	type = GROUND;
 	hitpoints = 2;
 
+	sdl_clock_start = SDL_GetTicks() + 1500;
 }
 
 void Enemy_LightTank::Draw(SDL_Texture* sprites)
@@ -77,6 +81,27 @@ Enemy_LightTank::~Enemy_LightTank()
 void Enemy_LightTank::Move()
 {
 	position = original_position + path.GetCurrentPosition(&animation);
+
+	sdl_clock = SDL_GetTicks();
+	position = original_position + path.GetCurrentPosition(&animation);
+
+	if (sdl_clock >= sdl_clock_start) {
+	/*	fPoint fdirection = { (float)direction.x, (float)direction.y };
+		fdirection.Normalize();
+		path.PushBack(fdirection*-5, 500, &walk);*/
+		shots++;
+		iPoint origin = position;
+		origin.x += 18;
+		origin.y += walk.CurrentFrame().h;
+		Shoot(origin);
+		shot = true;
+
+		if (shots >= 1) {
+			sdl_clock_start = sdl_clock + 3167;
+			shots = 0;
+		}
+		
+	}
 }
 
 void Enemy_LightTank::OnCollision(Collider* collider) {

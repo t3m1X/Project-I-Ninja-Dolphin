@@ -58,7 +58,6 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 Enemy_BonusAirship::~Enemy_BonusAirship()
 {
-	App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 	fly.CleanUp();
 	acceleration.CleanUp();
 }
@@ -105,6 +104,7 @@ void Enemy_BonusAirship::OnCollision(Collider* collider)
 {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
+			App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
 			App->player->AddScore(50);
 		}

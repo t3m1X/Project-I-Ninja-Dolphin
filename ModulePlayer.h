@@ -15,7 +15,7 @@
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
 #define SHADOW_HEIGHT 25
-#define LASER_COOLDOWN 200
+#define LASER_COOLDOWN 150
 
 struct SDL_Texture;
 struct Collider;
@@ -42,7 +42,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	iPoint GetPos();
 	void AddScore(uint score_add);
-	void AddBonus(BONUS_TYPE type);
+	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:
 	

@@ -24,7 +24,7 @@ bool ModuleStage1::Start() {
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
 
-
+	App->bonus->Enable();
 	App->collision->Enable();
     //App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
 
@@ -253,6 +253,7 @@ bool ModuleStage1::CleanUp() {
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();
+	App->bonus->Disable();
 
 	
 	return ret;

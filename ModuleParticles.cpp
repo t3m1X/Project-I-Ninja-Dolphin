@@ -58,6 +58,11 @@ bool ModuleParticles::Start()
 	big_explosion.speed = { 0,0 };
 	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 
+	laserattack.anim.SetUp(81, 0, 2, 16, 1, 1, "0");
+	laserattack.anim.loop = true;
+	laserattack.speed = { 0, -14 };
+	laserattack.life = 1500;
+
 
 	return true;
 }
@@ -68,6 +73,7 @@ bool ModuleParticles::CleanUp()
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
 	autoattack.anim.CleanUp();
+	laserattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
@@ -134,6 +140,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 6;
 		break;
 
+	case LASERSHOT:
+		p = new Particle(laserattack);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->layer = 6;
+		break;
+
 	case EXPLOSION:
 		App->input->ShakeController(1, 500, 0.1f);
 		App->input->ShakeController(2, 500, 0.1f);
@@ -151,9 +163,10 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p = new Particle(crater);
 		p->layer = 2;
 		break;
+
 	case BIG_EXPLOSION:
-		App->input->ShakeController(1, 500, 0.1f);
-		App->input->ShakeController(2, 500, 0.1f);
+		App->input->ShakeController(1, 500, 0.f);
+		App->input->ShakeController(2, 500, 0.3f);
 		p = new Particle(big_explosion);
 		p->layer = 6;
 		break;

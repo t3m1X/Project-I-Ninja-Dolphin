@@ -35,12 +35,16 @@ private:
 	iPoint bonus_position;
 	int circle_iterations = 0;
 	uint sdl_clock_next;
+	iPoint new_pos = { 0,0 };
 
 public:
 	PowerUp(int x, int y, BONUS_TYPE _type) : Bonus(x, y, _type) , bonus_position(iPoint(x,y))
 	{
 		sdl_clock_next = SDL_GetTicks() + 3000;
 	}
+
+	~PowerUp()
+	{}
 
 	void Update();
 };

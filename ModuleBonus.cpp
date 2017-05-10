@@ -5,6 +5,7 @@
 #include "ModuleTextures.h"
 #include "ModuleBonus.h"
 #include "ModulePlayer.h"
+#include <cstdlib>
 
 ModuleBonus::ModuleBonus()
 {
@@ -52,6 +53,7 @@ update_status ModuleBonus::Update()
 
 			App->render->Blit(6, sprites, bonus[i]->position.x, bonus[i]->position.y, { 0,1 }, &print->GetCurrentFrame());
 		}
+
 
 	return UPDATE_CONTINUE;
 }
@@ -123,6 +125,7 @@ void ModuleBonus::OnCollision(Collider* c1, Collider* c2)
 	{
 		if (bonus[i] != nullptr && bonus[i]->col == c1)
 		{
+			App->player->AddBonus(bonus[i]->type, c2);
 			delete bonus[i];
 			bonus[i] = nullptr;
 			break;
@@ -138,30 +141,43 @@ Bonus::~Bonus()
 
 void PowerUp::Update() {
 	int sdl_clock = SDL_GetTicks();
+
 	if (type == BLUE_BONUS && sdl_clock > sdl_clock_next) {
 		type = RED_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
+
+		new_pos.x = (App->render->camera.x + SCREEN_WIDTH / 2) - bonus_position.x;
+		new_pos.y = (App->render->camera.y + SCREEN_HEIGHT / 2 - 100) - bonus_position.y;
 	}
 
-	if (type == RED_BONUS && sdl_clock > sdl_clock_next) {
+	else if (type == RED_BONUS && sdl_clock > sdl_clock_next) {
 		type = BLUE_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
 	}
+	srand(SDL_GetTicks());
 
 	float factor = (float)M_PI / 180.0f;
-	int radius = 40;
+	
+	int radius = 100;
 
-	int horizontal = (App->render->camera.x + SCREEN_WIDTH / 2) - position.x;
-	if (horizontal != 0)
-		horizontal /= abs(horizontal);
-
-	bonus_position.y -= SCROLL_SPEED;
-	bonus_position.x += horizontal;
-
-	App->collision->SetPosition(col, bonus_position.x, bonus_position.y);
+	
+	if (new_pos.x != 0) {
+		int factor = new_pos.x / abs(new_pos.x);
+		bonus_position.x += factor /** 2*/;
+		new_pos.x -= factor/* * 2*/;
+	}
+	if (new_pos.y != 0) {
+		int factor = new_pos.y / abs(new_pos.y);
+		bonus_position.y += factor * 2;
+		new_pos.y -= factor /** 2*/;
+	}
+	else
+		bonus_position.y -= SCROLL_SPEED;
 
 	position.x = (int)(bonus_position.x + radius * cos(circle_iterations * factor));
 	position.y = (int)(bonus_position.y + radius * sin(circle_iterations * factor));
+
+	App->collision->SetPosition(col, position.x, position.y);
 
 	if (++circle_iterations > 360)
 		circle_iterations = 0;

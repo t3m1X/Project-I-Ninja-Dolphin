@@ -108,6 +108,7 @@ bool ModulePlayer::Start() {
 		}
 	}
 
+	current_bonus = RED_BONUS;
 
 	return ret;
 }
@@ -343,18 +344,88 @@ update_status ModulePlayer::Update() {
 	}
 	
 	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
-		
-		sdl_shot = sdl_clock + LASER_COOLDOWN; 
-		App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
-		App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
-		App->audio->PlaySFX(laser_sfx);
-		
+		switch (current_bonus) {
+		case RED_BONUS:
+			sdl_shot = sdl_clock + LASER_COOLDOWN;
+			switch (amount_bonus) {
+			case 0:
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
+				break;
+			case 1:
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 7, App->render->camera.y + player_y + 16);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 16, App->render->camera.y + player_y + 16);
+
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 34, App->render->camera.y + player_y + 16);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 43, App->render->camera.y + player_y + 16);
+				break;
+			case 2:
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x, App->render->camera.y + player_y + 20, { -1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 15, App->render->camera.y + player_y + 16, { -1,-4 });
+				
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
+
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 15, App->render->camera.y + player_y + 16, { 1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH, App->render->camera.y + player_y + 20, { 1,-4 });
+				break;
+
+			case 3:
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x, App->render->camera.y + player_y + 20, { -1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 10, App->render->camera.y + player_y + 18, { -1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 20, App->render->camera.y + player_y + 16, { -1,-4 });
+
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 16, App->render->camera.y + player_y);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 27, App->render->camera.y + player_y);
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 38, App->render->camera.y + player_y);
+
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 20, App->render->camera.y + player_y + 16, { 1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 10, App->render->camera.y + player_y + 18, { 1,-4 });
+				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH, App->render->camera.y + player_y + 20, { 1,-4 });
+				break;
+	
+
+			}
+			App->audio->PlaySFX(laser_sfx);
+			break;
+		case BLUE_BONUS:
+			switch (amount_bonus) {
+			case 0:
+				sdl_shot = sdl_clock + LASER_COOLDOWN / 2;
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
+				break;
+			case 1:
+				sdl_shot = sdl_clock + LASER_COOLDOWN / 2;
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 1, App->render->camera.y + player_y);
+				break;
+
+			case 2:
+				sdl_shot = sdl_clock + LASER_COOLDOWN / 3;
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 1, App->render->camera.y + player_y);
+				break;
+			case 3:
+				sdl_shot = sdl_clock + LASER_COOLDOWN / 3;
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 2, App->render->camera.y + player_y);
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2, App->render->camera.y + player_y);
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 2, App->render->camera.y + player_y);
+				break;
+
+			}
+			
+			App->audio->PlaySFX(laser_sfx);
+			break;
+		}
 	}
 
 	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN)
 	{
 		godmode = !godmode;
 	}
+
+	if (App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_B) == KEY_DOWN)
+		App->bonus->AddBonus(RED_BONUS, App->render->camera.x + player_x, App->render->camera.y + player_y - 100);
 
 	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
 
@@ -445,11 +516,13 @@ void ModulePlayer::AddScore(uint score_add)
 		score += score_add;
 }
 
-void ModulePlayer::AddBonus(BONUS_TYPE type) {
+void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	AddScore(500);
 	if (type != current_bonus) {
 		current_bonus = type;
-		amount_bonus = 0;
+		amount_bonus--;
+		if (amount_bonus < 0)
+			amount_bonus = 0;
 	}
 	else {
 		if (amount_bonus < 3)

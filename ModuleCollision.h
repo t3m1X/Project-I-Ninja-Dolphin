@@ -39,6 +39,12 @@ struct Collider
 		rect.y = y;
 	}
 
+	void SetSize(int w, int h)
+	{
+		rect.w = w;
+		rect.h = h;
+	}
+
 	bool CheckCollision(const SDL_Rect& r) const;
 };
 
@@ -57,6 +63,7 @@ public:
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void SetPosition(Collider * collider, int position_x, int position_y);
+	void SetSize(Collider * collider, int width, int height);
 	void DebugDraw();
 
 private:

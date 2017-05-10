@@ -4,6 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
+#include "ModuleBonus.h"
 
 Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 {
@@ -53,6 +54,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 Enemy_BonusAirship::~Enemy_BonusAirship()
 {
+	App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 	fly.CleanUp();
 }
 

@@ -134,7 +134,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			enemies[i] = new Enemy_LightAirship(info.x, info.y);
 			break;
 		case ENEMY_TYPES::LIGHTTANK:
-			enemies[i] = new Enemy_LightTank(info.x, info.y);
+		case ENEMY_TYPES::LIGHTTANK_2:
+		case ENEMY_TYPES::LIGHTTANK_3:
+			enemies[i] = new Enemy_LightTank(info.x, info.y, info.type);
 			break;
 		case ENEMY_TYPES::BONUSAIRSHIP:
 			enemies[i] = new Enemy_BonusAirship(info.x, info.y);

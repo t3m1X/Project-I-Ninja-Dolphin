@@ -5,7 +5,7 @@
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 
-Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
+Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 {
 	walk.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
@@ -13,9 +13,21 @@ Enemy_LightTank::Enemy_LightTank(int x, int y) : Enemy(x, y)
 	turret.SetUp(0, 112, 68, 69, 1, 1, "0");
 	turret.speed = 0.2f;
 
-	path.PushBack({ 0, 3 }, 50, &walk);
-	path.PushBack({ 0, -2 }, 40, &walk);
-	path.PushBack({ 0,-5 }, 500, &walk);
+	switch (subtype)
+	{
+	case NORMAL:
+		path.PushBack({ 0, 3 }, 50, &walk);
+		path.PushBack({ 0, -2 }, 40, &walk);
+		path.PushBack({ 0,-5 }, 500, &walk);
+		break;
+
+	case VARIATION1:
+		path.PushBack({ 0,0 }, 200, &walk);
+		break;
+	}
+		
+	
+	
 
 	collider = App->collision->AddCollider({ 0, 67, 33, 44 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 

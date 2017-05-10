@@ -26,6 +26,7 @@ public:
 
 	void Move();
 	void Shoot(iPoint origin);
+	void OnCollision(Collider* collider);
 };
 
 #endif

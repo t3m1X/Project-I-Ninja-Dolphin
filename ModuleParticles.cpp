@@ -51,6 +51,13 @@ bool ModuleParticles::Start()
 	crater.life = 8000;
 	crater.speed = { 0,0 };
 
+	big_explosion.anim.SetUp(0, 216, 135, 126, 4, 8, "0,1,2,3,4,5,6,7");
+	big_explosion.anim.loop = false;
+	big_explosion.anim.speed = 0.19f;
+	big_explosion.life = 700;
+	big_explosion.speed = { 0,0 };
+	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+
 
 	return true;
 }
@@ -64,6 +71,7 @@ bool ModuleParticles::CleanUp()
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
+	big_explosion.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -142,6 +150,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	case CRATER:
 		p = new Particle(crater);
 		p->layer = 2;
+		break;
+	case BIG_EXPLOSION:
+		App->input->ShakeController(1, 500, 0.1f);
+		App->input->ShakeController(2, 500, 0.1f);
+		p = new Particle(big_explosion);
+		p->layer = 6;
 		break;
 	}
 	if (direction.x != 999 && direction.y != 999) {

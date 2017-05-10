@@ -93,3 +93,15 @@ void Enemy_BonusAirship::Shoot(iPoint origin)
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
 	sdl_clock_start = sdl_clock + 3167;
 }
+
+void Enemy_BonusAirship::OnCollision(Collider* collider)
+{
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+		else
+			state = HURT;
+	}
+}

@@ -60,6 +60,7 @@ Enemy_BonusAirship::~Enemy_BonusAirship()
 {
 	App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 	fly.CleanUp();
+	acceleration.CleanUp();
 }
 
 void Enemy_BonusAirship::Move()

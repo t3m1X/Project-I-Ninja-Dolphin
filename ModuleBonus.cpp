@@ -19,11 +19,11 @@ ModuleBonus::~ModuleBonus()
 
 bool ModuleBonus::Start()
 {
-	red_bonus.SetUp(0, 0, 30, 26, 8, 8, "0,1,3,4,5,6,7");
-	red_bonus.speed = 0.05f;
+	red_bonus.SetUp(0, 0, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,4,5,6,7");
+	red_bonus.speed = 0.2f;
 
-	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,1,2,3,4,5,6,7");
-	blue_bonus.speed = 0.05f;
+	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
+	blue_bonus.speed = 0.2f;
 	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
 
 	return true;

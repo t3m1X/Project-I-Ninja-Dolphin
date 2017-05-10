@@ -53,7 +53,7 @@ bool ModuleParticles::Start()
 
 	big_explosion.anim.SetUp(0, 216, 135, 126, 4, 8, "0,1,2,3,4,5,6,7");
 	big_explosion.anim.loop = false;
-	big_explosion.anim.speed = 0.15f;
+	big_explosion.anim.speed = 0.2f;
 	big_explosion.life = 700;
 	big_explosion.speed = { 0,0 };
 	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");

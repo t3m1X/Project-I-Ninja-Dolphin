@@ -12,6 +12,7 @@ private:
 	bool going_up = true;
 	int original_y = 0;
 	Animation fly;
+	Animation acceleration;
 	Path path;
 	iPoint original_position;
 	iPoint direction2;

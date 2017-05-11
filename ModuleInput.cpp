@@ -167,6 +167,8 @@ KEY_STATE ModuleInput::GetControllerButton(int player, SDL_GameControllerButton 
 	}
 	if (controllers[player - 1] != nullptr) 
 		return controllers[player - 1]->buttons[button];
+
+	return KEY_IDLE;
 }
 
 float ModuleInput::GetControllerAxis(int player, SDL_GameControllerAxis axis) {
@@ -176,6 +178,8 @@ float ModuleInput::GetControllerAxis(int player, SDL_GameControllerAxis axis) {
 	}
 	if (controllers[player - 1] != nullptr)
 		return controllers[player - 1]->axes[axis];
+
+	return 0;
 }
 
 bool ModuleInput::HasController(int player) 	{

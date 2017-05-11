@@ -1,7 +1,7 @@
 #ifndef __ModuleCollision_H__
 #define __ModuleCollision_H__
 
-#define MAX_COLLIDERS 150
+#define MAX_COLLIDERS 300
 
 #include "Module.h"
 #include "SDL\include\SDL.h"
@@ -39,6 +39,12 @@ struct Collider
 		rect.y = y;
 	}
 
+	void SetSize(int w, int h)
+	{
+		rect.w = w;
+		rect.h = h;
+	}
+
 	bool CheckCollision(const SDL_Rect& r) const;
 };
 
@@ -57,6 +63,7 @@ public:
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void SetPosition(Collider * collider, int position_x, int position_y);
+	void SetSize(Collider * collider, int width, int height);
 	void DebugDraw();
 
 private:

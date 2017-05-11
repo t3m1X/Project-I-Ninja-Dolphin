@@ -57,6 +57,14 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_ENEMY_AIR] = false;
 	matrix[COLLIDER_ENEMY_SHOT][COLLIDER_BONUS] = false;
 
+	matrix[COLLIDER_BONUS][COLLIDER_WALL] = false;
+	matrix[COLLIDER_BONUS][COLLIDER_PLAYER] = true;
+	matrix[COLLIDER_BONUS][COLLIDER_ENEMY_GROUND] = false;
+	matrix[COLLIDER_BONUS][COLLIDER_PLAYER_SHOT] = false;
+	matrix[COLLIDER_BONUS][COLLIDER_ENEMY_SHOT] = false;
+	matrix[COLLIDER_BONUS][COLLIDER_ENEMY_AIR] = false;
+	matrix[COLLIDER_BONUS][COLLIDER_BONUS] = false;
+
 	debug = false;
 }
 
@@ -226,6 +234,19 @@ void ModuleCollision::SetPosition(Collider* collider, int position_x, int positi
 	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
 		if (colliders[i] == collider) {
 			colliders[i]->SetPos(position_x, position_y);
+			break;
+		}
+	}
+}
+
+void ModuleCollision::SetSize(Collider * collider, int width, int height)
+{
+	if (collider == nullptr)
+		return;
+
+	for (uint i = 0; i < MAX_COLLIDERS; ++i) {
+		if (colliders[i] == collider) {
+			colliders[i]->SetSize(width, height);
 			break;
 		}
 	}

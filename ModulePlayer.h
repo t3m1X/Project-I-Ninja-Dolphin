@@ -15,10 +15,11 @@
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
 #define SHADOW_HEIGHT 25
-#define LASER_COOLDOWN 200
+#define LASER_COOLDOWN 150
 
 struct SDL_Texture;
 struct Collider;
+enum BONUS_TYPE;
 
 enum player_state {
 	IDLE = 0,
@@ -41,21 +42,16 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 	iPoint GetPos();
 	void AddScore(uint score_add);
+	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:
 	
 	SDL_Texture* player;
 	SDL_Rect player_sprite;
-	SDL_Rect player_sprite_left;
-	SDL_Rect player_sprite_right;
 	SDL_Rect player_sprite_godmode;
-	SDL_Rect player_sprite_godmode_left;
-	SDL_Rect player_sprite_godmode_right;
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
-
-
 
 	player_state state;
 	Mix_Chunk* laser_sfx;
@@ -71,6 +67,9 @@ private:
 	Animation player_right;
 	Animation player_left_godmode;
 	Animation player_right_godmode;
+
+	BONUS_TYPE current_bonus;
+	int amount_bonus;
 	
 	Collider* player_collider;
 	uint score = 0;

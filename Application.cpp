@@ -50,6 +50,7 @@ bool Application::Init()
 	stage2->Disable();
 	stage1->Disable();
 	player->Disable();
+	bonus->Disable();
 	//-
 
 	for(int i = 0; i < NUM_MODULES && ret == true; ++i)

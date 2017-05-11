@@ -43,13 +43,25 @@ bool ModuleParticles::Start()
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
 	enemyshot.life = 1500;
-	enemyshot.speed = { 0, -7};
+	enemyshot.speed = { 0, -5};
 
 	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
 	crater.anim.loop = true;
 	crater.anim.speed = 0.2f;
 	crater.life = 8000;
 	crater.speed = { 0,0 };
+
+	big_explosion.anim.SetUp(0, 216, 135, 126, 4, 8, "0,1,2,3,4,5,6,7");
+	big_explosion.anim.loop = false;
+	big_explosion.anim.speed = 0.2f;
+	big_explosion.life = 700;
+	big_explosion.speed = { 0,0 };
+	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+
+	laserattack.anim.SetUp(81, 0, 2, 16, 1, 1, "0");
+	laserattack.anim.loop = true;
+	laserattack.speed = { 0, -14 };
+	laserattack.life = 1500;
 
 
 	return true;
@@ -61,9 +73,11 @@ bool ModuleParticles::CleanUp()
 	LOG("Unloading particles");
 	App->textures->Unload(graphics);
 	autoattack.anim.CleanUp();
+	laserattack.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
+	big_explosion.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -126,6 +140,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 6;
 		break;
 
+	case LASERSHOT:
+		p = new Particle(laserattack);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->layer = 6;
+		break;
+
 	case EXPLOSION:
 		App->input->ShakeController(1, 500, 0.1f);
 		App->input->ShakeController(2, 500, 0.1f);
@@ -142,6 +162,13 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	case CRATER:
 		p = new Particle(crater);
 		p->layer = 2;
+		break;
+
+	case BIG_EXPLOSION:
+		App->input->ShakeController(1, 500, 0.3f);
+		App->input->ShakeController(2, 500, 0.3f);
+		p = new Particle(big_explosion);
+		p->layer = 6;
 		break;
 	}
 	if (direction.x != 999 && direction.y != 999) {

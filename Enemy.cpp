@@ -4,6 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
+#include "ModuleEnemies.h"
 
 Enemy::Enemy(int x, int y) : position(x, y)
 {
@@ -16,7 +17,7 @@ Enemy::Enemy(int x, int y) : position(x, y)
 Enemy::~Enemy()
 {
 	if (collider != nullptr)
-		collider->to_delete = true;
+		App->collision->EraseCollider(collider);
 
 	animation_hurt.CleanUp();
 	animation_shooting.CleanUp();
@@ -54,6 +55,7 @@ void Enemy::Draw(SDL_Texture* sprites)
 		}
 		break;
 	}
+
 	if (type == AIRBORNE) {
 		iPoint shadow_position = position + iPoint(animation->CurrentFrame().w / 2 + SHADOW_DISTANCE_X, animation->CurrentFrame().h / 2 + SHADOW_DISTANCE_Y);
 		App->render->Blit(5, sprites, shadow_position.x, shadow_position.y, direction, &(shadow.GetCurrentFrame()));
@@ -81,3 +83,4 @@ void Enemy::Shoot(iPoint origin)
 	iPoint player_position = App->player->GetPos();
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
 }
+

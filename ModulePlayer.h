@@ -15,7 +15,8 @@
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
 #define SHADOW_HEIGHT 25
-#define LASER_COOLDOWN 150
+#define SHOT_COOLDOWN 400
+#define LASER_COOLDOWN 20
 
 struct SDL_Texture;
 struct Collider;

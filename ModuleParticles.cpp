@@ -58,10 +58,15 @@ bool ModuleParticles::Start()
 	big_explosion.speed = { 0,0 };
 	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 
-	laserattack.anim.SetUp(81, 0, 2, 16, 1, 1, "0");
+	laserattack.anim.SetUp(91, 126, 3, 30, 3, 3, "0,1,2");
 	laserattack.anim.loop = true;
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
+
+	laserattbig.anim.SetUp(100, 124, 10, 31, 3, 3, "0,1,2");
+	laserattbig.anim.loop = true;
+	laserattbig.speed = { 0, -14 };
+	laserattbig.life = 1500;
 
 
 	return true;
@@ -74,6 +79,7 @@ bool ModuleParticles::CleanUp()
 	App->textures->Unload(graphics);
 	autoattack.anim.CleanUp();
 	laserattack.anim.CleanUp();
+	laserattbig.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
@@ -142,6 +148,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 
 	case LASERSHOT:
 		p = new Particle(laserattack);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->layer = 6;
+		break;
+
+	case LASERBIGSHOT:
+		p = new Particle(laserattbig);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		p->layer = 6;
 		break;
@@ -237,22 +249,22 @@ Particle::Particle(const Particle& p) :
 bool Particle::Update()
 {
 	bool ret = true;
-
-	if (life > 0)
-	{
-		if ((SDL_GetTicks() - born) > life)
-			ret = false;
-	}
-	else
-		if (anim.Finished()) {
-			ret = false;
-			to_delete = true;
+	if (born <= SDL_GetTicks()) {
+		if (life > 0) {
+			if ((SDL_GetTicks() - born) > life)
+				ret = false;
 		}
+		else
+			if (anim.Finished()) {
+				ret = false;
+				to_delete = true;
+			}
 
-	position.x += speed.x;
-	position.y += speed.y;
+		position.x += speed.x;
+		position.y += speed.y;
 
-	App->collision->SetPosition(collider, position.x, position.y);
+		App->collision->SetPosition(collider, position.x, position.y);
+	}
 
 	return ret;
 }

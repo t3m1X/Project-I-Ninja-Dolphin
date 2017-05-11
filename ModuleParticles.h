@@ -15,6 +15,7 @@ struct SDL_Texture;
 enum particle_type {
 	AUTOSHOT = 0,
 	LASERSHOT,
+	LASERBIGSHOT,
 	EXPLOSION,
 	ENEMYSHOT,
 	CRATER,
@@ -64,6 +65,7 @@ public:
 
 	Particle autoattack;
 	Particle laserattack;
+	Particle laserattbig;
 	Particle explosion;
 	Particle enemyshot;
 	Particle crater;

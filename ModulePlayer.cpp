@@ -344,10 +344,11 @@ update_status ModulePlayer::Update() {
 		break;
 	}
 	
-	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
+	if (((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
+		((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > sdl_shot)) {
+		sdl_shot = sdl_clock + SHOT_COOLDOWN;
 		switch (current_bonus) {
 		case RED_BONUS:
-			sdl_shot = sdl_clock + LASER_COOLDOWN;
 			switch (amount_bonus) {
 			case 0:
 				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
@@ -391,23 +392,26 @@ update_status ModulePlayer::Update() {
 			break;
 		case BLUE_BONUS:
 			switch (amount_bonus) {
+		
 			case 0:
-				sdl_shot = sdl_clock + LASER_COOLDOWN / 2;
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
+				for (int i = 0; i < 3; ++ i)
+				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
 				break;
+
 			case 1:
-				sdl_shot = sdl_clock + LASER_COOLDOWN / 2;
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 1, App->render->camera.y + player_y);
+				for (int i = 0; i < 9; ++i)
+					App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
 				break;
 
 			case 2:
-				sdl_shot = sdl_clock + LASER_COOLDOWN / 3;
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y);
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 1, App->render->camera.y + player_y);
+				for (int i = 0; i < 9; ++i)
+					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
+
+				for (int i = 0; i < 9; ++i)
+					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
+
 				break;
 			case 3:
-				sdl_shot = sdl_clock + LASER_COOLDOWN / 3;
 				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 2, App->render->camera.y + player_y);
 				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2, App->render->camera.y + player_y);
 				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 2, App->render->camera.y + player_y);

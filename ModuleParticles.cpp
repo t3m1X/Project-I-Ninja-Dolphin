@@ -165,7 +165,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		break;
 
 	case BIG_EXPLOSION:
-		App->input->ShakeController(1, 500, 0.f);
+		App->input->ShakeController(1, 500, 0.3f);
 		App->input->ShakeController(2, 500, 0.3f);
 		p = new Particle(big_explosion);
 		p->layer = 6;

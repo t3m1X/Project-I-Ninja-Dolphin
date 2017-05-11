@@ -35,6 +35,7 @@ bool ModuleStage1::Start() {
 	
 	
 	App->audio->PlayMusic(music);
+	App->audio->MusicVolume(50);
 
 	App->player->Enable();
 	SDL_Rect background_rect;

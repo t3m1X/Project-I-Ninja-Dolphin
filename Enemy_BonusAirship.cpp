@@ -106,6 +106,7 @@ void Enemy_BonusAirship::OnCollision(Collider* collider)
 		if (--hitpoints == 0) {
 			App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->audio->PlaySFX(App->particles->big_explosion.fx);
 			App->player->AddScore(50);
 		}
 		else

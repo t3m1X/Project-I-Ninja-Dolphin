@@ -68,6 +68,7 @@ void Enemy::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			//App->audio->PlaySFX(App->particles->explosion.fx);
 			App->player->AddScore(50);
 		}
 		else

@@ -61,7 +61,8 @@ bool ModulePlayer::Start() {
 
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
-	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
+	autoattack_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
+	laser_sfx = App->audio->LoadSFX("sfx/shot_laser.wav");//App->particles->laserattack.fx;//App->audio->LoadSFX("sfx/shot_regular.wav");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
 
 	sdl_shot = 0;
@@ -110,6 +111,8 @@ bool ModulePlayer::Start() {
 
 	current_bonus = RED_BONUS;
 	amount_bonus = 0;
+
+	current_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 
 	return ret;
 }
@@ -345,6 +348,7 @@ update_status ModulePlayer::Update() {
 	}
 	
 	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
+		App->audio->PlaySFX(current_sfx);
 		switch (current_bonus) {
 		case RED_BONUS:
 			sdl_shot = sdl_clock + LASER_COOLDOWN;
@@ -387,9 +391,11 @@ update_status ModulePlayer::Update() {
 	
 
 			}
-			App->audio->PlaySFX(laser_sfx);
+			//App->audio->PlaySFX(autoattack_sfx);
 			break;
 		case BLUE_BONUS:
+			current_sfx = App->audio->LoadSFX("sfx/shot_laser.wav");
+			App->audio->PlaySFX(current_sfx);
 			switch (amount_bonus) {
 			case 0:
 				sdl_shot = sdl_clock + LASER_COOLDOWN / 2;
@@ -415,7 +421,7 @@ update_status ModulePlayer::Update() {
 
 			}
 			
-			App->audio->PlaySFX(laser_sfx);
+			//App->audio->PlaySFX(laser_sfx);
 			break;
 		}
 	}
@@ -460,6 +466,10 @@ bool ModulePlayer::CleanUp() {
 	player_left_godmode.CleanUp();
 	player_right_godmode.CleanUp();
 	App->textures->Unload(player);
+	if (autoattack_sfx != nullptr) {
+		App->audio->FreeSFX(autoattack_sfx);
+		autoattack_sfx = nullptr;
+	}
 	if (laser_sfx != nullptr) {
 		App->audio->FreeSFX(laser_sfx);
 		laser_sfx = nullptr;

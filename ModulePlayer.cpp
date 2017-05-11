@@ -109,6 +109,7 @@ bool ModulePlayer::Start() {
 	}
 
 	current_bonus = RED_BONUS;
+	amount_bonus = 0;
 
 	return ret;
 }

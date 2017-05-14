@@ -30,6 +30,7 @@ bool ModuleParticles::Start()
 	autoattack.anim.speed = 0.3f;
 	autoattack.life = 1500;
 	autoattack.speed = { 0, -14};
+	autoattack.fx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	
 	
 	explosion.anim.SetUp(0, 14, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
@@ -63,6 +64,7 @@ bool ModuleParticles::Start()
 	laserattack.anim.loop = true;
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
+	laserattack.fx = App->audio->LoadSFX("sfx/shot_laser.wav");
 
 
 	return true;

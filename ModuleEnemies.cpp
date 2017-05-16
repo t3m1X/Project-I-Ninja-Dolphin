@@ -11,6 +11,7 @@
 #include "Enemy_Bomb.h"
 #include "Enemy_Kamikaze.h"
 #include "Enemy_Box.h"
+#include "Enemy_Turret.h"
 
 #define SPAWN_MARGIN 200
 
@@ -150,6 +151,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			break;
 		case ENEMY_TYPES::BOX:
 			enemies[i] = new Enemy_Box(info.x, info.y);
+			break;
+		case ENEMY_TYPES::TURRET:
+			enemies[i] = new Enemy_Turret(info.x, info.y);
 			break;
 
 		}

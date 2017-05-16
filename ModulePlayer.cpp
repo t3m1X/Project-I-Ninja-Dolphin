@@ -34,6 +34,7 @@ bool ModulePlayer::Start() {
 
 	players[1].player_x = players[0].player_x + 20;
 	players[1].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
+	players[1].state = OFF;
 
 	players[0].state = IDLE;
 	players[0].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
@@ -41,6 +42,24 @@ bool ModulePlayer::Start() {
 		players[1].state = IDLE;
 		players[1].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
 	}
+
+	//Setting keyboard inputs
+	//Player 1
+	players[0].inputs[PI_BACK] = SDL_SCANCODE_DOWN;
+	players[0].inputs[PI_FORWARD] = SDL_SCANCODE_UP;
+	players[0].inputs[PI_LEFT] = SDL_SCANCODE_LEFT;
+	players[0].inputs[PI_RIGHT] = SDL_SCANCODE_RIGHT;
+	players[0].inputs[PI_SHOOT] = SDL_SCANCODE_RCTRL;
+	players[0].inputs[PI_BOMB] = SDL_SCANCODE_RSHIFT;
+	players[0].inputs[PI_GODMODE] = SDL_SCANCODE_F2;
+	//Player 2
+	players[1].inputs[PI_BACK] = SDL_SCANCODE_S;
+	players[1].inputs[PI_FORWARD] = SDL_SCANCODE_W;
+	players[1].inputs[PI_LEFT] = SDL_SCANCODE_A;
+	players[1].inputs[PI_RIGHT] = SDL_SCANCODE_D;
+	players[1].inputs[PI_SHOOT] = SDL_SCANCODE_SPACE;
+	players[1].inputs[PI_BOMB] = SDL_SCANCODE_B;
+	players[1].inputs[PI_GODMODE] = SDL_SCANCODE_F8;
 
 	for (int i = 0; i < 2; ++i) {
 		players[i].animations[AN_IDLE].SetUp(0 + 391*i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 1, 1, "0");
@@ -118,16 +137,18 @@ update_status ModulePlayer::Update() {
 	for (int i = 0; i < 2; ++i) {
 		switch (players[i].state) {
 		case OFF:
-			if (App->input->HasController(i + 1))
+			if (App->input->HasController(i + 1)) {
 				if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
 				}
-			else 
+			}
+			else {
 				if (App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN) {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
 				}
+			}
 			break;
 		case IDLE:
 			if (players[i].godmode)

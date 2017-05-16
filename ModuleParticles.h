@@ -16,6 +16,7 @@ enum particle_type {
 	AUTOSHOT = 0,
 	LASERSHOT,
 	LASERBIGSHOT,
+	BIGASSLASER,
 	EXPLOSION,
 	ENEMYSHOT,
 	CRATER,
@@ -66,6 +67,7 @@ public:
 	Particle autoattack;
 	Particle laserattack;
 	Particle laserattbig;
+	Particle bigasslaser;
 	Particle explosion;
 	Particle enemyshot;
 	Particle crater;

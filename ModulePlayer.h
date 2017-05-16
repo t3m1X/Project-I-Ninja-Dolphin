@@ -17,6 +17,7 @@
 #define SHADOW_HEIGHT 25
 #define SHOT_COOLDOWN 400
 #define LASER_COOLDOWN 20
+#define BIG_LASER_COOLDOWN 30
 
 struct SDL_Texture;
 struct Collider;

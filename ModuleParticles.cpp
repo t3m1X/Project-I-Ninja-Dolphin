@@ -68,6 +68,11 @@ bool ModuleParticles::Start()
 	laserattbig.speed = { 0, -14 };
 	laserattbig.life = 1500;
 
+	bigasslaser.anim.SetUp(130, 89, 37, 33, 1, 1, "0");
+	bigasslaser.anim.loop = true;
+	bigasslaser.speed = { 0, -14 };
+	bigasslaser.life = 1500;
+
 
 	return true;
 }
@@ -80,6 +85,7 @@ bool ModuleParticles::CleanUp()
 	autoattack.anim.CleanUp();
 	laserattack.anim.CleanUp();
 	laserattbig.anim.CleanUp();
+	bigasslaser.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
@@ -154,6 +160,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 
 	case LASERBIGSHOT:
 		p = new Particle(laserattbig);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		p->layer = 5;
+		break;
+
+	case BIGASSLASER:
+		p = new Particle(bigasslaser);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		p->layer = 5;
 		break;

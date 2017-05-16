@@ -32,8 +32,8 @@ const Collider* Enemy::GetCollider() const
 void Enemy::Draw(SDL_Texture* sprites)
 {
 
-	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.x);
-
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
+	
 	switch (state) {
 	case REGULAR:
 		if (animation != nullptr)

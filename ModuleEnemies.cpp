@@ -10,6 +10,7 @@
 #include "Enemy_BonusAirship.h"
 #include "Enemy_Bomb.h"
 #include "Enemy_Kamikaze.h"
+#include "Enemy_Box.h"
 
 #define SPAWN_MARGIN 200
 
@@ -146,6 +147,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			break;
 		case ENEMY_TYPES::KAMIKAZE:
 			enemies[i] = new Enemy_Kamikaze(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOX:
+			enemies[i] = new Enemy_Box(info.x, info.y);
 			break;
 
 		}

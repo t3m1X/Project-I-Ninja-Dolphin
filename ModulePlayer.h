@@ -23,15 +23,6 @@ struct SDL_Texture;
 struct Collider;
 enum BONUS_TYPE;
 
-enum player_state {
-	IDLE = 0,
-	LEFT,
-	RIGHT,
-	FORWARD,
-	STOP
-
-};
-
 class ModulePlayer : public Module {
 public:
 
@@ -47,42 +38,71 @@ public:
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:
+	enum player_state {
+		OFF = 0,
+		IDLE,
+		LEFT,
+		RIGHT,
+		FORWARD,
+		STOP
+	};
+
+	enum player_animation {
+		AN_IDLE = 0,
+		AN_IDLE_GOD,
+		AN_LEFT,
+		AN_LEFT_GOD,
+		AN_RIGHT,
+		AN_RIGHT_GOD,
+		AN_FIRE,
+		AN_FIRE_LEFT,
+		AN_FIRE_RIGHT,
+		AN_MAX
+	};
+
+	enum player_input {
+		PI_FORWARD = 0,
+		PI_BACK,
+		PI_LEFT,
+		PI_RIGHT,
+		PI_SHOOT,
+		PI_BOMB,
+		PI_GODMODE,
+		PI_MAX
+	};
 	
+	struct player_struct{
+		int player_x, player_y;
+		player_state state;
+		Collider* player_collider = nullptr;
+
+		Animation animations[AN_MAX];
+		SDL_Scancode inputs[PI_MAX];
+
+		uint score = 0;
+		bool godmode = false;
+
+		BONUS_TYPE current_bonus;
+		int amount_bonus = 0;
+
+		uint sdl_shot = 0;
+
+	};
 	SDL_Texture* player;
-	SDL_Rect player_sprite;
-	SDL_Rect player_sprite_godmode;
+
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
 
-	player_state state;
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
-	uint timing = 0;
-	uint sdl_shot;
 
-	Animation player_fire_forward;
-	Animation player_fire_left;
-	Animation player_fire_right;
-
-	Animation player_left;
-	Animation player_right;
-	Animation player_left_godmode;
-	Animation player_right_godmode;
-
-	BONUS_TYPE current_bonus;
-	int amount_bonus;
-	
-	Collider* player_collider;
-	uint score = 0;
 	uint highscore = 0;
 	char* score_text;
 	char* highscore_text;
 	TTF_Font* font;
 
-	int player_x, player_y;
-
-	bool godmode = false;
+	player_struct players[2];
 };
 
 #endif

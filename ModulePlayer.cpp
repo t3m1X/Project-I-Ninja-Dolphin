@@ -29,20 +29,53 @@ bool ModulePlayer::Start() {
 	for (int i = 0; i <= 19; i++, ++tmp2)
 		highscore_text[i] = *tmp2;
 
-	score = 0;
+	players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
+	players[0].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
 
-	player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
-	player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
+	players[1].player_x = players[0].player_x + 20;
+	players[1].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
 
-	player_sprite.h = SPRITE_HEIGHT;
-	player_sprite.w = SPRITE_WIDTH;
-	player_sprite.x = 0;
-	player_sprite.y = 0;
+	players[0].state = IDLE;
+	players[0].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+	if (players[1].state != OFF) {
+		players[1].state = IDLE;
+		players[1].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+	}
 
-	player_sprite_godmode.h = SPRITE_HEIGHT + 1;
-	player_sprite_godmode.w = SPRITE_WIDTH + 2;
-	player_sprite_godmode.x = 0;
-	player_sprite_godmode.y = 416;
+	for (int i = 0; i < 2; ++i) {
+		players[i].animations[AN_IDLE].SetUp(0 + 391*i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 1, 1, "0");
+		players[i].animations[AN_IDLE_GOD].SetUp(0 + 391 * i, 416, SPRITE_WIDTH + 2, SPRITE_HEIGHT + 1, 1, 1, "0");
+
+		players[i].animations[AN_LEFT].SetUp(57 + 391 * i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+		players[i].animations[AN_LEFT].speed = 0.05f;
+		players[i].animations[AN_LEFT].loop = false;
+
+		players[i].animations[AN_LEFT_GOD].SetUp(61 + 391*i, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
+		players[i].animations[AN_LEFT_GOD].speed = 0.05f;
+		players[i].animations[AN_LEFT_GOD].loop = false;
+
+		players[i].animations[AN_RIGHT].SetUp(171 + 391 * i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
+		players[i].animations[AN_RIGHT].speed = 0.05f;
+		players[i].animations[AN_RIGHT].loop = false;
+
+		players[i].animations[AN_RIGHT_GOD].SetUp(177 + 391 * i, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
+		players[i].animations[AN_RIGHT_GOD].speed = 0.05f;
+		players[i].animations[AN_RIGHT_GOD].loop = false;
+
+		players[i].animations[AN_FIRE].SetUp(0 + 391*i, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
+		players[i].animations[AN_FIRE].speed = 0.2f;
+
+		players[i].animations[AN_FIRE_LEFT].SetUp(0 + 391*i, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+		players[i].animations[AN_FIRE_LEFT].LoopStart(4);
+		players[i].animations[AN_FIRE_LEFT].speed = 0.2f;
+
+		players[i].animations[AN_FIRE_RIGHT].SetUp(0 + 391*i, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+		players[i].animations[AN_FIRE_RIGHT].LoopStart(4);
+		players[i].animations[AN_FIRE_RIGHT].speed = 0.2f;
+
+		players[i].sdl_shot = 0;
+		players[i].current_bonus = RED_BONUS;
+	}
 
 	shadow_idle.h = SHADOW_HEIGHT;
 	shadow_idle.w = SHADOW_WIDTH;
@@ -63,40 +96,7 @@ bool ModulePlayer::Start() {
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
-
-	sdl_shot = 0;
-
-	state = IDLE;
-
 	
-	player_collider = App->collision->AddCollider({0, 0, 60, 50}, COLLIDER_PLAYER, this);
-
-	player_fire_forward.SetUp(0, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
-	player_fire_forward.speed = 0.2f;
-
-	player_fire_left.SetUp(0, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
-	player_fire_left.LoopStart(4);
-	player_fire_left.speed = 0.2f;
-
-	player_fire_right.SetUp(0, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
-	player_fire_right.LoopStart(4);
-	player_fire_right.speed = 0.2f;
-
-	player_left.SetUp( 57, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
-	player_left.speed = 0.05f;
-	player_left.loop = false;
-
-	player_right.SetUp(171, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
-	player_right.speed = 0.05f;
-	player_right.loop = false;
-
-	player_left_godmode.SetUp(61, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
-	player_left_godmode.speed = 0.05f;
-	player_left_godmode.loop = false;
-
-	player_right_godmode.SetUp(177, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
-	player_right_godmode.speed = 0.05f;
-	player_right_godmode.loop = false;
 
 	if (highscore != 0) {
 		uint tmp = highscore;
@@ -108,9 +108,6 @@ bool ModulePlayer::Start() {
 		}
 	}
 
-	current_bonus = BLUE_BONUS;
-	amount_bonus = 3;
-
 	return ret;
 }
 
@@ -118,326 +115,339 @@ update_status ModulePlayer::Update() {
 
 	sdl_clock = SDL_GetTicks();
 
-	switch (state) {
-	case IDLE:
-		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x - 1, App->render->camera.y + player_y - 1, { 0, 1 }, &player_sprite_godmode);
-
-		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0, 1 }, &player_sprite);
-
-		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
-		
-		if (App->input->HasController(1)) {
-			if (App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
-				state = LEFT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
-				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
-				state = FORWARD;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
-				state = STOP;
-		}
-		else {
-			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-				state = LEFT;
-			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-				state = RIGHT;
-			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT))
-				state = FORWARD;
-			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT))
-				state = STOP;
-		}
-			
-
-		break;
-
-	case LEFT:
-		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x - 1, App->render->camera.y + player_y - 1, { 0,1 }, &player_left_godmode.GetCurrentFrame());
-	
-		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_left.GetCurrentFrame());
-			
-		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
-		
-		if (App->input->HasController(1)) {
-			if (player_x > -SPRITE_WIDTH / 2)
-				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1,SDL_CONTROLLER_AXIS_LEFTX);
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) >= -0.3) {
-				state = IDLE;
-
-				player_left_godmode.Reset();
-				player_left.Reset();
-
-			}
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
-				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-			else {
-				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
-					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-			}
-
-			if (player_y <= SPRITE_HEIGHT)
-				player_y = SPRITE_HEIGHT;
-			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-				player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
-		}
-
-		else {
-			if (player_x > -SPRITE_WIDTH / 2)
-				player_x -= PLAYER_SPEED;
-
-			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT) {
-				state = IDLE;
-
-				player_left_godmode.Reset();
-				player_left.Reset();
-
-			}
-
-			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-				&& player_y > SPRITE_HEIGHT)
-				player_y -= PLAYER_SPEED;
-			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) 
-				player_y += PLAYER_SPEED;
-			else
-				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-
-				
-		}
-
-		break;
-
-	case RIGHT:
-
-		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x - 1, App->render->camera.y + player_y - 1, { 0,1 }, &player_right_godmode.GetCurrentFrame());
-
-		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_right.GetCurrentFrame());
-
-		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
-
-		if (App->input->HasController(1)) {
-			if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
-				player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) <= 0.3) {
-				state = IDLE;
-
-				player_left_godmode.Reset();
-				player_left.Reset();
-
-			}
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
-				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-			else {
-				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-				if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
-					player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-			}
-
-			if (player_y <= SPRITE_HEIGHT)
-				player_y = SPRITE_HEIGHT;
-			if (player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-				player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
-		}
-
-		else {
-			if (player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
-				player_x += PLAYER_SPEED;
-
-			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_UP || App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT) {
-				state = IDLE;
-
-				player_right_godmode.Reset();
-				player_right.Reset();
-
-			}
-			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-				&& player_y > SPRITE_HEIGHT)
-				player_y -= PLAYER_SPEED;
-			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				&& player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2) 
-				player_y += PLAYER_SPEED;
-			else
-				App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_left.GetCurrentFrame());
-
-		}
-		break;
-
-	case FORWARD:
-
-		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x - 1, App->render->camera.y + player_y - 1, { 0,1 }, &player_sprite_godmode);
-		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
-		
-		App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_fire_forward.GetCurrentFrame());
-		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
-
-		if (App->input->HasController(1)) {
-			if (player_y > SPRITE_HEIGHT)
-				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) >= -0.3)
-				state = IDLE;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
-				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
-				state = LEFT;
-		}
-
-		else {
-			if (player_y > SPRITE_HEIGHT)
-				player_y -= PLAYER_SPEED;
-
-			if (App->input->keyboard[SDL_SCANCODE_UP] == KEY_UP || App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_REPEAT)
-				state = IDLE;
-			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-				state = LEFT;
-			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-				state = RIGHT;
-		}
-
-		break;
-
-	case STOP:
-
-		if (godmode)
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite_godmode);
-		else
-			App->render->Blit(6, player, App->render->camera.x + player_x, App->render->camera.y + player_y, { 0,1 }, &player_sprite);
-
-		App->render->Blit(5, player, App->render->camera.x + player_x + SPRITE_WIDTH/2 + SHADOW_DISTANCE_X, App->render->camera.y + player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
-
-		if (App->input->HasController(1)) {
-			if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-				player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY);
-
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTY) <= 0.3)
-				state = IDLE;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
-				state = RIGHT;
-			if (App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
-				state = LEFT;
-		}
-
-		else {
-			if (player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
-				player_y += PLAYER_SPEED;
-
-			if (App->input->keyboard[SDL_SCANCODE_DOWN] == KEY_UP || App->input->keyboard[SDL_SCANCODE_UP] == KEY_REPEAT)
-				state = IDLE;
-			if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT))
-				state = LEFT;
-			if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && !(App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT))
-				state = RIGHT;
-		}
-		break;
-	}
-	
-	if (((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
-		((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > sdl_shot)) {
-		sdl_shot = sdl_clock + SHOT_COOLDOWN;
-		switch (current_bonus) {
-		case RED_BONUS:
-			switch (amount_bonus) {
-			case 0:
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
-				break;
-			case 1:
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 7, App->render->camera.y + player_y + 16);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 16, App->render->camera.y + player_y + 16);
-
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 34, App->render->camera.y + player_y + 16);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 43, App->render->camera.y + player_y + 16);
-				break;
-			case 2:
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x, App->render->camera.y + player_y + 20, { -1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 15, App->render->camera.y + player_y + 16, { -1,-4 });
-				
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y + 16);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y + 16);
-
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 15, App->render->camera.y + player_y + 16, { 1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH, App->render->camera.y + player_y + 20, { 1,-4 });
-				break;
-
-			case 3:
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x, App->render->camera.y + player_y + 20, { -1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 10, App->render->camera.y + player_y + 18, { -1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 20, App->render->camera.y + player_y + 16, { -1,-4 });
-
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 16, App->render->camera.y + player_y);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 27, App->render->camera.y + player_y);
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + 38, App->render->camera.y + player_y);
-
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 20, App->render->camera.y + player_y + 16, { 1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH - 10, App->render->camera.y + player_y + 18, { 1,-4 });
-				App->particles->AddParticle(AUTOSHOT, App->render->camera.x + player_x + SPRITE_WIDTH, App->render->camera.y + player_y + 20, { 1,-4 });
-				break;
-	
-
-			}
-			App->audio->PlaySFX(laser_sfx);
+	for (int i = 0; i < 2; ++i) {
+		switch (players[i].state) {
+		case OFF:
+			if (App->input->HasController(i + 1))
+				if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) {
+					players[i].state = IDLE;
+					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+				}
+			else 
+				if (App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN) {
+					players[i].state = IDLE;
+					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+				}
 			break;
-		case BLUE_BONUS:
-			switch (amount_bonus) {
-		
-			case 0:
-				for (int i = 0; i < 3; ++ i)
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
-				break;
+		case IDLE:
+			if (players[i].godmode)
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 
-			case 1:
-				for (int i = 0; i < 9; ++i)
-					App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
-				break;
+			else
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
 
-			case 2:
-				for (int i = 0; i < 9; ++i)
-					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 12, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+			App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
 
-				for (int i = 0; i < 9; ++i)
-					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 33, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
-
-				break;
-			case 3:
-				App->particles->AddParticle(BIGASSLASER, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + player_y, { 0,-1 });
-				sdl_shot = sdl_clock + BIG_LASER_COOLDOWN;
-				break;
+			if (App->input->HasController(i + 1)) {
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+					players[i].state = LEFT;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+					players[i].state = RIGHT;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+					players[i].state = FORWARD;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+					players[i].state = STOP;
 			}
-			
-			App->audio->PlaySFX(laser_sfx);
+			else {
+				if (App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT))
+					players[i].state = LEFT;
+				if (App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT))
+					players[i].state = RIGHT;
+				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT))
+					players[i].state = FORWARD;
+				if (App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT))
+					players[i].state = STOP;
+			}
+
+
+			break;
+
+		case LEFT:
+			if (players[i].godmode)
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT_GOD].GetCurrentFrame());
+
+			else
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT].GetCurrentFrame());
+
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
+
+			if (App->input->HasController(i + 1)) {
+				if (players[i].player_x > -SPRITE_WIDTH / 2)
+					players[i].player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) >= -0.3) {
+					players[i].state = IDLE;
+
+					players[i].animations[AN_LEFT_GOD].Reset();
+					players[i].animations[AN_LEFT].Reset();
+
+				}
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+				else {
+					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
+					if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+				}
+
+				if (players[i].player_y <= SPRITE_HEIGHT)
+					players[i].player_y = SPRITE_HEIGHT;
+				if (players[i].player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
+			}
+
+			else {
+				if (players[i].player_x > -SPRITE_WIDTH / 2)
+					players[i].player_x -= PLAYER_SPEED;
+
+				if (App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT) {
+					players[i].state = IDLE;
+
+					players[i].animations[AN_LEFT_GOD].Reset();
+					players[i].animations[AN_LEFT].Reset();
+
+				}
+
+				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
+					&& players[i].player_y > SPRITE_HEIGHT)
+					players[i].player_y -= PLAYER_SPEED;
+				if (App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT)
+					&& players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y += PLAYER_SPEED;
+				else
+					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
+
+
+			}
+
+			break;
+
+		case RIGHT:
+
+			if (players[i].godmode)
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT_GOD].GetCurrentFrame());
+
+			else
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT].GetCurrentFrame());
+
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
+
+			if (App->input->HasController(i + 1)) {
+				if (players[i].player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+					players[i].player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) <= 0.3) {
+					players[i].state = IDLE;
+
+					players[i].animations[AN_RIGHT_GOD].Reset();
+					players[i].animations[AN_RIGHT].Reset();
+
+				}
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
+					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+				else {
+					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
+					if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
+						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+				}
+
+				if (players[i].player_y <= SPRITE_HEIGHT)
+					players[i].player_y = SPRITE_HEIGHT;
+				if (players[i].player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y = SCREEN_HEIGHT - SPRITE_HEIGHT / 2;
+			}
+
+			else {
+				if (players[i].player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+					players[i].player_x += PLAYER_SPEED;
+
+				if (App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT) {
+					players[i].state = IDLE;
+
+					players[i].animations[AN_RIGHT_GOD].Reset();
+					players[i].animations[AN_RIGHT].Reset();
+
+				}
+				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
+					&& players[i].player_y > SPRITE_HEIGHT)
+					players[i].player_y -= PLAYER_SPEED;
+				if (App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT)
+					&& players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y += PLAYER_SPEED;
+				else
+					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
+			}
+			break;
+
+		case FORWARD:
+
+			if (players[i].godmode)
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+
+			else
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+			App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
+
+			if (App->input->HasController(i + 1)) {
+				if (players[i].player_y > SPRITE_HEIGHT)
+					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) >= -0.3)
+					players[i].state = IDLE;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+					players[i].state = RIGHT;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+					players[i].state = LEFT;
+			}
+
+			else {
+				if (players[i].player_y > SPRITE_HEIGHT)
+					players[i].player_y -= PLAYER_SPEED;
+
+				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
+					players[i].state = IDLE;
+				if (App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT))
+					players[i].state = LEFT;
+				if (App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT))
+					players[i].state = RIGHT;
+			}
+
+			break;
+
+		case STOP:
+
+			if (players[i].godmode)
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+			else
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+
+			if (App->input->HasController(i + 1)) {
+				if (players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y += (PLAYER_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) <= 0.3)
+					players[i].state = IDLE;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) > 0.3)
+					players[i].state = RIGHT;
+				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
+					players[i].state = LEFT;
+			}
+
+			else {
+				if (players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
+					players[i].player_y += PLAYER_SPEED;
+
+				if (App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT)
+					players[i].state = IDLE;
+				if (App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT))
+					players[i].state = LEFT;
+				if (App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT))
+					players[i].state = RIGHT;
+			}
 			break;
 		}
-	}
 
-	if (App->input->keyboard[SDL_SCANCODE_F2] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN)
-	{
-		godmode = !godmode;
-	}
+		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
+			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {
+			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
+			switch (players[i].current_bonus) {
+			case RED_BONUS:
+				switch (players[i].amount_bonus) {
+				case 0:
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16);
+					break;
+				case 1:
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 7, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y + 16);
 
-	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 34, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 43, App->render->camera.y + players[i].player_y + 16);
+					break;
+				case 2:
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 15, App->render->camera.y + players[i].player_y + 16, { -1,-4 });
 
-	if (score != 0) {
-		uint tmp = score;
-		int i = 15 - 1;
-		while (tmp != 0) {
-			score_text[i] = '0' + tmp % 10;
-			tmp /= 10;
-			--i;
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16);
+
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 15, App->render->camera.y + players[i].player_y + 16, { 1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 });
+					break;
+
+				case 3:
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 10, App->render->camera.y + players[i].player_y + 18, { -1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 20, App->render->camera.y + players[i].player_y + 16, { -1,-4 });
+
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 27, App->render->camera.y + players[i].player_y);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 38, App->render->camera.y + players[i].player_y);
+
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 20, App->render->camera.y + players[i].player_y + 16, { 1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 10, App->render->camera.y + players[i].player_y + 18, { 1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 });
+					break;
+
+
+				}
+				App->audio->PlaySFX(laser_sfx);
+				break;
+			case BLUE_BONUS:
+				switch (players[i].amount_bonus) {
+
+				case 0:
+					for (int i = 0; i < 3; ++i)
+						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
+					break;
+
+				case 1:
+					for (int i = 0; i < 9; ++i)
+						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
+					break;
+
+				case 2:
+					for (int i = 0; i < 9; ++i)
+						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, LASER_COOLDOWN * i);
+
+					for (int i = 0; i < 9; ++i)
+						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 33, App->render->camera.y + players[i].player_y, { 0,-1 }, LASER_COOLDOWN * i);
+
+					break;
+				case 3:
+					App->particles->AddParticle(BIGASSLASER, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + players[i].player_y, { 0,-1 });
+					players[i].sdl_shot = sdl_clock + BIG_LASER_COOLDOWN;
+					break;
+				}
+
+				App->audio->PlaySFX(laser_sfx);
+				break;
+			}
 		}
-	}	
+
+		if (App->input->keyboard[players[i].inputs[PI_GODMODE]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) {
+			players[i].godmode = !players[i].godmode;
+		}
+
+		if (players[i].player_collider != nullptr)
+			App->collision->SetPosition(players[i].player_collider, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y);
+	}
+	//if (score != 0) {
+	//	uint tmp = score;
+	//	int i = 15 - 1;
+	//	while (tmp != 0) {
+	//		score_text[i] = '0' + tmp % 10;
+	//		tmp /= 10;
+	//		--i;
+	//	}
+	//}	
 
 	App->fonts->WriteText(font, score_text, App->render->camera.x +5, App->render->camera.y + 8, { 0,0,0});
 	App->fonts->WriteText(font, score_text, App->render->camera.x + 5, App->render->camera.y + 5, { 255,255,255 });
@@ -451,16 +461,14 @@ update_status ModulePlayer::Update() {
 bool ModulePlayer::CleanUp() {
 	bool ret = true;
 
-	if (player_collider != nullptr)
-		player_collider->to_delete = true;
+	for (int i = 0; i < 2; i++) {
+		if (players[i].player_collider != nullptr)
+			App->collision->EraseCollider(players[i].player_collider);
 
-	player_fire_forward.CleanUp();
-	player_fire_left.CleanUp();
-	player_fire_right.CleanUp();
-	player_left.CleanUp();
-	player_right.CleanUp();
-	player_left_godmode.CleanUp();
-	player_right_godmode.CleanUp();
+		for (int j = 0; j < AN_MAX; ++j)
+			players[i].animations[j].CleanUp();
+	}
+
 	App->textures->Unload(player);
 	if (laser_sfx != nullptr) {
 		App->audio->FreeSFX(laser_sfx);
@@ -470,8 +478,9 @@ bool ModulePlayer::CleanUp() {
 		App->fonts->EraseFont(font);
 		font = nullptr;
 	}
-	if (score > highscore)
-		highscore = score;
+	int total_score = players[0].score + players[1].score;
+	if (total_score  > highscore)
+		highscore = total_score;
 	if (highscore_text != nullptr) {
 		delete[] highscore_text;
 		highscore_text = nullptr;
@@ -486,46 +495,49 @@ bool ModulePlayer::CleanUp() {
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+	for (int i = 0; i < 2; ++i) {
+		if (c1 == players[i].player_collider) {
+			if (players[i].godmode == true) {
+				return;
+			}
 
-	if (godmode == true)
-	{
-		return;
-	}
+			else {
+				if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT) {
+					App->input->ShakeController(i + 1, 2000, 1.0);
+					App->particles->AddParticle(EXPLOSION, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y);
+					App->player->Disable();
+					App->transition->Transition(App->stage1, App->intro, 0.8f);
+				}
 
-	else
-	{
-		if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT)	
-		{
-			App->input->ShakeController(1, 2000, 1.0);
-			App->particles->AddParticle(EXPLOSION, App->render->camera.x + player_x, App->render->camera.y + player_y);
-			App->player->Disable();
-			App->transition->Transition(App->stage1, App->intro, 0.8f);
+			}
 		}
-
 	}
 }
 
 iPoint ModulePlayer::GetPos()
 {
-	return { App->render->camera.x + player_x, App->render->camera.y + player_y };
+	return { App->render->camera.x + players[0].player_x, App->render->camera.y + players[0].player_y };
 }
 
 void ModulePlayer::AddScore(uint score_add)
 {
-	if (!godmode)
-		score += score_add;
+	players[0].score += score_add;
 }
 
 void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	AddScore(500);
-	if (type != current_bonus) {
-		current_bonus = type;
-		amount_bonus--;
-		if (amount_bonus < 0)
-			amount_bonus = 0;
+	int player = 0;
+	for (int i = 0; i < 2; ++i)
+		if (players[i].player_collider == col) player = i;
+
+	if (type != players[player].current_bonus) {
+		players[player].current_bonus = type;
+		players[player].amount_bonus--;
+		if (players[player].amount_bonus < 0)
+			players[player].amount_bonus = 0;
 	}
 	else {
-		if (amount_bonus < 3)
-			++amount_bonus;
+		if (players[player].amount_bonus < 3)
+			++players[player].amount_bonus;
 	}
 }

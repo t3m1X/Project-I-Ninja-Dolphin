@@ -20,12 +20,16 @@ ModuleBonus::~ModuleBonus()
 
 bool ModuleBonus::Start()
 {
+	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
+
 	red_bonus.SetUp(0, 0, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,4,5,6,7");
 	red_bonus.speed = 0.2f;
 
 	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
 	blue_bonus.speed = 0.2f;
-	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
+	
+	medal_bonus.SetUp(0, 78, 19, 33, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
+	medal_bonus.speed = 0.2f;
 
 	return true;
 }
@@ -48,6 +52,9 @@ update_status ModuleBonus::Update()
 				break;
 			case MISSILE_BONUS:
 				print = &missile_bonus;
+				break;
+			case MEDAL_BONUS:
+				print = &medal_bonus;
 				break;
 			}
 
@@ -85,6 +92,7 @@ bool ModuleBonus::CleanUp()
 	blue_bonus.CleanUp();
 	red_bonus.CleanUp();
 	missile_bonus.CleanUp();
+	medal_bonus.CleanUp();
 
 	for (uint i = 0; i < MAX_BONUS; ++i)
 	{
@@ -107,6 +115,10 @@ bool ModuleBonus::AddBonus(BONUS_TYPE type, int x, int y)
 
 	if (i != MAX_BONUS) {
 		switch (type) {
+		case BONUS_TYPE::MEDAL_BONUS:
+			bonus[i] = new PowerUp(x, y, type);
+			bonus[i]->col = App->collision->AddCollider(SDL_Rect{ x,y,19,33 }, COLLIDER_BONUS, this);
+			break;
 		case BONUS_TYPE::MISSILE_BONUS:
 		case BONUS_TYPE::BLUE_BONUS:
 		case BONUS_TYPE::RED_BONUS:

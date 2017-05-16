@@ -8,7 +8,7 @@
 #include "ModuleCollision.h"
 #include "ModuleAudio.h"
 
-#define MAX_ACTIVE_PARTICLES 100
+#define MAX_ACTIVE_PARTICLES 200
 
 struct SDL_Texture;
 

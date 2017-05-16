@@ -143,32 +143,32 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	case AUTOSHOT:
 		p = new Particle(autoattack);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case LASERSHOT:
 		p = new Particle(laserattack);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case LASERBIGSHOT:
 		p = new Particle(laserattbig);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case EXPLOSION:
 		App->input->ShakeController(1, 500, 0.1f);
 		App->input->ShakeController(2, 500, 0.1f);
 		p = new Particle(explosion);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case ENEMYSHOT:
 		p = new Particle(enemyshot);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case CRATER:

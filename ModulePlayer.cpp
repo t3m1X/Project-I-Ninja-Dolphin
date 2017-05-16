@@ -108,8 +108,8 @@ bool ModulePlayer::Start() {
 		}
 	}
 
-	current_bonus = RED_BONUS;
-	amount_bonus = 0;
+	current_bonus = BLUE_BONUS;
+	amount_bonus = 2;
 
 	return ret;
 }
@@ -403,18 +403,14 @@ update_status ModulePlayer::Update() {
 					App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + player_y - 30, { 0,-1 }, LASER_COOLDOWN * i);
 				break;
 
+			case 3:
 			case 2:
 				for (int i = 0; i < 9; ++i)
-					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 18, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
+					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 12, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
 
 				for (int i = 0; i < 9; ++i)
-					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 35, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
+					App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + player_x + 33, App->render->camera.y + player_y, { 0,-1 }, LASER_COOLDOWN * i);
 
-				break;
-			case 3:
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 - 2, App->render->camera.y + player_y);
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2, App->render->camera.y + player_y);
-				App->particles->AddParticle(LASERSHOT, App->render->camera.x + player_x + SPRITE_WIDTH / 2 + 2, App->render->camera.y + player_y);
 				break;
 
 			}

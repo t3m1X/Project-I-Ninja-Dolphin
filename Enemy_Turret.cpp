@@ -3,17 +3,19 @@
 #include "ModuleCollision.h"
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
+#include "ModuleRender.h"
 
 Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 {
 	walk.SetUp(102, 67, 49, 43, 1, 1, "0");
 	walk.speed = 0.2f;
 
-	animation_shooting.SetUp(152, 67, 49, 43, 3, 3,"0,1,2");
+	animation_shooting.SetUp(102, 67, 49, 43, 4, 4, "0,1,2,3");
+	/*animation_shooting.SetUp(152, 67, 49, 43, 3, 3,"0,1,2");*/
 	animation_shooting.speed = 0.3f;
 
-	animation_hurt.SetUp(0, 181, 44, 68, 4, 4, "3,0,3,0,3");
-	shadow.SetUp(176, 215, 22, 35, 1, 1, "0");
+	animation_hurt.SetUp(102, 67, 49, 43, 1, 1, "0");
+	
 
 	path.PushBack({ 0, 0 }, 1000, &walk);
 	
@@ -25,9 +27,9 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	original_y = y;
 
 	type = GROUND;
-	hitpoints = 3;
+	hitpoints = 6;
 
-	sdl_clock_start = SDL_GetTicks() + 1000;
+	sdl_clock_start = SDL_GetTicks() + 500;
 
 }
 
@@ -35,6 +37,36 @@ Enemy_Turret::~Enemy_Turret()
 {
 	walk.CleanUp();
 }
+
+void Enemy_Turret::Draw(SDL_Texture * sprites)
+{
+	App->collision->SetPosition(collider, position.x, position.y);
+
+	switch (state) {
+	case HURT:
+	case REGULAR:
+		if (animation != nullptr)
+			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+		if (state != SHOOTING) {
+			iPoint turret = App->player->GetPos() - position;
+			App->render->Blit(type, sprites, position.x, position.y, turret, &(walk.GetCurrentFrame()));
+		}
+		/*state = REGULAR;*/
+		
+
+	case SHOOTING:
+		if (animation != nullptr)
+			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+		if (hitpoints <= 6) {
+			iPoint turret = App->player->GetPos() - position;
+			App->render->Blit(type, sprites, position.x, position.y, turret, &(animation_shooting.GetCurrentFrame()));
+		}
+		state = REGULAR;
+		
+	}
+
+}
+
 
 void Enemy_Turret::Move()
 {
@@ -45,8 +77,8 @@ void Enemy_Turret::Move()
 	{
 		shots++;
 		iPoint origin = position;
-		origin.x += 18;
-		origin.y += walk.CurrentFrame().h;
+		origin.x += 15;
+		origin.y += animation_shooting.CurrentFrame().h - 20;
 		Shoot(origin);
 		shot = true;
 

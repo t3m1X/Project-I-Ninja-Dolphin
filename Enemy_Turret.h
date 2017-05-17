@@ -15,7 +15,7 @@ private:
 	Path path;
 	iPoint original_position;
 	int shots = 0;
-
+	
 public:
 
 	Enemy_Turret(int x, int y);
@@ -23,6 +23,7 @@ public:
 
 	void Move();
 	void OnCollision(Collider * collider);
+	void Draw(SDL_Texture * sprites);
 };
 
 

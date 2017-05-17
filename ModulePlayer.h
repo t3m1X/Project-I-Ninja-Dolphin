@@ -77,7 +77,7 @@ private:
 		int player_x, player_y;
 		player_state state;
 		Collider* player_collider = nullptr;
-		uint lives = 3;
+		int lives = 3;
 
 		Animation animations[AN_MAX];
 		SDL_Scancode inputs[PI_MAX];

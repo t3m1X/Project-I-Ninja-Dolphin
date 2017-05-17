@@ -26,7 +26,9 @@ void NumberToChar(int number, char* string)
 }
 
 ModulePlayer::ModulePlayer() 
-{}
+{
+	players[1].state = OFF;
+}
 
 ModulePlayer::~ModulePlayer() 
 {}
@@ -35,15 +37,15 @@ bool ModulePlayer::Start() {
 	bool ret = true;
 
 	players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
-	players[0].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
+	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
-	players[1].player_x = players[0].player_x + 20;
-	players[1].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
-	players[1].state = OFF;
+	players[1].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
+	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
 	players[0].state = IDLE;
 	players[0].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	if (players[1].state != OFF) {
+		players[0].player_x -= SPRITE_WIDTH + 20;
 		players[1].state = IDLE;
 		players[1].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	}
@@ -97,8 +99,16 @@ bool ModulePlayer::Start() {
 		players[i].animations[AN_FIRE_RIGHT].LoopStart(4);
 		players[i].animations[AN_FIRE_RIGHT].speed = 0.2f;
 
+		players[i].animations[AN_LIVE].SetUp(285 + 391 * i, 29, 16, 16, 1, 1, "0");
+
+		if (players[i].lives == 0) {
+			players[i].lives = 3;
+			players[i].score = 0;
+		}
+
 		players[i].sdl_shot = 0;
-		players[i].current_bonus = RED_BONUS;
+		if (players[i].current_bonus == NULL)
+			players[i].current_bonus = RED_BONUS;
 	}
 
 	shadow_idle.h = SHADOW_HEIGHT;
@@ -134,7 +144,9 @@ update_status ModulePlayer::Update() {
 			if (App->input->HasController(i + 1)) {
 				if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) {
 					players[i].state = IDLE;
-					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
+					players[i].player_x = players[0].player_x + 40;
+					players[i].player_y = players[0].player_y;
 				}
 				else
 					continue;
@@ -142,12 +154,38 @@ update_status ModulePlayer::Update() {
 			else {
 				if (App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN) {
 					players[i].state = IDLE;
-					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
+					players[i].player_x = players[0].player_x + 40;
+					players[i].player_y = players[0].player_y;
 				}
 				else
 					continue;
 			}
 			break;
+		case DEAD:
+			if (players[i].lives == 0 || sdl_clock < players[i].sdl_respawn) {
+				if (i == 0) {
+					players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
+					if (players[1].state != OFF)
+						players[0].player_x -= SPRITE_WIDTH + 20;
+					players[0].player_y = SCREEN_HEIGHT + 10;
+				}
+				else {
+					players[1].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
+					players[1].player_y = SCREEN_HEIGHT + 10;
+				}
+			}
+			else {
+				if (players[0].player_y > SCREEN_HEIGHT / 2 + SPRITE_HEIGHT * 2)
+					players[0].player_y -= PLAYER_SPEED;
+				else {
+					players[i].state = IDLE;
+					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
+				}
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
+			}
+			continue;
 		case IDLE:
 			if (players[i].godmode)
 				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
@@ -486,6 +524,27 @@ update_status ModulePlayer::Update() {
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
 
+	//Printing lives
+	//--Player 1
+	for (int i = 1; i < players[0].lives; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[0].animations[AN_LIVE].GetCurrentFrame());
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 1; i < players[1].lives; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
+	}
+	else {
+		if (App->input->HasController(2)) {
+			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
+			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
+		}
+		else {
+			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
+			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
+		}
+	}
+
+
 	return UPDATE_CONTINUE;
 }
 
@@ -525,12 +584,21 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT) {
 					App->input->ShakeController(i + 1, 2000, 1.0);
 					App->particles->AddParticle(EXPLOSION, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y);
-					App->player->Disable();
-					App->transition->Transition(App->stage1, App->intro, 0.8f);
+					players[i].current_bonus = RED_BONUS;
+					players[i].amount_bonus = 0;
+					players[i].lives--;
+					players[i].state = DEAD;
+					players[i].sdl_respawn = sdl_clock + 2000;
+					App->collision->EraseCollider(players[i].player_collider);
 				}
 
 			}
 		}
+	}
+
+	if (players[0].lives == 0 && (players[1].lives == 0 || players[1].state == OFF)) {
+		Disable();
+		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 }
 

@@ -40,6 +40,7 @@ public:
 private:
 	enum player_state {
 		OFF = 0,
+		DEAD,
 		IDLE,
 		LEFT,
 		RIGHT,
@@ -57,6 +58,7 @@ private:
 		AN_FIRE,
 		AN_FIRE_LEFT,
 		AN_FIRE_RIGHT,
+		AN_LIVE,
 		AN_MAX
 	};
 
@@ -75,6 +77,7 @@ private:
 		int player_x, player_y;
 		player_state state;
 		Collider* player_collider = nullptr;
+		uint lives = 3;
 
 		Animation animations[AN_MAX];
 		SDL_Scancode inputs[PI_MAX];
@@ -86,6 +89,7 @@ private:
 		int amount_bonus = 0;
 
 		uint sdl_shot = 0;
+		uint sdl_respawn = 0;
 
 	};
 	SDL_Texture* player;
@@ -98,6 +102,7 @@ private:
 	uint sdl_clock;
 
 	uint highscore = 0;
+
 	TTF_Font* font;
 
 	player_struct players[2];

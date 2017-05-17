@@ -101,7 +101,7 @@ bool ModulePlayer::Start() {
 
 		players[i].animations[AN_LIVE].SetUp(285 + 391 * i, 29, 16, 16, 1, 1, "0");
 
-		if (players[i].lives == 0) {
+		if (players[i].lives <= 0) {
 			players[i].lives = 3;
 			players[i].score = 0;
 		}
@@ -163,7 +163,7 @@ update_status ModulePlayer::Update() {
 			}
 			break;
 		case DEAD:
-			if (players[i].lives == 0 || sdl_clock < players[i].sdl_respawn) {
+			if (players[i].lives <= 0 || sdl_clock < players[i].sdl_respawn) {
 				if (i == 0) {
 					players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 					if (players[1].state != OFF)
@@ -596,7 +596,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 		}
 	}
 
-	if (players[0].lives == 0 && (players[1].lives == 0 || players[1].state == OFF)) {
+	if (players[0].lives <= 0 && (players[1].lives <= 0 || players[1].state == OFF)) {
 		Disable();
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}

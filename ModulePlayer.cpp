@@ -10,6 +10,20 @@
 #include "ModuleStage1.h"
 #include "ModuleBonus.h"
 
+void NumberToChar(int number, char* string)
+{
+	string += 8;
+	*string-- = '\0';
+
+	for (int i = 0; i < 8; ++i, number /= 10, --string) {
+		if (i == 0 && number == 0)
+			*string = '0';
+		else if (number != 0)
+			*string = '0' + number % 10;
+		else
+			*string = ' ';
+	}
+}
 
 ModulePlayer::ModulePlayer() 
 {}
@@ -19,15 +33,6 @@ ModulePlayer::~ModulePlayer()
 
 bool ModulePlayer::Start() {
 	bool ret = true;
-
-	score_text = new char[16];
-	char* tmp = "SCORE:        0";
-	for (int i = 0; i <= 15; i++, ++tmp)
-		score_text[i] = *tmp;
-	highscore_text = new char[20];
-	char* tmp2 = "HIGHSCORE:        0";
-	for (int i = 0; i <= 19; i++, ++tmp2)
-		highscore_text[i] = *tmp2;
 
 	players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 	players[0].player_y = SCREEN_HEIGHT / 2 - SPRITE_HEIGHT / 2;
@@ -115,17 +120,6 @@ bool ModulePlayer::Start() {
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
-	
-
-	if (highscore != 0) {
-		uint tmp = highscore;
-		int i = 19 - 1;
-		while (tmp != 0) {
-			highscore_text[i] = '0' + tmp % 10;
-			tmp /= 10;
-			--i;
-		}
-	}
 
 	return ret;
 }
@@ -142,12 +136,16 @@ update_status ModulePlayer::Update() {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
 				}
+				else
+					continue;
 			}
 			else {
 				if (App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN) {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
 				}
+				else
+					continue;
 			}
 			break;
 		case IDLE:
@@ -375,6 +373,7 @@ update_status ModulePlayer::Update() {
 			break;
 		}
 
+
 		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
 			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
@@ -453,6 +452,9 @@ update_status ModulePlayer::Update() {
 			}
 		}
 
+		if (players[i].score > highscore)
+			highscore = players[i].score;
+
 		if (App->input->keyboard[players[i].inputs[PI_GODMODE]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_BACK) == KEY_DOWN) {
 			players[i].godmode = !players[i].godmode;
 		}
@@ -470,11 +472,28 @@ update_status ModulePlayer::Update() {
 	//	}
 	//}	
 
-	App->fonts->WriteText(font, score_text, App->render->camera.x +5, App->render->camera.y + 8, { 0,0,0});
-	App->fonts->WriteText(font, score_text, App->render->camera.x + 5, App->render->camera.y + 5, { 255,255,255 });
-	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 8, { 0,0,0 });
-	App->fonts->WriteText(font, highscore_text, App->render->camera.x + 135, App->render->camera.y + 5, { 255,255,255 });
-	
+	//Score printing
+	char number[9];
+	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(players[0].score, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 17, { 255,255,255 });
+
+	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(highscore, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 17, { 255,255,255 });
+
+	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(players[1].score, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
 
 	return UPDATE_CONTINUE;
 }
@@ -498,17 +517,6 @@ bool ModulePlayer::CleanUp() {
 	if (font != nullptr) {
 		App->fonts->EraseFont(font);
 		font = nullptr;
-	}
-	int total_score = players[0].score + players[1].score;
-	if (total_score  > highscore)
-		highscore = total_score;
-	if (highscore_text != nullptr) {
-		delete[] highscore_text;
-		highscore_text = nullptr;
-	}
-	if (score_text != nullptr) {
-		delete[] score_text;
-		score_text = nullptr;
 	}
 
 	return ret;

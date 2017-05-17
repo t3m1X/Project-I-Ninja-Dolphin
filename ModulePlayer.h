@@ -98,8 +98,6 @@ private:
 	uint sdl_clock;
 
 	uint highscore = 0;
-	char* score_text;
-	char* highscore_text;
 	TTF_Font* font;
 
 	player_struct players[2];

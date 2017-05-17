@@ -190,7 +190,6 @@ update_status ModuleStage1::Update() {
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;
-		App->player->AddScore(1);
 	}
 	else
 	{

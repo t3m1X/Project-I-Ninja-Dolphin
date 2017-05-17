@@ -40,7 +40,7 @@ bool ModulePlayer::Start() {
 	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
 	players[1].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
-	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
+	players[1].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
 	players[0].state = IDLE;
 	players[0].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
@@ -176,8 +176,8 @@ update_status ModulePlayer::Update() {
 				}
 			}
 			else {
-				if (players[0].player_y > SCREEN_HEIGHT / 2 + SPRITE_HEIGHT * 2)
-					players[0].player_y -= PLAYER_SPEED;
+				if (players[i].player_y > SCREEN_HEIGHT / 2 + SPRITE_HEIGHT * 2)
+					players[i].player_y -= PLAYER_SPEED;
 				else {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);

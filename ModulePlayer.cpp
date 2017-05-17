@@ -42,10 +42,10 @@ bool ModulePlayer::Start() {
 	players[1].state = OFF;
 
 	players[0].state = IDLE;
-	players[0].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+	players[0].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	if (players[1].state != OFF) {
 		players[1].state = IDLE;
-		players[1].player_collider = App->collision->AddCollider({ 0, 0, 60, 50 }, COLLIDER_PLAYER, this);
+		players[1].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	}
 
 	//Setting keyboard inputs
@@ -460,17 +460,8 @@ update_status ModulePlayer::Update() {
 		}
 
 		if (players[i].player_collider != nullptr)
-			App->collision->SetPosition(players[i].player_collider, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y);
+			App->collision->SetPosition(players[i].player_collider, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 10);
 	}
-	//if (score != 0) {
-	//	uint tmp = score;
-	//	int i = 15 - 1;
-	//	while (tmp != 0) {
-	//		score_text[i] = '0' + tmp % 10;
-	//		tmp /= 10;
-	//		--i;
-	//	}
-	//}	
 
 	//Score printing
 	char number[9];

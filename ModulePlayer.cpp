@@ -108,7 +108,7 @@ bool ModulePlayer::Start() {
 
 		players[i].sdl_shot = 0;
 		if (players[i].current_bonus == NULL)
-			players[i].current_bonus = BLUE_BONUS;
+			players[i].current_bonus = RED_BONUS;
 	}
 
 	shadow_idle.h = SHADOW_HEIGHT;
@@ -462,12 +462,12 @@ update_status ModulePlayer::Update() {
 				switch (players[i].amount_bonus) {
 
 				case 0:
-					for (int j = 0; i < 3; ++j)
+					for (int j = 0; j < 3; ++j)
 						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * j);
 					break;
 
 				case 1:
-					for (int j = 0; i < 9; ++j)
+					for (int j = 0; j < 9; ++j)
 						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * j);
 					break;
 

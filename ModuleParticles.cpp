@@ -141,32 +141,44 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, bool player1, Uint32 delay)
 {
 	
 	Particle* p = nullptr;
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
 		p->layer = 5;
 		break;
 
 	case LASERSHOT:
 		p = new Particle(laserattack);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
 		p->layer = 5;
 		break;
 
 	case LASERBIGSHOT:
 		p = new Particle(laserattbig);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
 		p->layer = 5;
 		break;
 
 	case BIGASSLASER:
 		p = new Particle(bigasslaser);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
 		p->layer = 5;
 		break;
 

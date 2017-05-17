@@ -22,6 +22,7 @@
 struct SDL_Texture;
 struct Collider;
 enum BONUS_TYPE;
+enum COLLIDER_TYPE;
 
 class ModulePlayer : public Module {
 public:
@@ -34,7 +35,7 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 	iPoint GetPos();
-	void AddScore(uint score_add);
+	void AddScore(uint score_add, COLLIDER_TYPE type);
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:

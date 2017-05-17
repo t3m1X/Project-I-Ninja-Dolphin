@@ -52,7 +52,7 @@ public:
 	bool CleanUp();
 
 	
-	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, bool player1 = true, Uint32 delay = 0);
 
 	void OnCollision(Collider * c1, Collider * c2);
 

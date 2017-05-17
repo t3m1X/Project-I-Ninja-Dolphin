@@ -117,7 +117,7 @@ void Enemy_LightTank::OnCollision(Collider* collider) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
 			App->particles->AddParticle(CRATER, position.x + x_offset, position.y + y_offset);
-			App->player->AddScore(50);
+			App->player->AddScore(50, collider->type);
 		}
 		else if (hitpoints == 1) {
 			App->particles->AddParticle(EXPLOSION, position.x + x_offset, position.y + y_offset);

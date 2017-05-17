@@ -419,39 +419,39 @@ update_status ModulePlayer::Update() {
 			case RED_BONUS:
 				switch (players[i].amount_bonus) {
 				case 0:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 					break;
 				case 1:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 7, App->render->camera.y + players[i].player_y + 16);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 7, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 34, App->render->camera.y + players[i].player_y + 16);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 43, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 34, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 43, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 					break;
 				case 2:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 15, App->render->camera.y + players[i].player_y + 16, { -1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 15, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 15, App->render->camera.y + players[i].player_y + 16, { 1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 15, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i== 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
 					break;
 
 				case 3:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 10, App->render->camera.y + players[i].player_y + 18, { -1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 20, App->render->camera.y + players[i].player_y + 16, { -1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 10, App->render->camera.y + players[i].player_y + 18, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 20, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 27, App->render->camera.y + players[i].player_y);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 38, App->render->camera.y + players[i].player_y);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 27, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 38, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 20, App->render->camera.y + players[i].player_y + 16, { 1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 10, App->render->camera.y + players[i].player_y + 18, { 1,-4 });
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 });
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 20, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 10, App->render->camera.y + players[i].player_y + 18, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
 					break;
 
 
@@ -463,24 +463,24 @@ update_status ModulePlayer::Update() {
 
 				case 0:
 					for (int j = 0; j < 3; ++j)
-						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 					break;
 
 				case 1:
 					for (int j = 0; j < 9; ++j)
-						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 					break;
 
 				case 2:
 					for (int j = 0; j < 9; ++i)
-						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 
 					for (int j = 0; j < 9; ++j)
-						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 33, App->render->camera.y + players[i].player_y, { 0,-1 }, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 33, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 
 					break;
 				case 3:
-					App->particles->AddParticle(BIGASSLASER, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + players[i].player_y, { 0,-1 });
+					App->particles->AddParticle(BIGASSLASER, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0);
 					players[i].sdl_shot = sdl_clock + BIG_LASER_COOLDOWN;
 					break;
 				}
@@ -608,16 +608,25 @@ iPoint ModulePlayer::GetPos()
 	return { App->render->camera.x + players[0].player_x, App->render->camera.y + players[0].player_y };
 }
 
-void ModulePlayer::AddScore(uint score_add)
+void ModulePlayer::AddScore(uint score_add, COLLIDER_TYPE type)
 {
-	players[0].score += score_add;
+	if (type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT) 
+		players[0].score += score_add;
+	else if (type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT)
+		players[1].score += score_add;
+
 }
 
 void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
-	AddScore(500);
+	
 	int player = 0;
 	for (int i = 0; i < 2; ++i)
 		if (players[i].player_collider == col) player = i;
+
+	if (player == 0)
+		AddScore(500, COLLIDER_PLAYER_SHOT);
+	else
+		AddScore(500, COLLIDER_PLAYER2_SHOT);
 
 	if (type != players[player].current_bonus) {
 		players[player].current_bonus = type;

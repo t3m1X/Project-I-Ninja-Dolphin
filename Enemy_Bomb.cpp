@@ -42,7 +42,7 @@ void Enemy_Bomb::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 40, position.y - 10);
-			App->player->AddScore(50);
+			App->player->AddScore(50, collider->type);
 
 			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 1,0 });
 			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { -1,0 });

@@ -590,6 +590,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 					players[i].state = DEAD;
 					players[i].sdl_respawn = sdl_clock + 2000;
 					App->collision->EraseCollider(players[i].player_collider);
+					players[i].player_collider = nullptr;
 				}
 
 			}

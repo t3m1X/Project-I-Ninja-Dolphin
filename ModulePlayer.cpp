@@ -249,6 +249,14 @@ update_status ModulePlayer::Update() {
 						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				}
 
+				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+					App->render->camera.x += (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+					if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
+							App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
+
+					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
+						players[abs(i - 1)].player_x -= (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+				}
 				if (players[i].player_y <= SPRITE_HEIGHT)
 					players[i].player_y = SPRITE_HEIGHT;
 				if (players[i].player_y >= SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -265,6 +273,13 @@ update_status ModulePlayer::Update() {
 					players[i].animations[AN_LEFT_GOD].Reset();
 					players[i].animations[AN_LEFT].Reset();
 
+				}
+
+				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+					App->render->camera.x += SCROLL_SPEED;
+
+					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
+						players[abs(i - 1)].player_x -= SCROLL_SPEED;
 				}
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
@@ -302,13 +317,21 @@ update_status ModulePlayer::Update() {
 					players[i].animations[AN_RIGHT].Reset();
 
 				}
+				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x > SCREEN_WIDTH / 2)) {
+					App->render->camera.x += (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+					if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
+						App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
+
+					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
+						players[abs(i - 1)].player_x -= (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+				}
 
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				else {
 					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
 					if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
-						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
+						players[i].player_y -= (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				}
 
 				if (players[i].player_y <= SPRITE_HEIGHT)
@@ -328,6 +351,14 @@ update_status ModulePlayer::Update() {
 					players[i].animations[AN_RIGHT].Reset();
 
 				}
+
+				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+					App->render->camera.x -= SCROLL_SPEED;
+
+					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
+						players[abs(i - 1)].player_x += SCROLL_SPEED;
+				}
+
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
 					&& players[i].player_y > SPRITE_HEIGHT)
 					players[i].player_y -= PLAYER_SPEED;

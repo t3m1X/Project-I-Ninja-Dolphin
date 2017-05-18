@@ -472,7 +472,7 @@ update_status ModulePlayer::Update() {
 					break;
 
 				case 2:
-					for (int j = 0; j < 9; ++i)
+					for (int j = 0; j < 9; ++j)
 						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 
 					for (int j = 0; j < 9; ++j)

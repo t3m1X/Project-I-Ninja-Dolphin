@@ -10,9 +10,9 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	walk.SetUp(102, 67, 49, 43, 1, 1, "0");
 	walk.speed = 0.2f;
 
-	animation_shooting.SetUp(102, 67, 49, 43, 4, 4, "0,1,2,3");
-	/*animation_shooting.SetUp(152, 67, 49, 43, 3, 3,"0,1,2");*/
-	animation_shooting.speed = 0.3f;
+	
+	animation_shooting.SetUp(152, 67, 49, 43, 3, 3,"0,1,2");
+	animation_shooting.speed = 0.2f;
 
 	animation_hurt.SetUp(102, 67, 49, 43, 1, 1, "0");
 	
@@ -30,7 +30,6 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	hitpoints = 6;
 
 	sdl_clock_start = SDL_GetTicks() + 500;
-
 }
 
 Enemy_Turret::~Enemy_Turret()
@@ -42,36 +41,26 @@ void Enemy_Turret::Draw(SDL_Texture * sprites)
 {
 	App->collision->SetPosition(collider, position.x, position.y);
 
-	switch (state) {
-	case HURT:
-	case REGULAR:
-		if (animation != nullptr)
-			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-		if (state != SHOOTING) {
-			iPoint turret = App->player->GetPos() - position;
-			App->render->Blit(type, sprites, position.x, position.y, turret, &(walk.GetCurrentFrame()));
-		}
-		/*state = REGULAR;*/
-		
+	sdl_clock = SDL_GetTicks();
 
-	case SHOOTING:
-		if (animation != nullptr)
-			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-		if (hitpoints <= 6) {
-			iPoint turret = App->player->GetPos() - position;
-			App->render->Blit(type, sprites, position.x, position.y, turret, &(animation_shooting.GetCurrentFrame()));
-		}
-		state = REGULAR;
-		
+	if (sdl_clock >= sdl_clock_start) {
+		iPoint turret = App->player->GetPos() - position;
+		App->render->Blit(type, sprites, position.x, position.y, turret, &(animation_shooting.GetCurrentFrame()));
 	}
-
+	else {
+		iPoint turret = App->player->GetPos() - position;
+		App->render->Blit(type, sprites, position.x, position.y, turret, &(walk.GetCurrentFrame()));
+	}
+		
 }
 
 
 void Enemy_Turret::Move()
 {
 	sdl_clock = SDL_GetTicks();
+	iPoint turret = App->player->GetPos() - position;
 	position = original_position + path.GetCurrentPosition(&animation);
+	
 
 	if (sdl_clock >= sdl_clock_start)
 	{

@@ -583,7 +583,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			else {
 				if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT) {
 					App->input->ShakeController(i + 1, 2000, 1.0);
-					App->particles->AddParticle(EXPLOSION, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y);
+					App->particles->AddParticle(PLAYER_EXPLOSION, App->render->camera.x + players[i].player_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
 					players[i].current_bonus = RED_BONUS;
 					players[i].amount_bonus = 0;
 					players[i].lives--;

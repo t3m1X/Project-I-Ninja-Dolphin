@@ -73,6 +73,18 @@ bool ModuleParticles::Start()
 	bigasslaser.speed = { 0, -14 };
 	bigasslaser.life = 1500;
 
+	player1_explosion.anim.SetUp(0, 470, 115, 101, 4, 8, "0,1,2,3,4,5,6,7");
+	player1_explosion.anim.loop = false;
+	player1_explosion.anim.speed = 0.25f;
+	player1_explosion.life = 465;
+	player1_explosion.speed = { 0,0 };
+
+	player2_explosion.anim.SetUp(0, 672, 115, 101, 4, 8, "0,1,2,3,4,5,6,7");
+	player2_explosion.anim.loop = false;
+	player2_explosion.anim.speed = 0.25f;
+	player2_explosion.life = 465;
+	player2_explosion.speed = { 0,0 };
+
 
 	return true;
 }
@@ -90,6 +102,8 @@ bool ModuleParticles::CleanUp()
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
+	player1_explosion.anim.CleanUp();
+	player2_explosion.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -206,6 +220,17 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p = new Particle(big_explosion);
 		p->layer = 6;
 		break;
+
+	case PLAYER_EXPLOSION:
+		if (player1) {
+			p = new Particle(player1_explosion);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, nullptr);
+		}
+		else {
+			p = new Particle(player2_explosion);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, nullptr);
+		}
+		p->layer = 6;
 	}
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();

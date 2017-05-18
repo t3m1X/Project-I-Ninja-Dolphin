@@ -20,7 +20,8 @@ enum particle_type {
 	EXPLOSION,
 	ENEMYSHOT,
 	CRATER,
-	BIG_EXPLOSION
+	BIG_EXPLOSION,
+	PLAYER_EXPLOSION
 };
 
 struct Particle
@@ -72,6 +73,8 @@ public:
 	Particle enemyshot;
 	Particle crater;
 	Particle big_explosion;
+	Particle player1_explosion;
+	Particle player2_explosion;
 	
 };
 

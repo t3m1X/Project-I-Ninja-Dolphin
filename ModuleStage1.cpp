@@ -51,6 +51,7 @@ bool ModuleStage1::Start() {
 	App->enemies->Enable();
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 410, 6500);
+	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 210, 6500);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 410, 6500);
 	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 350, 6300);
 	

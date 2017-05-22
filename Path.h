@@ -64,8 +64,7 @@ public:
 
 	void LoopStart(int start) 
 	{
-		if (start < MAX_STEPS)
-			start_step = start;
+		start_step = start;
 	}
 
 	bool IsFinished() 

@@ -524,7 +524,7 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	else
 		AddScore(500);
 
-	if (type != current_bonus) {
+	if (type != current_bonus && type == MEDAL_BONUS) {
 		current_bonus = type;
 		amount_bonus--;
 		if (amount_bonus < 0)

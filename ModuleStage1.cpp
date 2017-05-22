@@ -23,6 +23,7 @@ bool ModuleStage1::Start() {
 	stage_background = App->textures->Load("revamp_spritesheets/lvl1_placeholder.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
+	shore_texture = App->textures->Load("revamp_spritesheets/backgroundanimations.png");
 
 	App->bonus->Enable();
 	App->collision->Enable();
@@ -32,6 +33,10 @@ bool ModuleStage1::Start() {
 	water.speed = 0.05f;
 	water.loop = true;
 	
+	shore.SetUp(0, 25, 703, 100, 1, 7, "0,1,2,3,4,5,6");
+	shore.speed = 0.05f;
+	shore.loop = true;
+
 	
 	
 	App->audio->PlayMusic(music);
@@ -187,6 +192,10 @@ update_status ModuleStage1::Update() {
 		water.GetCurrentFrame();
 	}
 
+	/*if (!((-STAGE_HEIGHT - 2000) >= App->render->camera.y + SCREEN_HEIGHT)) 
+		App->render->Blit(0, shore_texture, 0, 5700, { 0,1 }, &shore.CurrentFrame());*/
+	
+
 	background.x += background.w;
 	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
@@ -214,6 +223,10 @@ update_status ModuleStage1::Update() {
 
 bool ModuleStage1::CleanUp() {
 	bool ret = true;
+	if(shore_texture != nullptr) {
+		App->textures->Unload(shore_texture);
+		shore_texture = nullptr;
+	}
 	if (water_texture != nullptr) {
 		App->textures->Unload(water_texture);
 		water_texture = nullptr;
@@ -227,6 +240,7 @@ bool ModuleStage1::CleanUp() {
 		App->audio->FreeMusic(music);
 		music = nullptr;
 	}
+	shore.CleanUp();
 	water.CleanUp();
 	//App->fonts->EraseFont(font);
 	App->enemies->Disable();

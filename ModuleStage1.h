@@ -26,8 +26,10 @@ private:
 
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
+	SDL_Texture* shore_texture = nullptr;
 	Mix_Music* music;
 	Animation water;
+	Animation shore;
 
 	
 

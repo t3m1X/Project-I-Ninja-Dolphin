@@ -99,14 +99,6 @@ bool ModulePlayer::Start() {
 		players[i].animations[AN_FIRE_RIGHT].LoopStart(4);
 		players[i].animations[AN_FIRE_RIGHT].speed = 0.2f;
 
-		players[i].animations[AN_RED_FIRE].SetUp(0 + 391*i, 468, SCREEN_WIDTH, SCREEN_HEIGHT, 4, 4, "0,1,2,3");
-		players[i].animations[AN_RED_FIRE].LoopStart(1);
-		players[i].animations[AN_RED_FIRE].speed = 0.2f;
-
-		players[i].animations[AN_BLUE_FIRE].SetUp(460*i, 468, SCREEN_WIDTH, SCREEN_HEIGHT, 3, 3, "0,1,2");
-		players[i].animations[AN_BLUE_FIRE].LoopStart(1);
-		players[i].animations[AN_BLUE_FIRE].speed = 0.2f;
-
 
 		players[i].animations[AN_LIVE].SetUp(285 + 391 * i, 29, 16, 16, 1, 1, "0");
 
@@ -134,6 +126,19 @@ bool ModulePlayer::Start() {
 	shadow_right.w = SHADOW_WIDTH;
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
+
+	shooting_blue.SetUp(391, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
+	shooting_blue.speed = 0.4f;
+	shooting_red.loop = false;
+	while (!shooting_blue.Finished())
+		shooting_blue.GetCurrentFrame();
+
+	shooting_red.SetUp(0, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
+	shooting_red.speed = 0.4f;
+	shooting_red.loop = false;
+	while (!shooting_red.Finished())
+		shooting_red.GetCurrentFrame();
+
 
 
 	//blue_fire.anim.SetUp(460, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 3, 3, "0,1,2");
@@ -460,7 +465,8 @@ update_status ModulePlayer::Update() {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
 			switch (players[i].current_bonus) {
 			case RED_BONUS:
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_RED_FIRE].GetCurrentFrame());
+				shooting_red.Reset();
+				shooting_blue.SetFrame(3);
 				switch (players[i].amount_bonus) {
 				case 0:
 					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
@@ -503,6 +509,8 @@ update_status ModulePlayer::Update() {
 				App->audio->PlaySFX(laser_sfx);
 				break;
 			case BLUE_BONUS:
+				shooting_blue.Reset();
+				shooting_red.SetFrame(3);
 				switch (players[i].amount_bonus) {
 
 				case 0:
@@ -534,6 +542,11 @@ update_status ModulePlayer::Update() {
 			}
 		}
 
+		if (!shooting_red.Finished())
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &shooting_red.GetCurrentFrame());
+		if (!shooting_blue.Finished())
+			App->render->Blit(5, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &shooting_blue.GetCurrentFrame());
+		
 		if (players[i].score > highscore)
 			highscore = players[i].score;
 
@@ -601,6 +614,8 @@ bool ModulePlayer::CleanUp() {
 
 		for (int j = 0; j < AN_MAX; ++j)
 			players[i].animations[j].CleanUp();
+		shooting_red.CleanUp();
+		shooting_blue.CleanUp();
 	}
 
 	App->textures->Unload(player);

@@ -59,8 +59,6 @@ private:
 		AN_FIRE,
 		AN_FIRE_LEFT,
 		AN_FIRE_RIGHT,
-		AN_RED_FIRE,
-		AN_BLUE_FIRE,
 		AN_LIVE,
 		AN_MAX
 	};
@@ -100,6 +98,10 @@ private:
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
+
+	Animation shooting_red;
+	Animation shooting_blue;
+
 
 
 	Mix_Chunk* laser_sfx;

@@ -29,7 +29,7 @@ bool ModuleBonus::Start()
 	blue_bonus.speed = 0.2f;
 	
 	medal_bonus.SetUp(0, 78, 20, 35, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
-	medal_bonus.speed = 0.3f;
+	medal_bonus.speed = 0.4f;
 
 	/*medal_bonus_dissapearing.SetUp(0, 78, 20, 35, 2, 2, "6,0,6,0,6,0");
 	medal_bonus_dissapearing.speed = 0.2f;*/
@@ -160,7 +160,7 @@ void PowerUp::Update() {
 	/*if (type == MEDAL_BONUS && sdl_clock > sdl_clock_next)
 	{
 		sdl_clock_next = sdl_clock + 200;
-		medal_bonus.SetUp(0, 78, 20, 35, 2, 2, "6,0,6,0,6,0");
+		medal_bonus_dissapearing.SetUp(0, 78, 20, 35, 2, 2, "6,0,6,0,6,0");
 		medal_bonus_dissapearing.speed = 0.2f;
 
 	}*/

@@ -29,7 +29,7 @@ bool ModuleBonus::Start()
 	blue_bonus.speed = 0.2f;
 	
 	medal_bonus.SetUp(0, 78, 19, 33, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
-	medal_bonus.speed = 0.2f;
+	medal_bonus.speed = 0.1f;
 
 	return true;
 }
@@ -153,7 +153,7 @@ Bonus::~Bonus()
 
 void PowerUp::Update() {
 	int sdl_clock = SDL_GetTicks();
-
+	
 	if (type == BLUE_BONUS && sdl_clock > sdl_clock_next) {
 		type = RED_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
@@ -172,25 +172,27 @@ void PowerUp::Update() {
 	
 	int radius = 100;
 
-	
-	if (new_pos.x != 0) {
-		int factor = new_pos.x / abs(new_pos.x);
-		bonus_position.x += factor /** 2*/;
-		new_pos.x -= factor/* * 2*/;
+	if (type == RED_BONUS || type == BLUE_BONUS)
+	{
+		if (new_pos.x != 0) {
+			int factor = new_pos.x / abs(new_pos.x);
+			bonus_position.x += factor /** 2*/;
+			new_pos.x -= factor/* * 2*/;
+		}
+		if (new_pos.y != 0) {
+			int factor = new_pos.y / abs(new_pos.y);
+			bonus_position.y += factor * 2;
+			new_pos.y -= factor /** 2*/;
+		}
+		else
+			bonus_position.y -= SCROLL_SPEED;
+
+		position.x = (int)(bonus_position.x + radius * cos(circle_iterations * factor));
+		position.y = (int)(bonus_position.y + radius * sin(circle_iterations * factor));
+
+		App->collision->SetPosition(col, position.x, position.y);
+
+		if (++circle_iterations > 360)
+			circle_iterations = 0;
 	}
-	if (new_pos.y != 0) {
-		int factor = new_pos.y / abs(new_pos.y);
-		bonus_position.y += factor * 2;
-		new_pos.y -= factor /** 2*/;
-	}
-	else
-		bonus_position.y -= SCROLL_SPEED;
-
-	position.x = (int)(bonus_position.x + radius * cos(circle_iterations * factor));
-	position.y = (int)(bonus_position.y + radius * sin(circle_iterations * factor));
-
-	App->collision->SetPosition(col, position.x, position.y);
-
-	if (++circle_iterations > 360)
-		circle_iterations = 0;
 }

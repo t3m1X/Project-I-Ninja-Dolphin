@@ -28,8 +28,8 @@ bool ModuleBonus::Start()
 	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
 	blue_bonus.speed = 0.2f;
 	
-	medal_bonus.SetUp(0, 78, 19, 33, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
-	medal_bonus.speed = 0.1f;
+	medal_bonus.SetUp(0, 78, 20, 35, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
+	medal_bonus.speed = 0.3f;
 
 	return true;
 }

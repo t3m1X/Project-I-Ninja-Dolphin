@@ -346,6 +346,8 @@ update_status ModulePlayer::Update() {
 	
 	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
 		switch (current_bonus) {
+		case MEDAL_BONUS:
+			App->player->AddScore(300);
 		case RED_BONUS:
 			sdl_shot = sdl_clock + LASER_COOLDOWN;
 			switch (amount_bonus) {

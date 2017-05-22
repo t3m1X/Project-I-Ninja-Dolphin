@@ -54,7 +54,6 @@ private:
 	SDL_Rect shadow_right;
 
 	player_state state;
-	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
 	uint timing = 0;
 	uint sdl_shot;

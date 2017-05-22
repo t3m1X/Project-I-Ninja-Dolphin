@@ -6,6 +6,7 @@
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 #include "ModuleInput.h"
+#include "ModuleEnemies.h"
 
 #include "SDL/include/SDL_timer.h"
 
@@ -29,6 +30,7 @@ bool ModuleParticles::Start()
 	autoattack.anim.speed = 0.3f;
 	autoattack.life = 1500;
 	autoattack.speed = { 0, -14};
+	autoattack.fx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	
 	
 	explosion.anim.SetUp(0, 14, 69, 66, 8, 8, "0,1,2,3,4,5,6,7");
@@ -56,12 +58,13 @@ bool ModuleParticles::Start()
 	big_explosion.anim.speed = 0.2f;
 	big_explosion.life = 700;
 	big_explosion.speed = { 0,0 };
-	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_tank.wav");
 
 	laserattack.anim.SetUp(81, 0, 2, 16, 1, 1, "0");
 	laserattack.anim.loop = true;
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
+	laserattack.fx = App->audio->LoadSFX("sfx/shot_laser.wav");
 
 
 	return true;
@@ -120,7 +123,7 @@ update_status ModuleParticles::Update()
 				// Play particle fx here
 				if (p->fx != NULL)
 				{
-					App->audio->PlaySFX(explosion.fx);
+					//App->audio->PlaySFX(explosion.fx);
 				}
 			}
 		}

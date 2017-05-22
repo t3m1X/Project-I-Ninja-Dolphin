@@ -7,17 +7,17 @@
 
 Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(629, 375, 97, 89, 4, 4, "0,1,2,3");
+	fly.SetUp(629, 376, 98, 89, 4, 4, "0,1,2,3");
 	fly.speed = 0.1f;
 
 	shadow.SetUp(629, 555, 48, 32, 1, 1, "0");
 	
 
-	animation_shooting.SetUp(629, 465, 97, 89, 3, 3, "0,1,2");
+	animation_shooting.SetUp(629, 465, 98, 89, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
 	animation_shooting.loop = false;
 
-	animation_hurt.SetUp(629, 465, 97, 89, 2, 2, "");
+	animation_hurt.SetUp(629, 465, 98, 89, 4, 4, "2,3,2,3,2");
 
 	path.PushBack({ 0, 0.5f }, 100, &fly);
 	

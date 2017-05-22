@@ -81,6 +81,7 @@ private:
 	int player_x, player_y;
 
 	bool godmode = false;
+	
 };
 
 #endif

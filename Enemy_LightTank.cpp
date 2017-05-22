@@ -7,7 +7,7 @@
 
 Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 {
-	walk.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
+	walk.SetUp(0, 67, 34, 45, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
 	turret.SetUp(0, 112, 68, 69, 1, 1, "0");

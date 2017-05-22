@@ -75,6 +75,7 @@ public:
 	Animation red_bonus;
 	Animation missile_bonus;
 	Animation medal_bonus;
+	Animation medal_bonus_dissapearing;
 
 };
 

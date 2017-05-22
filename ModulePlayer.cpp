@@ -346,8 +346,8 @@ update_status ModulePlayer::Update() {
 	
 	if ((App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_TRIGGERRIGHT) > 0) && sdl_clock > sdl_shot) {
 		switch (current_bonus) {
-		case MEDAL_BONUS:
-			App->player->AddScore(300);
+			
+		case MEDAL_BONUS:	
 		case RED_BONUS:
 			sdl_shot = sdl_clock + LASER_COOLDOWN;
 			switch (amount_bonus) {
@@ -501,6 +501,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			App->player->Disable();
 			App->transition->Transition(App->stage1, App->intro, 0.8f);
 		}
+		
 
 	}
 }
@@ -517,7 +518,12 @@ void ModulePlayer::AddScore(uint score_add)
 }
 
 void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
-	AddScore(500);
+	
+	if (type == MEDAL_BONUS)
+		AddScore(300);
+	else
+		AddScore(500);
+
 	if (type != current_bonus) {
 		current_bonus = type;
 		amount_bonus--;

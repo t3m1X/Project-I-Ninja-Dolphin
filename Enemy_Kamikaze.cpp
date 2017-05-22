@@ -15,7 +15,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 
 	shadow.SetUp(959, 162, 73, 54, 1, 1, "0");
 
-	animation_hurt.SetUp(375, 0, 146, 108, 5, 4, "3,4,3,4,3");
+	animation_hurt.SetUp(375, 0, 146, 108, 4, 4, "3,4,3,4,3");
 	
 	
 

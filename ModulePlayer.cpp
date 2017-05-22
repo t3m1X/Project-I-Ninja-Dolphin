@@ -36,16 +36,16 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start() {
 	bool ret = true;
 
-	players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
+	players[0].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
-	players[1].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
+	players[1].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
 	players[1].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
 	players[0].state = IDLE;
 	players[0].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	if (players[1].state != OFF) {
-		players[0].player_x -= SPRITE_WIDTH + 20;
+		players[0].player_world_x -= SPRITE_WIDTH + 20;
 		players[1].state = IDLE;
 		players[1].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 	}
@@ -69,14 +69,14 @@ bool ModulePlayer::Start() {
 	players[1].inputs[PI_GODMODE] = SDL_SCANCODE_F8;
 
 	for (int i = 0; i < 2; ++i) {
-		players[i].animations[AN_IDLE].SetUp(0 + 391*i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 1, 1, "0");
+		players[i].animations[AN_IDLE].SetUp(0 + 391 * i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 1, 1, "0");
 		players[i].animations[AN_IDLE_GOD].SetUp(0 + 391 * i, 416, SPRITE_WIDTH + 2, SPRITE_HEIGHT + 1, 1, 1, "0");
 
 		players[i].animations[AN_LEFT].SetUp(57 + 391 * i, 0, SPRITE_WIDTH, SPRITE_HEIGHT, 2, 2, "0,1");
 		players[i].animations[AN_LEFT].speed = 0.05f;
 		players[i].animations[AN_LEFT].loop = false;
 
-		players[i].animations[AN_LEFT_GOD].SetUp(61 + 391*i, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
+		players[i].animations[AN_LEFT_GOD].SetUp(61 + 391 * i, 416, SPRITE_WIDTH, SPRITE_HEIGHT + 1, 2, 2, "0,1");
 		players[i].animations[AN_LEFT_GOD].speed = 0.05f;
 		players[i].animations[AN_LEFT_GOD].loop = false;
 
@@ -88,19 +88,29 @@ bool ModulePlayer::Start() {
 		players[i].animations[AN_RIGHT_GOD].speed = 0.05f;
 		players[i].animations[AN_RIGHT_GOD].loop = false;
 
-		players[i].animations[AN_FIRE].SetUp(0 + 391*i, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
+		players[i].animations[AN_FIRE].SetUp(0 + 391 * i, 49, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 5, "0,1,2,3,4");
 		players[i].animations[AN_FIRE].speed = 0.2f;
 
-		players[i].animations[AN_FIRE_LEFT].SetUp(0 + 391*i, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+		players[i].animations[AN_FIRE_LEFT].SetUp(0 + 391 * i, 117, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
 		players[i].animations[AN_FIRE_LEFT].LoopStart(4);
 		players[i].animations[AN_FIRE_LEFT].speed = 0.2f;
 
-		players[i].animations[AN_FIRE_RIGHT].SetUp(0 + 391*i, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
+		players[i].animations[AN_FIRE_RIGHT].SetUp(0 + 391 * i, 185, SPRITE_WIDTH, SPRITE_HEIGHT + 19, 5, 10, "0,1,2,3,5,6,7,8,9");
 		players[i].animations[AN_FIRE_RIGHT].LoopStart(4);
 		players[i].animations[AN_FIRE_RIGHT].speed = 0.2f;
 
 
 		players[i].animations[AN_LIVE].SetUp(285 + 391 * i, 29, 16, 16, 1, 1, "0");
+
+		players[i].animations[AN_SHOOTING_BLUE].SetUp(391, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
+		players[i].animations[AN_SHOOTING_BLUE].speed = 0.4f;
+		players[i].animations[AN_SHOOTING_BLUE].loop = false;
+		players[i].animations[AN_SHOOTING_BLUE].SetFrame(3);
+
+		players[i].animations[AN_SHOOTING_RED].SetUp(0, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
+		players[i].animations[AN_SHOOTING_RED].speed = 0.4f;
+		players[i].animations[AN_SHOOTING_RED].loop = false;
+		players[i].animations[AN_SHOOTING_RED].SetFrame(3);
 
 		if (players[i].lives <= 0) {
 			players[i].lives = 3;
@@ -127,23 +137,6 @@ bool ModulePlayer::Start() {
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
 
-	shooting_blue.SetUp(391, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
-	shooting_blue.speed = 0.4f;
-	shooting_red.loop = false;
-	while (!shooting_blue.Finished())
-		shooting_blue.GetCurrentFrame();
-
-	shooting_red.SetUp(0, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 4, 4, "0,1,2,3");
-	shooting_red.speed = 0.4f;
-	shooting_red.loop = false;
-	while (!shooting_red.Finished())
-		shooting_red.GetCurrentFrame();
-
-
-
-	//blue_fire.anim.SetUp(460, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 3, 3, "0,1,2");
-
-
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
@@ -162,7 +155,7 @@ update_status ModulePlayer::Update() {
 				if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
-					players[i].player_x = players[0].player_x + 40;
+					players[i].player_world_x = players[0].player_world_x + 40;
 					players[i].player_y = players[0].player_y;
 				}
 				else
@@ -172,7 +165,7 @@ update_status ModulePlayer::Update() {
 				if (App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN) {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
-					players[i].player_x = players[0].player_x + 40;
+					players[i].player_world_x = players[0].player_world_x + 40;
 					players[i].player_y = players[0].player_y;
 				}
 				else
@@ -182,13 +175,13 @@ update_status ModulePlayer::Update() {
 		case DEAD:
 			if (players[i].lives <= 0 || sdl_clock < players[i].sdl_respawn) {
 				if (i == 0) {
-					players[0].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
+					players[0].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 					if (players[1].state != OFF)
-						players[0].player_x -= SPRITE_WIDTH + 20;
+						players[0].player_world_x -= SPRITE_WIDTH + 20;
 					players[0].player_y = SCREEN_HEIGHT + 10;
 				}
 				else {
-					players[1].player_x = SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
+					players[1].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2 + SPRITE_WIDTH + 20;
 					players[1].player_y = SCREEN_HEIGHT + 10;
 				}
 			}
@@ -199,19 +192,19 @@ update_status ModulePlayer::Update() {
 					players[i].state = IDLE;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 				}
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
 			}
 			continue;
 		case IDLE:
 			if (players[i].godmode)
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 
 			else
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
 
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
-			App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
+			App->render->Blit(5, player, players[i].player_world_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+			App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
 
 			if (App->input->HasController(i + 1)) {
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) < -0.3)
@@ -239,16 +232,16 @@ update_status ModulePlayer::Update() {
 
 		case LEFT:
 			if (players[i].godmode)
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT_GOD].GetCurrentFrame());
 
 			else
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT].GetCurrentFrame());
 
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
+			App->render->Blit(5, player, players[i].player_world_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_left);
 
 			if (App->input->HasController(i + 1)) {
-				if (players[i].player_x > -SPRITE_WIDTH / 2)
-					players[i].player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+				if (players[i].player_world_x - App->render->camera.x > -SPRITE_WIDTH / 2)
+					players[i].player_world_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) >= -0.3) {
 					players[i].state = IDLE;
@@ -261,18 +254,15 @@ update_status ModulePlayer::Update() {
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				else {
-					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
+					App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
 					if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
 						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				}
 
-				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x< SCREEN_WIDTH / 2)) {
 					App->render->camera.x += (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 					if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
 							App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
-
-					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
-						players[abs(i - 1)].player_x -= (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 				}
 				if (players[i].player_y <= SPRITE_HEIGHT)
 					players[i].player_y = SPRITE_HEIGHT;
@@ -281,8 +271,8 @@ update_status ModulePlayer::Update() {
 			}
 
 			else {
-				if (players[i].player_x > -SPRITE_WIDTH / 2)
-					players[i].player_x -= PLAYER_SPEED;
+				if (players[i].player_world_x - App->render->camera.x > -SPRITE_WIDTH / 2)
+					players[i].player_world_x -= PLAYER_SPEED;
 
 				if (App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_REPEAT) {
 					players[i].state = IDLE;
@@ -292,12 +282,8 @@ update_status ModulePlayer::Update() {
 
 				}
 
-				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2))
 					App->render->camera.x += SCROLL_SPEED;
-
-					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
-						players[abs(i - 1)].player_x -= SCROLL_SPEED;
-				}
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
 					&& players[i].player_y > SPRITE_HEIGHT)
@@ -306,7 +292,7 @@ update_status ModulePlayer::Update() {
 					&& players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 					players[i].player_y += PLAYER_SPEED;
 				else
-					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
+					App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_LEFT].GetCurrentFrame());
 
 
 			}
@@ -316,16 +302,16 @@ update_status ModulePlayer::Update() {
 		case RIGHT:
 
 			if (players[i].godmode)
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT_GOD].GetCurrentFrame());
 
 			else
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT].GetCurrentFrame());
 
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
+			App->render->Blit(5, player, players[i].player_world_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_right);
 
 			if (App->input->HasController(i + 1)) {
-				if (players[i].player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
-					players[i].player_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
+				if (players[i].player_world_x - App->render->camera.x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+					players[i].player_world_x += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX) <= 0.3) {
 					players[i].state = IDLE;
@@ -334,19 +320,16 @@ update_status ModulePlayer::Update() {
 					players[i].animations[AN_RIGHT].Reset();
 
 				}
-				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x > SCREEN_WIDTH / 2)) {
+				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x > SCREEN_WIDTH / 2)) {
 					App->render->camera.x += (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 					if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
 						App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
-
-					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
-						players[abs(i - 1)].player_x -= (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 				}
 
 				if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) > 0.3)
 					players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				else {
-					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
+					App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
 					if (App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY) < -0.3)
 						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				}
@@ -358,8 +341,8 @@ update_status ModulePlayer::Update() {
 			}
 
 			else {
-				if (players[i].player_x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
-					players[i].player_x += PLAYER_SPEED;
+				if (players[i].player_world_x - App->render->camera.x < SCREEN_WIDTH - SPRITE_WIDTH / 2)
+					players[i].player_world_x += PLAYER_SPEED;
 
 				if (App->input->keyboard[players[i].inputs[PI_RIGHT]] == KEY_UP || App->input->keyboard[players[i].inputs[PI_LEFT]] == KEY_REPEAT) {
 					players[i].state = IDLE;
@@ -369,12 +352,8 @@ update_status ModulePlayer::Update() {
 
 				}
 
-				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_x < SCREEN_WIDTH / 2)) {
+				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2)) 
 					App->render->camera.x -= SCROLL_SPEED;
-
-					if (players[abs(i - 1)].state != OFF && players[abs(i - 1)].state != DEAD)
-						players[abs(i - 1)].player_x += SCROLL_SPEED;
-				}
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
 					&& players[i].player_y > SPRITE_HEIGHT)
@@ -383,20 +362,20 @@ update_status ModulePlayer::Update() {
 					&& players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
 					players[i].player_y += PLAYER_SPEED;
 				else
-					App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
+					App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE_RIGHT].GetCurrentFrame());
 			}
 			break;
 
 		case FORWARD:
 
 			if (players[i].godmode)
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 
 			else
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
 
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
-			App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
+			App->render->Blit(5, player, players[i].player_world_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+			App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_FIRE].GetCurrentFrame());
 
 			if (App->input->HasController(i + 1)) {
 				if (players[i].player_y > SPRITE_HEIGHT)
@@ -427,11 +406,11 @@ update_status ModulePlayer::Update() {
 		case STOP:
 
 			if (players[i].godmode)
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 			else
-				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
 
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
+			App->render->Blit(5, player, players[i].player_world_x + SPRITE_WIDTH / 2 + SHADOW_DISTANCE_X, App->render->camera.y + players[i].player_y + SPRITE_HEIGHT / 2 + SHADOW_DISTANCE_Y, { 0,1 }, &shadow_idle);
 
 			if (App->input->HasController(i + 1)) {
 				if (players[i].player_y < SCREEN_HEIGHT - SPRITE_HEIGHT / 2)
@@ -465,43 +444,43 @@ update_status ModulePlayer::Update() {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
 			switch (players[i].current_bonus) {
 			case RED_BONUS:
-				shooting_red.Reset();
-				shooting_blue.SetFrame(3);
+				players[i].animations[AN_SHOOTING_RED].Reset();
+				players[i].animations[AN_SHOOTING_BLUE].SetFrame(3);
 				switch (players[i].amount_bonus) {
 				case 0:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 					break;
 				case 1:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 7, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 7, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 16, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 34, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 43, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 34, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 43, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 					break;
 				case 2:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 15, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 15, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 35, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 15, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i== 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + SPRITE_WIDTH - 15, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i== 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
 					break;
 
 				case 3:
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 10, App->render->camera.y + players[i].player_y + 18, { -1,-4 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 20, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x, App->render->camera.y + players[i].player_y + 20, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 10, App->render->camera.y + players[i].player_y + 18, { -1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 20, App->render->camera.y + players[i].player_y + 16, { -1,-4 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 16, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 27, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 38, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 16, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 27, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + 38, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
 
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 20, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH - 10, App->render->camera.y + players[i].player_y + 18, { 1,-4 }, i == 0);
-					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + SPRITE_WIDTH - 20, App->render->camera.y + players[i].player_y + 16, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + SPRITE_WIDTH - 10, App->render->camera.y + players[i].player_y + 18, { 1,-4 }, i == 0);
+					App->particles->AddParticle(AUTOSHOT, players[i].player_world_x + SPRITE_WIDTH, App->render->camera.y + players[i].player_y + 20, { 1,-4 }, i == 0);
 					break;
 
 
@@ -509,30 +488,30 @@ update_status ModulePlayer::Update() {
 				App->audio->PlaySFX(laser_sfx);
 				break;
 			case BLUE_BONUS:
-				shooting_blue.Reset();
-				shooting_red.SetFrame(3);
+				players[i].animations[AN_SHOOTING_BLUE].Reset();
+				players[i].animations[AN_SHOOTING_RED].SetFrame(3);
 				switch (players[i].amount_bonus) {
 
 				case 0:
 					for (int j = 0; j < 3; ++j)
-						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERSHOT, players[i].player_world_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 					break;
 
 				case 1:
 					for (int j = 0; j < 9; ++j)
-						App->particles->AddParticle(LASERSHOT, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERSHOT, players[i].player_world_x + SPRITE_WIDTH / 2 - 1, App->render->camera.y + players[i].player_y - 30, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 					break;
 
 				case 2:
 					for (int j = 0; j < 9; ++j)
-						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERBIGSHOT, players[i].player_world_x + 12, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 
 					for (int j = 0; j < 9; ++j)
-						App->particles->AddParticle(LASERBIGSHOT, App->render->camera.x + players[i].player_x + 33, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
+						App->particles->AddParticle(LASERBIGSHOT, players[i].player_world_x + 33, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0, LASER_COOLDOWN * j);
 
 					break;
 				case 3:
-					App->particles->AddParticle(BIGASSLASER, App->render->camera.x + players[i].player_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0);
+					App->particles->AddParticle(BIGASSLASER, players[i].player_world_x + SPRITE_WIDTH / 2 - 37 / 2, App->render->camera.y + players[i].player_y, { 0,-1 }, i == 0);
 					players[i].sdl_shot = sdl_clock + BIG_LASER_COOLDOWN;
 					break;
 				}
@@ -542,10 +521,10 @@ update_status ModulePlayer::Update() {
 			}
 		}
 
-		if (!shooting_red.Finished())
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &shooting_red.GetCurrentFrame());
-		if (!shooting_blue.Finished())
-			App->render->Blit(5, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &shooting_blue.GetCurrentFrame());
+		if (!players[i].animations[AN_SHOOTING_RED].Finished())
+			App->render->Blit(5, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_SHOOTING_RED].GetCurrentFrame());
+		if (!players[i].animations[AN_SHOOTING_BLUE].Finished())
+			App->render->Blit(5, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_SHOOTING_BLUE].GetCurrentFrame());
 		
 		if (players[i].score > highscore)
 			highscore = players[i].score;
@@ -555,7 +534,7 @@ update_status ModulePlayer::Update() {
 		}
 
 		if (players[i].player_collider != nullptr)
-			App->collision->SetPosition(players[i].player_collider, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 10);
+			App->collision->SetPosition(players[i].player_collider, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 10);
 	}
 
 	//Score printing
@@ -614,8 +593,6 @@ bool ModulePlayer::CleanUp() {
 
 		for (int j = 0; j < AN_MAX; ++j)
 			players[i].animations[j].CleanUp();
-		shooting_red.CleanUp();
-		shooting_blue.CleanUp();
 	}
 
 	App->textures->Unload(player);
@@ -642,7 +619,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 			else {
 				if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT) {
 					App->input->ShakeController(i + 1, 2000, 1.0);
-					App->particles->AddParticle(PLAYER_EXPLOSION, App->render->camera.x + players[i].player_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
+					App->particles->AddParticle(PLAYER_EXPLOSION, players[i].player_world_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
 					players[i].current_bonus = RED_BONUS;
 					players[i].amount_bonus = 0;
 					players[i].lives--;
@@ -664,7 +641,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 iPoint ModulePlayer::GetPos()
 {
-	return { App->render->camera.x + players[0].player_x, App->render->camera.y + players[0].player_y };
+	return { players[0].player_world_x, App->render->camera.y + players[0].player_y };
 }
 
 void ModulePlayer::AddScore(uint score_add, COLLIDER_TYPE type)

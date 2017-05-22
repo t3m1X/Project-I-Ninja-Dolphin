@@ -10,7 +10,7 @@
 #include "Animation.h"
 #include "p2Point.h"
 
-#define PLAYER_SPEED 3
+#define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
@@ -59,6 +59,8 @@ private:
 		AN_FIRE,
 		AN_FIRE_LEFT,
 		AN_FIRE_RIGHT,
+		AN_SHOOTING_RED,
+		AN_SHOOTING_BLUE,
 		AN_LIVE,
 		AN_MAX
 	};
@@ -75,7 +77,7 @@ private:
 	};
 	
 	struct player_struct{
-		int player_x, player_y;
+		int player_world_x, player_y;
 		player_state state;
 		Collider* player_collider = nullptr;
 		int lives = 3;
@@ -98,11 +100,6 @@ private:
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
-
-	Animation shooting_red;
-	Animation shooting_blue;
-
-
 
 	Mix_Chunk* laser_sfx;
 	uint sdl_clock;

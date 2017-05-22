@@ -15,7 +15,10 @@ Enemy_Bomb::Enemy_Bomb(int x, int y) : Enemy(x, y)
 	path.PushBack({ 0, 0.5f }, 415, &walk);
 	/*path.PushBack({ 0,-1.5f }, 300, &walk);*/
 
-	collider = App->collision->AddCollider({ 0, 190, 45, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider_offset.x = 7;
+	collider_offset.y = 36;
+
+	collider = App->collision->AddCollider({ 0, 190, 29, 30 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -61,3 +64,4 @@ void Enemy_Bomb::OnCollision(Collider* collider) {
 	}
 
 }
+

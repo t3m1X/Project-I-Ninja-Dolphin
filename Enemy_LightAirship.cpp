@@ -21,7 +21,10 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	path.PushBack(fdirection*3, 45, &fly);
 	path.PushBack({ 0, -2 }, 40, &fly);
 
-	collider = App->collision->AddCollider({ 0, 0, 50, 67 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider_offset.x = 8;
+	collider_offset.y = 25;
+
+	collider = App->collision->AddCollider({ 0, 0, 35, 35 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 

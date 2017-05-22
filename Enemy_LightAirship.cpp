@@ -60,3 +60,15 @@ void Enemy_LightAirship::Move()
 		shot = true;
 	}
 }
+
+void Enemy_LightAirship::OnCollision(Collider* collider)
+{
+	if (state != HURT) {
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(LIGHT_EXPLOSION, position.x, position.y);
+			App->player->AddScore(50);
+		}
+		else
+			state = HURT;
+	}
+}

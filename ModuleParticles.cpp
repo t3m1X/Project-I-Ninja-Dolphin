@@ -63,6 +63,11 @@ bool ModuleParticles::Start()
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
 
+	light_explosion.anim.SetUp(0, 874, 64, 60, 7, 12, "0,1,2,3,4,5,6,7,8,9,10,11");
+	light_explosion.anim.loop = false;
+	light_explosion.anim.speed = 0.2f;
+	light_explosion.life = 600;
+	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 
 	return true;
 }
@@ -78,6 +83,7 @@ bool ModuleParticles::CleanUp()
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
+	light_explosion.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -170,6 +176,14 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p = new Particle(big_explosion);
 		p->layer = 6;
 		break;
+
+	case LIGHT_EXPLOSION:
+		App->input->ShakeController(1, 500, 0.1f);
+		App->input->ShakeController(2, 500, 0.1f);
+		p = new Particle(light_explosion);
+		p->layer = 6;
+		break;
+
 	}
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();

@@ -99,6 +99,15 @@ bool ModulePlayer::Start() {
 		players[i].animations[AN_FIRE_RIGHT].LoopStart(4);
 		players[i].animations[AN_FIRE_RIGHT].speed = 0.2f;
 
+		players[i].animations[AN_RED_FIRE].SetUp(0 + 391*i, 468, SCREEN_WIDTH, SCREEN_HEIGHT, 4, 4, "0,1,2,3");
+		players[i].animations[AN_RED_FIRE].LoopStart(1);
+		players[i].animations[AN_RED_FIRE].speed = 0.2f;
+
+		players[i].animations[AN_BLUE_FIRE].SetUp(460*i, 468, SCREEN_WIDTH, SCREEN_HEIGHT, 3, 3, "0,1,2");
+		players[i].animations[AN_BLUE_FIRE].LoopStart(1);
+		players[i].animations[AN_BLUE_FIRE].speed = 0.2f;
+
+
 		players[i].animations[AN_LIVE].SetUp(285 + 391 * i, 29, 16, 16, 1, 1, "0");
 
 		if (players[i].lives <= 0) {
@@ -125,6 +134,9 @@ bool ModulePlayer::Start() {
 	shadow_right.w = SHADOW_WIDTH;
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
+
+
+	//blue_fire.anim.SetUp(460, 468, SPRITE_WIDTH, SPRITE_HEIGHT, 3, 3, "0,1,2");
 
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
@@ -448,6 +460,7 @@ update_status ModulePlayer::Update() {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
 			switch (players[i].current_bonus) {
 			case RED_BONUS:
+				App->render->Blit(6, player, App->render->camera.x + players[i].player_x, App->render->camera.y + players[i].player_y, { 0,1 }, &players[i].animations[AN_RED_FIRE].GetCurrentFrame());
 				switch (players[i].amount_bonus) {
 				case 0:
 					App->particles->AddParticle(AUTOSHOT, App->render->camera.x + players[i].player_x + 18, App->render->camera.y + players[i].player_y + 16, { 999,999 }, i == 0);

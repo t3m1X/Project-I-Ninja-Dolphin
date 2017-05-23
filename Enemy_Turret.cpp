@@ -11,11 +11,12 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	walk.speed = 0.2f;
 
 	
-	animation_shooting.SetUp(152, 67, 49, 43, 3, 3,"0,1,2");
+	animation_shooting.SetUp(152, 67, 50, 43, 3, 3,"0,1,2");
 	animation_shooting.speed = 0.2f;
 
 	animation_hurt.SetUp(102, 67, 49, 43, 1, 1, "0");
 	
+	base.SetUp(210, 112, 53, 48, 1, 1, "0");
 
 	path.PushBack({ 0, 0 }, 10000, &walk);
 	
@@ -36,6 +37,7 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 Enemy_Turret::~Enemy_Turret()
 {
 	walk.CleanUp();
+	base.CleanUp();
 }
 
 void Enemy_Turret::Draw(SDL_Texture * sprites)
@@ -46,12 +48,15 @@ void Enemy_Turret::Draw(SDL_Texture * sprites)
 
 	switch (state) {
 	case REGULAR:
-		if (animation != nullptr)
+		if (animation != nullptr) {
 			App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation->GetCurrentFrame()));
+			App->render->Blit(2, sprites, position.x - 1, position.y - 2, direction, &(base.GetCurrentFrame()));
+		}
 		break;
 
 	case SHOOTING:
 		App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation_shooting.GetCurrentFrame()));
+		App->render->Blit(2, sprites, position.x -1, position.y - 2, direction, &(base.GetCurrentFrame()));
 		if (animation_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -60,6 +65,7 @@ void Enemy_Turret::Draw(SDL_Texture * sprites)
 
 	case HURT:
 		App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation_hurt.GetCurrentFrame()));
+		App->render->Blit(2, sprites, position.x - 1, position.y - 2, direction, &(base.GetCurrentFrame()));
 		if (animation_hurt.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();

@@ -69,6 +69,11 @@ bool ModuleParticles::Start()
 	light_explosion.life = 600;
 	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 
+	turret_crater.anim.SetUp(0, 0, 53, 47, 3, 3, "0,1,2");
+	turret_crater.anim.loop = true;
+	turret_crater.anim.speed = 0.2f;
+	turret_crater.life = 8000;
+	
 	return true;
 }
 
@@ -84,6 +89,7 @@ bool ModuleParticles::CleanUp()
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
 	light_explosion.anim.CleanUp();
+	turret_crater.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -182,6 +188,11 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		App->input->ShakeController(2, 500, 0.1f);
 		p = new Particle(light_explosion);
 		p->layer = 6;
+		break;
+
+	case TURRET_CRATER:
+		p = new Particle(turret_crater);
+		p->layer = 2;
 		break;
 
 	}

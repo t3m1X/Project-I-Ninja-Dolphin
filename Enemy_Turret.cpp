@@ -101,7 +101,7 @@ void Enemy_Turret::OnCollision(Collider* collider) {
 		if (--hitpoints == 0) {
 
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
-			App->particles->AddParticle(CRATER, position.x, position.y);
+			App->particles->AddParticle(TURRET_CRATER, position.x, position.y);
 			App->player->AddScore(50);
 		}
 		

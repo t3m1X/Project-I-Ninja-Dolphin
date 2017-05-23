@@ -17,7 +17,7 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	animation_hurt.SetUp(102, 67, 49, 43, 1, 1, "0");
 	
 
-	path.PushBack({ 0, 0 }, 1000, &walk);
+	path.PushBack({ 0, 0 }, 10000, &walk);
 	
 
 	collider = App->collision->AddCollider({ 0, 67, 49, 43}, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
@@ -29,6 +29,7 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	type = GROUND;
 	hitpoints = 6;
 
+	
 	sdl_clock_start = SDL_GetTicks() + 500;
 }
 
@@ -40,18 +41,32 @@ Enemy_Turret::~Enemy_Turret()
 void Enemy_Turret::Draw(SDL_Texture * sprites)
 {
 	App->collision->SetPosition(collider, position.x, position.y);
+	iPoint fdirection = App->player->GetPos() - position;
+	sdl_clock = SDL_GetTicks(); 
 
-	sdl_clock = SDL_GetTicks();
+	switch (state) {
+	case REGULAR:
+		if (animation != nullptr)
+			App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation->GetCurrentFrame()));
+		break;
 
-	if (sdl_clock >= sdl_clock_start) {
-		iPoint turret = App->player->GetPos() - position;
-		App->render->Blit(type, sprites, position.x, position.y, turret, &(animation_shooting.GetCurrentFrame()));
+	case SHOOTING:
+		App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation_shooting.GetCurrentFrame()));
+		if (animation_shooting.Finished()) {
+			state = REGULAR;
+			animation_hurt.Reset();
+		}
+		break;
+
+	case HURT:
+		App->render->Blit(type, sprites, position.x, position.y, fdirection, &(animation_hurt.GetCurrentFrame()));
+		if (animation_hurt.Finished()) {
+			state = REGULAR;
+			animation_hurt.Reset();
+		}
+		break;
 	}
-	else {
-		iPoint turret = App->player->GetPos() - position;
-		App->render->Blit(type, sprites, position.x, position.y, turret, &(walk.GetCurrentFrame()));
-	}
-		
+	
 }
 
 
@@ -84,6 +99,7 @@ void Enemy_Turret::OnCollision(Collider* collider) {
 
 	if (state != HURT) {
 		if (--hitpoints == 0) {
+
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
 			App->particles->AddParticle(CRATER, position.x, position.y);
 			App->player->AddScore(50);

@@ -33,15 +33,25 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 		path.PushBack({ 0,-0.5 }, 40, &fly);
 		path.LoopStart(150);
 	}
-	else
-		path.PushBack({ 1,1 }, 100, &fly);
+	else 
+	{
+		path.PushBack({ 0,0.5f }, 120, &fly);
+		path.PushBack({ 0,0 }, 30, &fly);
+		path.PushBack({ 1,1 }, 50, &fly);
+		path.PushBack({ 1,-2 }, 90, &fly);
+		path.PushBack({ 0,-0.5 }, 40, &fly);
+		path.PushBack({ -1,1 }, 50, &fly);
+		path.PushBack({ -1,-2 }, 90, &fly);
+		path.PushBack({ 0,-0.5 }, 40, &fly);
+		path.LoopStart(150);
+	}
 	
-	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 	
 
-	sdl_clock_start = SDL_GetTicks();
+	sdl_clock_start = SDL_GetTicks() + 2500;
 
 	type = AIRBORNE;
 	hitpoints = 15;
@@ -54,10 +64,42 @@ Enemy_MoonAirship::~Enemy_MoonAirship()
 
 void Enemy_MoonAirship::Move()
 {
-	
+
 	position = original_position + path.GetCurrentPosition(&animation);
 
+	sdl_clock = SDL_GetTicks();
+
+	if (sdl_clock >= sdl_clock_start) {
+		shots++;
+		iPoint origin = position;
+		origin.x += 30;
+		origin.y += fly.CurrentFrame().h - 16;
+		Shoot(origin);
+		origin.x += 30;
+		Shoot(origin);
+
+		if (shots >= 1) {
+			sdl_clock_start = sdl_clock + 500;
+			/*shots = 0;*/
+		}
+	}
 	
 
 }
+
+void Enemy_MoonAirship::OnCollision(Collider* collider)
+{
+	if (state != HURT)
+	{
+		if (--hitpoints == 0) {
+			App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
+			App->player->AddScore(50);
+		}
+
+		else
+			state = HURT;
+	}
+
+}
+
 

@@ -14,6 +14,7 @@ private:
 	Animation fly;
 	Path path;
 	iPoint original_position;
+	int shots = 0;
 
 public:
 
@@ -22,7 +23,7 @@ public:
 
 	void Move();
 	/*void Shoot(iPoint origin);*/
-	/*void OnCollision(Collider* collider);*/
+	void OnCollision(Collider* collider);
 };
 
 #endif

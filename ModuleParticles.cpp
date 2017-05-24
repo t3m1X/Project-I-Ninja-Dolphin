@@ -69,7 +69,7 @@ bool ModuleParticles::Start()
 	light_explosion.life = 600;
 	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 
-	turret_crater.anim.SetUp(0, 0, 53, 48, 3, 3, "0,1,2");
+	turret_crater.anim.SetUp(199, 157, 54, 48, 3, 3, "0,1,2");
 	turret_crater.anim.loop = true;
 	turret_crater.anim.speed = 0.2f;
 	turret_crater.life = 8000;

@@ -427,6 +427,11 @@ update_status ModulePlayer::Update() {
 		godmode = !godmode;
 	}
 
+	if (App->input->keyboard[SDL_SCANCODE_B] == KEY_DOWN)
+	{
+		App->particles->AddParticle(BOMBSHOT, App->render->camera.x + player_x - 145, App->render->camera.y + player_y - 300);
+	}
+
 	App->collision->SetPosition(player_collider, App->render->camera.x + player_x, App->render->camera.y + player_y);
 
 	if (score != 0) {

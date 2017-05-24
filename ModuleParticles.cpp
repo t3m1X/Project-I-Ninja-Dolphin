@@ -73,6 +73,12 @@ bool ModuleParticles::Start()
 	turret_crater.anim.loop = true;
 	turret_crater.anim.speed = 0.2f;
 	turret_crater.life = 8000;
+
+	bombshot.anim.SetUp(639, 0, 342, 310, 4, 16, "0,1,2,3,4,5,6,7,8,9,10,11,10,11,10,11,12,13,14,15");
+	bombshot.anim.loop = false;
+	bombshot.anim.speed = 0.2f;
+	bombshot.life = 2000;
+	bombshot.speed = { 0,0 };
 	
 	return true;
 }
@@ -90,6 +96,7 @@ bool ModuleParticles::CleanUp()
 	big_explosion.anim.CleanUp();
 	light_explosion.anim.CleanUp();
 	turret_crater.anim.CleanUp();
+	bombshot.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -193,6 +200,12 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	case TURRET_CRATER:
 		p = new Particle(turret_crater);
 		p->layer = 2;
+		break;
+		
+	case BOMBSHOT:
+		p = new Particle(bombshot);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_BOMB, this);
+		p->layer = 6;
 		break;
 
 	}

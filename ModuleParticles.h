@@ -20,7 +20,8 @@ enum particle_type {
 	CRATER,
 	BIG_EXPLOSION,
 	LIGHT_EXPLOSION,
-	TURRET_CRATER
+	TURRET_CRATER,
+	BOMBSHOT
 };
 
 struct Particle
@@ -72,7 +73,7 @@ public:
 	Particle big_explosion;
 	Particle light_explosion;
 	Particle turret_crater;
-	
+	Particle bombshot;
 };
 
 #endif // __MODULEPARTICLES_H__

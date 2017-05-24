@@ -65,6 +65,14 @@ ModuleCollision::ModuleCollision()
 	matrix[COLLIDER_BONUS][COLLIDER_ENEMY_AIR] = false;
 	matrix[COLLIDER_BONUS][COLLIDER_BONUS] = false;
 
+	matrix[COLLIDER_BOMB][COLLIDER_WALL] = false;
+	matrix[COLLIDER_BOMB][COLLIDER_PLAYER] = false;
+	matrix[COLLIDER_BOMB][COLLIDER_ENEMY_GROUND] = true;
+	matrix[COLLIDER_BOMB][COLLIDER_PLAYER_SHOT] = true;
+	matrix[COLLIDER_BOMB][COLLIDER_ENEMY_SHOT] = true;
+	matrix[COLLIDER_BOMB][COLLIDER_ENEMY_AIR] = true;
+	matrix[COLLIDER_BOMB][COLLIDER_BONUS] = false;
+
 	debug = false;
 }
 
@@ -172,6 +180,9 @@ void ModuleCollision::DebugDraw()
 			break;
 		case COLLIDER_BONUS://pink
 			App->render->DrawQuad(colliders[i]->rect, 255, 0, 127, alpha);
+			break;
+		case COLLIDER_BOMB:
+			App->render->DrawQuad(colliders[i]->rect, 255, 255, 0, alpha);
 			break;
 		}
 	}

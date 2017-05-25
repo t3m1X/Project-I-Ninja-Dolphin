@@ -5,6 +5,18 @@
 #include "Path.h"
 #include "Globals.h"
 
+
+enum SHOT_DIR
+{
+	NO_DIR,
+	LOW_LEFT,
+	LEFT_DIR,
+	UP_LEFT,
+	UP_RIGHT,
+	RIGHT_DIR,
+	LOW_RIGHT
+};
+
 class Enemy_Boss : public Enemy
 {
 private:
@@ -16,6 +28,7 @@ private:
 	Path path;
 	iPoint original_position;
 	int shots = 0;
+	SHOT_DIR typology = SHOT_DIR::NO_DIR;
 
 public:
 
@@ -24,7 +37,7 @@ public:
 
 	void Move();
 	void Draw(SDL_Texture * sprites);
-	/*void Shoot(iPoint origin);*/
+	void Shoot(iPoint origin, SHOT_DIR typology);
 	void OnCollision(Collider* collider);
 };
 

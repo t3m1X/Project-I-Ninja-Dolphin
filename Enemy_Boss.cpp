@@ -90,10 +90,11 @@ void Enemy_Boss::Move()
 		iPoint origin = position;
 		origin.x += 25;
 		origin.y += walk.CurrentFrame().h -20;
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
-		origin.x += - 15;
+		Shoot(origin, LOW_LEFT);
+		/*App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });*/
+		/*origin.x += - 15;
 		origin.y += walk.CurrentFrame().h -210;
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });*/
 
 		if (shots >= 1) {
 			sdl_clock_start = sdl_clock + 600;
@@ -102,6 +103,22 @@ void Enemy_Boss::Move()
 
 
 }
+
+void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
+{
+	state = SHOOTING;
+	animation_shooting.Reset();
+	
+	switch (typology)
+	{
+	case SHOT_DIR::LOW_LEFT:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+		break;
+	}
+	
+}
+
+
 
 void Enemy_Boss::OnCollision(Collider* collider)
 {

@@ -45,7 +45,10 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	path.PushBack(fdirection3 * SCROLL_SPEED / 2, 80, &fly);//goes left
 	path.LoopStart(20);
 	
-	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider_offset.x = 32;
+	collider_offset.y = 33;
+
+	collider = App->collision->AddCollider({ 200, 0, 40, 75 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -107,6 +110,7 @@ void Enemy_BonusAirship::OnCollision(Collider* collider)
 			App->bonus->AddBonus(RED_BONUS, position.x, position.y);
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
 			App->player->AddScore(50, collider->type);
+			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 		else
 			state = HURT;

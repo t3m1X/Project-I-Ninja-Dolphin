@@ -37,7 +37,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	
 	
 
-	collider = App->collision->AddCollider({ 0, 67, 33, 44 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 0, 67, 25, 35 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -51,7 +51,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 
 void Enemy_LightTank::Draw(SDL_Texture* sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
+	App->collision->SetPosition(collider, position.x + 5, position.y + 6);
 
  	switch (state) {
 	case HURT:
@@ -116,6 +116,7 @@ void Enemy_LightTank::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
+			App->audio->PlaySFX(App->particles->explosion.fx);
 			App->particles->AddParticle(CRATER, position.x + x_offset, position.y + y_offset);
 			App->player->AddScore(50, collider->type);
 		}

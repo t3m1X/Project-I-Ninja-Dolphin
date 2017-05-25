@@ -27,6 +27,8 @@ bool ModuleAudio::Init() {
 		ret = false;
 	}
 
+	Mix_AllocateChannels(MAX_SFX);
+
 	return ret;
 }
 
@@ -125,7 +127,12 @@ void ModuleAudio::FreeMusic(Mix_Music * music)
 
 void const ModuleAudio::PlaySFX(Mix_Chunk * sfx) 
 {
-	if (Mix_PlayChannel(1, sfx, 0) == -1) 
+	uint i = 0;
+	for (; i < MAX_SFX; ++i)
+		if (sfx == sfxs[i]) break;
+		
+	Mix_HaltChannel(i);
+	if (Mix_PlayChannel(i, sfx, 0) == -1) 
 		LOG("Mix_PlayChannel: Could not play sfx: %s\n", Mix_GetError());
 }
 

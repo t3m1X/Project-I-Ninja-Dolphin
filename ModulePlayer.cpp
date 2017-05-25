@@ -138,7 +138,6 @@ bool ModulePlayer::Start() {
 	shadow_right.y = 0;
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
-	laser_sfx = App->audio->LoadSFX("sfx/shot_regular.wav");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
 
 	return ret;
@@ -485,7 +484,6 @@ update_status ModulePlayer::Update() {
 
 
 				}
-				App->audio->PlaySFX(laser_sfx);
 				break;
 			case BLUE_BONUS:
 				players[i].animations[AN_SHOOTING_BLUE].Reset();
@@ -516,7 +514,7 @@ update_status ModulePlayer::Update() {
 					break;
 				}
 
-				App->audio->PlaySFX(laser_sfx);
+
 				break;
 			}
 		}
@@ -596,10 +594,7 @@ bool ModulePlayer::CleanUp() {
 	}
 
 	App->textures->Unload(player);
-	if (laser_sfx != nullptr) {
-		App->audio->FreeSFX(laser_sfx);
-		laser_sfx = nullptr;
-	}
+
 	if (font != nullptr) {
 		App->fonts->EraseFont(font);
 		font = nullptr;

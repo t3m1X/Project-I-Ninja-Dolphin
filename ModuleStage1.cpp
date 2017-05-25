@@ -26,7 +26,7 @@ bool ModuleStage1::Start() {
 
 	App->bonus->Enable();
 	App->collision->Enable();
-    //App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
+   
 
 	water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
 	water.speed = 0.05f;
@@ -35,6 +35,7 @@ bool ModuleStage1::Start() {
 	
 	
 	App->audio->PlayMusic(music);
+	App->audio->MusicVolume(10);
 
 	App->player->Enable();
 	SDL_Rect background_rect;

@@ -3,7 +3,6 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 #include "ModuleCollision.h"
 #include "ModuleFonts.h"
@@ -103,7 +102,6 @@ private:
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
 
-	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
 
 	uint highscore = 0;

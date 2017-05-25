@@ -32,7 +32,10 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	
 	path.loop = false;
 
-	collider = App->collision->AddCollider({ 518, 0, 146, 103 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider_offset.x = 40;
+	collider_offset.y = 30;
+
+	collider = App->collision->AddCollider({ 518, 0, 70, 50 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 	y_transition = position.y + 300;
@@ -104,6 +107,7 @@ void Enemy_Kamikaze::OnCollision(Collider* collider)
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y - 20);
 			App->player->AddScore(50, collider->type);
+			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 
 		else

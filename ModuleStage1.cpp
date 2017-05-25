@@ -150,27 +150,27 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 
-	if (App->input->HasController(1)) {
-		float axis_x = App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
-		if (axis_x < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2) {
-			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-			if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-				App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
-		}
+	//if (App->input->HasController(1)) {
+	//	float axis_x = App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
+	//	if (axis_x < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2) {
+	//		App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
+	//		if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
+	//			App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
+	//	}
 
-		if (axis_x > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2) {
-			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-			if (App->render->camera.x > STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-				App->render->camera.x = STAGE_WIDTH / 2 - SCREEN_WIDTH / 2;
-		}
-	}
-	else {
+	//	if (axis_x > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2) {
+	//		App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
+	//		if (App->render->camera.x > STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
+	//			App->render->camera.x = STAGE_WIDTH / 2 - SCREEN_WIDTH / 2;
+	//	}
+	//}
+	/*else {
 		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
 			App->render->camera.x -= SCROLL_SPEED;
 
 		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
 			App->render->camera.x += SCROLL_SPEED;
-	}
+	}*/
 
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
 	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
@@ -191,7 +191,6 @@ update_status ModuleStage1::Update() {
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;
-		App->player->AddScore(1);
 	}
 	else
 	{

@@ -70,7 +70,7 @@ void Enemy_LightAirship::OnCollision(Collider* collider)
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
 			App->audio->PlaySFX(App->particles->explosion.fx);
-			App->player->AddScore(50);
+			App->player->AddScore(50, collider->type);
 		}
 
 	}

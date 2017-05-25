@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -60,12 +61,43 @@ bool ModuleParticles::Start()
 	big_explosion.speed = { 0,0 };
 	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_tank.wav");
 
-	laserattack.anim.SetUp(81, 0, 2, 16, 1, 1, "0");
+	laserattack.anim.SetUp(91, 126, 3, 30, 3, 3, "0,1,2");
 	laserattack.anim.loop = true;
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
 	laserattack.fx = App->audio->LoadSFX("sfx/shot_laser.wav");
 
+	laserattbig.anim.SetUp(100, 124, 10, 31, 3, 3, "0,1,2");
+	laserattbig.anim.loop = true;
+	laserattbig.speed = { 0, -14 };
+	laserattbig.life = 1500;
+
+	bigasslaser.anim.SetUp(130, 89, 37, 33, 1, 1, "0");
+	bigasslaser.anim.loop = true;
+	bigasslaser.speed = { 0, -14 };
+	bigasslaser.life = 1500;
+
+	player1_explosion.anim.SetUp(0, 470, 115, 101, 4, 8, "0,1,2,3,4,5,6,7");
+	player1_explosion.anim.loop = false;
+	player1_explosion.anim.speed = 0.25f;
+	player1_explosion.life = 465;
+	player1_explosion.speed = { 0,0 };
+
+	player2_explosion.anim.SetUp(0, 672, 115, 101, 4, 8, "0,1,2,3,4,5,6,7");
+	player2_explosion.anim.loop = false;
+	player2_explosion.anim.speed = 0.25f;
+	player2_explosion.life = 465;
+	player2_explosion.speed = { 0,0 };
+
+	player1_pieces.anim.SetUp(81, 0, 10, 8, 4, 4, "0,1,2,3");
+	player1_pieces.anim.speed = 0.0f;
+	player1_pieces.speed = { 0,-7 };
+	player1_pieces.life = 1500;
+
+	player2_pieces.anim.SetUp(127, 0, 10, 8, 4, 4, "0,1,2,3");
+	player2_pieces.anim.speed = 0.0f;
+	player2_pieces.speed = { 0,-7 };
+	player2_pieces.life = 1500;
 
 	return true;
 }
@@ -77,10 +109,16 @@ bool ModuleParticles::CleanUp()
 	App->textures->Unload(graphics);
 	autoattack.anim.CleanUp();
 	laserattack.anim.CleanUp();
+	laserattbig.anim.CleanUp();
+	bigasslaser.anim.CleanUp();
 	explosion.anim.CleanUp();
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
+	player1_explosion.anim.CleanUp();
+	player2_explosion.anim.CleanUp();
+	player1_pieces.anim.CleanUp();
+	player2_pieces.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -123,7 +161,7 @@ update_status ModuleParticles::Update()
 				// Play particle fx here
 				if (p->fx != NULL)
 				{
-					//App->audio->PlaySFX(explosion.fx);
+					App->audio->PlaySFX(p->fx);
 				}
 			}
 		}
@@ -132,34 +170,58 @@ update_status ModuleParticles::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, Uint32 delay)
+void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direction, bool player1, Uint32 delay)
 {
 	
 	Particle* p = nullptr;
 	switch (type) {
 	case AUTOSHOT:
 		p = new Particle(autoattack);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
-		p->layer = 6;
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
 		break;
 
 	case LASERSHOT:
 		p = new Particle(laserattack);
-		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
-		p->layer = 6;
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
+		break;
+
+	case LASERBIGSHOT:
+		p = new Particle(laserattbig);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
+		break;
+
+	case BIGASSLASER:
+		p = new Particle(bigasslaser);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
 		break;
 
 	case EXPLOSION:
 		App->input->ShakeController(1, 500, 0.1f);
 		App->input->ShakeController(2, 500, 0.1f);
 		p = new Particle(explosion);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case ENEMYSHOT:
 		p = new Particle(enemyshot);
 		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_ENEMY_SHOT, this);
-		p->layer = 6;
+		p->layer = 5;
 		break;
 
 	case CRATER:
@@ -173,14 +235,38 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p = new Particle(big_explosion);
 		p->layer = 6;
 		break;
+
+	case PLAYER_EXPLOSION:
+		if (player1) {
+			p = new Particle(player1_explosion);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, nullptr);
+		}
+		else {
+			p = new Particle(player2_explosion);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, nullptr);
+		}
+		p->layer = 6;
+		break;
+
+	case PLAYER_BITS:
+		if (player1) {
+			p = new Particle(player1_pieces);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, nullptr);
+		}
+		else {
+			p = new Particle(player2_pieces);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, nullptr);
+		}
+		p->layer = 5;
+		srand(SDL_GetTicks());
+		p->anim.SetFrame(rand() % 4);
 	}
+
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();
 		direction = direction * p->speed.Length();
 		p->speed.x = direction.x;
 		p->speed.y = direction.y;
-		//p->speed.x = direction.x;
-		//p->speed.y = direction.y;
 	}
 
 	p->type = type;
@@ -240,22 +326,22 @@ Particle::Particle(const Particle& p) :
 bool Particle::Update()
 {
 	bool ret = true;
-
-	if (life > 0)
-	{
-		if ((SDL_GetTicks() - born) > life)
-			ret = false;
-	}
-	else
-		if (anim.Finished()) {
-			ret = false;
-			to_delete = true;
+	if (born <= SDL_GetTicks()) {
+		if (life > 0) {
+			if ((SDL_GetTicks() - born) > life)
+				ret = false;
 		}
+		else
+			if (anim.Finished()) {
+				ret = false;
+				to_delete = true;
+			}
 
-	position.x += speed.x;
-	position.y += speed.y;
+		position.x += speed.x;
+		position.y += speed.y;
 
-	App->collision->SetPosition(collider, position.x, position.y);
+		App->collision->SetPosition(collider, position.x, position.y);
+	}
 
 	return ret;
 }

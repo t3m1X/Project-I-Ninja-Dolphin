@@ -7,29 +7,42 @@
 
 Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 {
-	walk.SetUp(0, 381, 156, 154, 3, 3, "0,1,2");
-	walk.speed = 0.2f;
-
-
-	animation_shooting.SetUp(0, 535, 156, 154, 3, 3, "0,1,2");
-	animation_shooting.speed = 0.2f;
-	animation_shooting.loop = false;
-
-	animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2");
-
-	turret.SetUp(102, 67, 49, 43, 1, 1, "0");
-
 
 	switch (subtype)
 	{
 	case TYPE1:
 	{
+
+		walk.SetUp(0, 381, 156, 154, 3, 3, "0,1,2");
+		walk.speed = 0.2f;
+
+
+		animation_shooting.SetUp(0, 535, 156, 154, 3, 3, "0,1,2");
+		animation_shooting.speed = 0.2f;
+		animation_shooting.loop = false;
+
+		animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2");
+
+		turret.SetUp(102, 67, 49, 43, 1, 1, "0");
+
 		path.PushBack({ 0,-0.5f }, 100, &walk);
 		path.IsFinished();
 		break;
 	}
 	case TYPE2:
 	{
+
+		walk.SetUp(0, 732, 156, 154, 3, 3, "0,1,2");
+		walk.speed = 0.2f;
+
+		animation_shooting.SetUp(0, 886, 156, 154, 3, 3, "0,1,2");
+		animation_shooting.speed = 0.2f;
+		animation_shooting.loop = false;
+
+		animation_hurt.SetUp(0, 732, 156, 154, 4, 4, "2,3,2,3,2");
+
+		turret.SetUp(629, 590, 49, 43, 1, 1, "0");
+
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
 		break;

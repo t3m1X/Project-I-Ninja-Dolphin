@@ -23,11 +23,15 @@ public:
 	bool CleanUp();
 
 private:
+	void PrintWater(Animation* anim, int y_start, int n_tiles);
+
+private:
 
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
 	Mix_Music* music;
-	Animation water;
+	Animation sea_water;
+	Animation river_water;
 
 	
 

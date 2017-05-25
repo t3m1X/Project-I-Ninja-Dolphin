@@ -28,9 +28,12 @@ bool ModuleStage1::Start() {
 	App->collision->Enable();
    
 
-	water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
-	water.speed = 0.05f;
-	water.loop = true;
+	sea_water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
+	sea_water.speed = 0.05f;
+	sea_water.loop = true;
+	river_water.SetUp(0, 32, 32, 32, 7, 7, "0,1,2,3,4,5,6");
+	river_water.speed = 0.05f;
+	river_water.loop = true;
 	
 	
 	
@@ -150,40 +153,9 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 
-	//if (App->input->HasController(1)) {
-	//	float axis_x = App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
-	//	if (axis_x < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2) {
-	//		App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-	//		if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-	//			App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
-	//	}
-
-	//	if (axis_x > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2) {
-	//		App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-	//		if (App->render->camera.x > STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-	//			App->render->camera.x = STAGE_WIDTH / 2 - SCREEN_WIDTH / 2;
-	//	}
-	//}
-	/*else {
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-			App->render->camera.x -= SCROLL_SPEED;
-
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-			App->render->camera.x += SCROLL_SPEED;
-	}*/
-
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
 	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
-	if (!((-STAGE_HEIGHT - 32 * 58) >= App->render->camera.y + SCREEN_HEIGHT)) {
-		for (int i = 0; i < 58; i++) {
-			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
-				App->render->Blit(0, water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, { 0,1 }, &water.CurrentFrame());
-			}
-			y += 32;
-		}
-		water.GetCurrentFrame();
-	}
 
 	background.x += background.w;
 	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
@@ -198,7 +170,10 @@ update_status ModuleStage1::Update() {
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 
-	
+	PrintWater(&sea_water, 7253, 58);
+	PrintWater(&river_water, 5161, 14);
+	PrintWater(&river_water, 3205, 15);
+
 	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->intro, 0.8f);*/
 
@@ -224,7 +199,8 @@ bool ModuleStage1::CleanUp() {
 		App->audio->FreeMusic(music);
 		music = nullptr;
 	}
-	water.CleanUp();
+	sea_water.CleanUp();
+	river_water.CleanUp();
 	//App->fonts->EraseFont(font);
 	App->enemies->Disable();
 	App->collision->Disable();
@@ -233,4 +209,16 @@ bool ModuleStage1::CleanUp() {
 
 	
 	return ret;
+}
+
+void ModuleStage1::PrintWater(Animation * anim, int y_start, int n_tiles)
+{
+	y_start -= STAGE_HEIGHT - SCREEN_HEIGHT;
+	for (int i = 1; i <= n_tiles; i++) {
+		if (App->render->camera.y - SPAWN_MARGIN <= y_start - 32 * i && App->render->camera.y + SCREEN_HEIGHT > y_start - 32 * i)
+			for (int j = 0; j < STAGE_WIDTH / 32; ++j)
+				App->render->Blit(0, water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, y_start - 32 * i, { 0,1 }, &anim->CurrentFrame());
+		
+	}
+	anim->GetCurrentFrame();
 }

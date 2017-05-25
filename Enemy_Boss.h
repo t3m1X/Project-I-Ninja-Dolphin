@@ -9,12 +9,12 @@
 enum SHOT_DIR
 {
 	NO_DIR,
-	LOW_LEFT,
+	LOW_LEFT_DIR,
 	LEFT_DIR,
-	UP_LEFT,
-	UP_RIGHT,
+	UP_LEFT_DIR,
+	UP_RIGHT_DIR,
 	RIGHT_DIR,
-	LOW_RIGHT
+	LOW_RIGHT_DIR
 };
 
 class Enemy_Boss : public Enemy

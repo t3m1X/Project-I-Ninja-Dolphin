@@ -88,13 +88,20 @@ void Enemy_Boss::Move()
 	if (sdl_clock >= sdl_clock_start) {
 		shots++;
 		iPoint origin = position;
-		origin.x += 25;
+		origin.x += 10;
 		origin.y += walk.CurrentFrame().h -20;
-		Shoot(origin, LOW_LEFT);
-		/*App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });*/
-		/*origin.x += - 15;
+		Shoot(origin, LOW_LEFT_DIR);
 		origin.y += walk.CurrentFrame().h -210;
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });*/
+		Shoot(origin, LEFT_DIR);
+		origin.y += walk.CurrentFrame().h - 190;
+		Shoot(origin, UP_LEFT_DIR);
+		origin.x += 120;
+		origin.y += walk.CurrentFrame().h - 90;
+		Shoot(origin, LOW_RIGHT_DIR);
+		origin.y += walk.CurrentFrame().h - 190;
+		Shoot(origin, RIGHT_DIR);
+		origin.y += walk.CurrentFrame().h - 190;
+		Shoot(origin, UP_RIGHT_DIR);
 
 		if (shots >= 1) {
 			sdl_clock_start = sdl_clock + 600;
@@ -111,8 +118,23 @@ void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
 	
 	switch (typology)
 	{
-	case SHOT_DIR::LOW_LEFT:
+	case SHOT_DIR::LOW_LEFT_DIR:
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+		break;
+	case SHOT_DIR::LEFT_DIR:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });
+		break;
+	case SHOT_DIR::UP_LEFT_DIR:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,-1 });
+		break;
+	case SHOT_DIR::LOW_RIGHT_DIR:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+		break;
+	case SHOT_DIR::RIGHT_DIR:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,0 });
+		break;
+	case SHOT_DIR::UP_RIGHT_DIR:
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,-1 });
 		break;
 	}
 	

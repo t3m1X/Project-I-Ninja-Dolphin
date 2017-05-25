@@ -51,10 +51,10 @@ bool ModuleStage1::Start() {
 	App->enemies->Enable();
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 350, 6800);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 410, 6500);
+	/*App->enemies->AddEnemy(ENEMY_TYPES::BOX, 410, 6500);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 210, 6500);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 410, 6500);
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 350, 6300);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 350, 6300);*/
 	
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 200, 6000);
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 5900);

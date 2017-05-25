@@ -5,7 +5,7 @@
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
 
-Enemy_Boss::Enemy_Boss(int x, int y) : Enemy(x, y)
+Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 {
 	walk.SetUp(0, 381, 156, 154, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
@@ -19,8 +19,24 @@ Enemy_Boss::Enemy_Boss(int x, int y) : Enemy(x, y)
 
 	turret.SetUp(102, 67, 49, 43, 1, 1, "0");
 
-	path.PushBack({ 0,-0.5f }, 100, &walk);
-	path.IsFinished();
+
+	switch (subtype)
+	{
+	case TYPE1:
+	{
+		path.PushBack({ 0,-0.5f }, 100, &walk);
+		path.IsFinished();
+		break;
+	}
+	case TYPE2:
+	{
+		path.PushBack({ 1,0 }, 100, &walk);
+		path.PushBack({ -1,0 }, 100, &walk);
+		break;
+	}
+
+	}
+	
 	
 
 	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);

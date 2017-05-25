@@ -161,7 +161,8 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			enemies[i] = new Enemy_MoonAirship(info.x, info.y);
 			break;
 		case ENEMY_TYPES::BOSS:
-			enemies[i] = new Enemy_Boss(info.x, info.y);
+		case ENEMY_TYPES::BOSS_2:
+			enemies[i] = new Enemy_Boss(info.x, info.y, info.type);
 			break;
 
 		}

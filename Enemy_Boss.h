@@ -18,6 +18,12 @@ enum SHOT_DIR
 	PLAYER_DIR
 };
 
+enum BOSS_SUBTYPE
+{
+	TYPE1 = 11,
+	TYPE2
+};
+
 class Enemy_Boss : public Enemy
 {
 private:
@@ -33,7 +39,7 @@ private:
 
 public:
 
-	Enemy_Boss(int x, int y);
+	Enemy_Boss(int x, int y, int subtype);
 	~Enemy_Boss();
 
 	void Move();

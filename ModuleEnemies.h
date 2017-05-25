@@ -21,7 +21,8 @@ enum ENEMY_TYPES
 	BOX,
 	TURRET,
 	MOONAIRSHIP,
-	BOSS
+	BOSS,
+	BOSS_2
 	
 };
 

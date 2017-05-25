@@ -21,7 +21,8 @@ enum particle_type {
 	ENEMYSHOT,
 	CRATER,
 	BIG_EXPLOSION,
-	PLAYER_EXPLOSION
+	PLAYER_EXPLOSION,
+	PLAYER_BITS
 };
 
 struct Particle
@@ -40,8 +41,9 @@ struct Particle
 
 	Particle();
 	Particle(const Particle& p);
-	bool Update();
+	virtual bool Update();
 };
+
 class ModuleParticles : public Module
 {
 public:
@@ -75,6 +77,8 @@ public:
 	Particle big_explosion;
 	Particle player1_explosion;
 	Particle player2_explosion;
+	Particle player1_pieces;
+	Particle player2_pieces;
 	
 };
 

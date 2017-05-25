@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdlib.h>
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleTextures.h"
@@ -85,6 +86,15 @@ bool ModuleParticles::Start()
 	player2_explosion.life = 465;
 	player2_explosion.speed = { 0,0 };
 
+	player1_pieces.anim.SetUp(81, 0, 10, 8, 4, 4, "0,1,2,3");
+	player1_pieces.anim.speed = 0.0f;
+	player1_pieces.speed = { 0,-7 };
+	player1_pieces.life = 1500;
+
+	player2_pieces.anim.SetUp(127, 0, 10, 8, 4, 4, "0,1,2,3");
+	player2_pieces.anim.speed = 0.0f;
+	player2_pieces.speed = { 0,-7 };
+	player2_pieces.life = 1500;
 
 	return true;
 }
@@ -104,6 +114,8 @@ bool ModuleParticles::CleanUp()
 	big_explosion.anim.CleanUp();
 	player1_explosion.anim.CleanUp();
 	player2_explosion.anim.CleanUp();
+	player1_pieces.anim.CleanUp();
+	player2_pieces.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -231,14 +243,27 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, nullptr);
 		}
 		p->layer = 6;
+		break;
+
+	case PLAYER_BITS:
+		if (player1) {
+			p = new Particle(player1_pieces);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, nullptr);
+		}
+		else {
+			p = new Particle(player2_pieces);
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, nullptr);
+		}
+		p->layer = 5;
+		srand(SDL_GetTicks());
+		p->anim.SetFrame(rand() % 4);
 	}
+
 	if (direction.x != 999 && direction.y != 999) {
 		direction.Normalize();
 		direction = direction * p->speed.Length();
 		p->speed.x = direction.x;
 		p->speed.y = direction.y;
-		//p->speed.x = direction.x;
-		//p->speed.y = direction.y;
 	}
 
 	p->type = type;

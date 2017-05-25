@@ -283,7 +283,7 @@ update_status ModulePlayer::Update() {
 				}
 
 				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2))
-					App->render->camera.x += SCROLL_SPEED;
+					App->render->camera.x -= SCROLL_SPEED;
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
 					&& players[i].player_y > SPRITE_HEIGHT)
@@ -353,7 +353,7 @@ update_status ModulePlayer::Update() {
 				}
 
 				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2)) 
-					App->render->camera.x -= SCROLL_SPEED;
+					App->render->camera.x += SCROLL_SPEED;
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)
 					&& players[i].player_y > SPRITE_HEIGHT)
@@ -620,6 +620,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 				if (c2->type == COLLIDER_ENEMY_AIR || c2->type == COLLIDER_ENEMY_SHOT) {
 					App->input->ShakeController(i + 1, 2000, 1.0);
 					App->particles->AddParticle(PLAYER_EXPLOSION, players[i].player_world_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
+					SpawnBits(i == 0);
 					players[i].current_bonus = RED_BONUS;
 					players[i].amount_bonus = 0;
 					players[i].lives--;
@@ -673,5 +674,56 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	else {
 		if (players[player].amount_bonus < 3)
 			++players[player].amount_bonus;
+	}
+}
+
+void ModulePlayer::SpawnBits(bool player1)
+{
+	iPoint spawn_position;
+	float factor = (float)M_PI / 180.0f;
+	if (player1) {
+		for (int i = 0; i < 360; i += 30) {
+			spawn_position.x = (int)(players[0].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[0].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, true, 300);
+		}
+
+		for (int i = 15; i < 376; i += 32) {
+			spawn_position.x = (int)(players[0].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[0].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, true, 500);
+		}
+
+		for (int i = 0; i < 360; i += 32) {
+			spawn_position.x = (int)(players[0].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[0].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, true, 700);
+		}
+
+	}
+	else {
+		for (int i = 0; i < 360; i += 30) {
+			spawn_position.x = (int)(players[1].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[1].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, false, 300);
+		}
+
+		for (int i = 15; i < 376; i += 32) {
+			spawn_position.x = (int)(players[1].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[1].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, false, 500);
+		}
+
+		for (int i = 0; i < 360; i += 32) {
+			spawn_position.x = (int)(players[1].player_world_x + SPRITE_WIDTH * cos(i * factor));
+			spawn_position.y = (int)(players[1].player_y + App->render->camera.y + SPRITE_HEIGHT * sin(i * factor));
+			fPoint direction = { (float)spawn_position.x - (players[0].player_world_x + SPRITE_WIDTH / 2), (float)spawn_position.y - (players[0].player_y + App->render->camera.y + SPRITE_HEIGHT / 2) };
+			App->particles->AddParticle(PLAYER_BITS, spawn_position.x, spawn_position.y, direction, false, 700);
+		}
 	}
 }

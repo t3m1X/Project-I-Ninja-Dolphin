@@ -39,6 +39,8 @@ public:
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:
+	void SpawnBits(bool player1);
+private:
 	enum player_state {
 		OFF = 0,
 		DEAD,

@@ -32,6 +32,7 @@ private:
 	int original_y = 0;
 	Animation walk;
 	Animation turret;
+	Animation turret_shooting;
 	Path path;
 	iPoint original_position;
 	int shots = 0;

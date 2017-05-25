@@ -25,6 +25,10 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 
 		turret.SetUp(102, 67, 49, 43, 1, 1, "0");
 
+		turret_shooting.SetUp(152, 67, 50, 43, 3, 3, "0,1,2");
+		turret_shooting.speed = 0.2f;
+		turret_shooting.loop = false;
+
 		path.PushBack({ 0,-0.5f }, 100, &walk);
 		path.IsFinished();
 		break;
@@ -43,6 +47,10 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 
 		turret.SetUp(629, 590, 49, 43, 1, 1, "0");
 
+		turret_shooting.SetUp(629, 590, 50, 43, 3, 3, "0,1,2");
+		turret_shooting.speed = 0.2f;
+		turret_shooting.loop = false;
+		
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
 		break;
@@ -67,6 +75,7 @@ Enemy_Boss::~Enemy_Boss()
 {
 	walk.CleanUp();
 	turret.CleanUp();
+	turret_shooting.CleanUp();
 }
 
 
@@ -87,7 +96,7 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 
 	case SHOOTING:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_shooting.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
+		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret_shooting.GetCurrentFrame()));
 		if (animation_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();

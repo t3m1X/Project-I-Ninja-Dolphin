@@ -13,6 +13,7 @@
 #include "Enemy_Box.h"
 #include "Enemy_Turret.h"
 #include "Enemy_MoonAirship.h"
+#include "Enemy_Boss.h"
 
 #define SPAWN_MARGIN 200
 
@@ -158,6 +159,9 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			break;
 		case ENEMY_TYPES::MOONAIRSHIP:
 			enemies[i] = new Enemy_MoonAirship(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOSS:
+			enemies[i] = new Enemy_Boss(info.x, info.y);
 			break;
 
 		}

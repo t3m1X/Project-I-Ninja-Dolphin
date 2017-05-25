@@ -73,6 +73,7 @@
     <ClInclude Include="Application.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Enemy_BonusAirship.h" />
+    <ClInclude Include="Enemy_Boss.h" />
     <ClInclude Include="Enemy_Box.h" />
     <ClInclude Include="Enemy_Kamikaze.h" />
     <ClInclude Include="Enemy_LightAirship.h" />
@@ -106,6 +107,7 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Enemy_BonusAirship.cpp" />
+    <ClCompile Include="Enemy_Boss.cpp" />
     <ClCompile Include="Enemy_Box.cpp" />
     <ClCompile Include="Enemy_Kamikaze.cpp" />
     <ClCompile Include="Enemy_LightAirship.cpp" />

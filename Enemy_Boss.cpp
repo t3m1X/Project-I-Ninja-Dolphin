@@ -28,7 +28,7 @@ Enemy_Boss::Enemy_Boss(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 
-	sdl_clock_start = SDL_GetTicks() + 1000;
+	sdl_clock_start = SDL_GetTicks() + 2000;
 
 	type = GROUND;
 	hitpoints = 20;
@@ -46,7 +46,7 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 	App->collision->SetPosition(collider, position.x, position.y);
 	iPoint fdirection = App->player->GetPos() - position;
 
-	sdl_clock = SDL_GetTicks();
+	
 
 	switch (state) {
 	case REGULAR:
@@ -58,7 +58,7 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 
 	case SHOOTING:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_shooting.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x - 1, position.y - 2, fdirection, &(turret.GetCurrentFrame()));
+		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
 		if (animation_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -67,7 +67,7 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 
 	case HURT:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x - 1, position.y - 2, fdirection, &(turret.GetCurrentFrame()));
+		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
 		if (animation_hurt.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -85,20 +85,20 @@ void Enemy_Boss::Move()
 
 	sdl_clock = SDL_GetTicks();
 
-	//if (sdl_clock >= sdl_clock_start) {
-	//	shots++;
-	//	iPoint origin = position;
-	//	origin.x += 30;
-	//	origin.y += walk.CurrentFrame().h - 16;
-	//	Shoot(origin);
-	//	origin.x += 30;
-	//	Shoot(origin);
+	if (sdl_clock >= sdl_clock_start) {
+		shots++;
+		iPoint origin = position;
+		origin.x += 25;
+		origin.y += walk.CurrentFrame().h -20;
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+		origin.x += - 15;
+		origin.y += walk.CurrentFrame().h -210;
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });
 
-	//	if (shots >= 1) {
-	//		sdl_clock_start = sdl_clock + 500;
-	//		/*shots = 0;*/
-	//	}
-	//}
+		if (shots >= 1) {
+			sdl_clock_start = sdl_clock + 600;
+		}
+	}
 
 
 }

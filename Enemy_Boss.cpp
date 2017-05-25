@@ -102,12 +102,14 @@ void Enemy_Boss::Move()
 		Shoot(origin, RIGHT_DIR);
 		origin.y += walk.CurrentFrame().h - 190;
 		Shoot(origin, UP_RIGHT_DIR);
+		origin.x += -50;
+		origin.y += walk.CurrentFrame().h - 90;
+		Shoot(origin, PLAYER_DIR);
 
 		if (shots >= 1) {
 			sdl_clock_start = sdl_clock + 600;
 		}
 	}
-
 
 }
 
@@ -115,6 +117,7 @@ void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
 {
 	state = SHOOTING;
 	animation_shooting.Reset();
+	
 	
 	switch (typology)
 	{
@@ -136,6 +139,13 @@ void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
 	case SHOT_DIR::UP_RIGHT_DIR:
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,-1 });
 		break;
+	case SHOT_DIR::PLAYER_DIR:
+	{
+		iPoint player_position = App->player->GetPos();
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y });
+		break;
+	}
+
 	}
 	
 }

@@ -14,7 +14,8 @@ enum SHOT_DIR
 	UP_LEFT_DIR,
 	UP_RIGHT_DIR,
 	RIGHT_DIR,
-	LOW_RIGHT_DIR
+	LOW_RIGHT_DIR,
+	PLAYER_DIR
 };
 
 class Enemy_Boss : public Enemy

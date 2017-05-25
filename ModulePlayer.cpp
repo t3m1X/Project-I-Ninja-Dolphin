@@ -259,7 +259,7 @@ update_status ModulePlayer::Update() {
 						players[i].player_y += (PLAYER_SPEED + 1) *App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTY);
 				}
 
-				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x< SCREEN_WIDTH / 2)) {
+				if (App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2)) {
 					App->render->camera.x += (SCROLL_SPEED + 1) * App->input->GetControllerAxis(i + 1, SDL_CONTROLLER_AXIS_LEFTX);
 					if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
 							App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
@@ -352,7 +352,7 @@ update_status ModulePlayer::Update() {
 
 				}
 
-				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x < SCREEN_WIDTH / 2)) 
+				if (App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2 && (players[abs(i - 1)].state == OFF || players[abs(i - 1)].state == DEAD || players[abs(i - 1)].player_world_x - App->render->camera.x > SCREEN_WIDTH / 2)) 
 					App->render->camera.x += SCROLL_SPEED;
 
 				if (App->input->keyboard[players[i].inputs[PI_FORWARD]] == KEY_REPEAT && !(App->input->keyboard[players[i].inputs[PI_BACK]] == KEY_REPEAT)

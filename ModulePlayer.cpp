@@ -637,7 +637,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 iPoint ModulePlayer::GetPos()
 {
-	return { players[0].player_world_x, App->render->camera.y + players[0].player_y };
+	return { players[0].player_world_x + SPRITE_WIDTH / 2, App->render->camera.y + players[0].player_y + SPRITE_HEIGHT / 2};
 }
 
 void ModulePlayer::AddScore(uint score_add, COLLIDER_TYPE type)

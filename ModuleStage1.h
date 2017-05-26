@@ -27,11 +27,15 @@ private:
 
 private:
 
+	float cloud_position;
+
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
+	SDL_Texture* background_animations = nullptr;
 	Mix_Music* music;
 	Animation sea_water;
 	Animation river_water;
+	Animation coast;
 
 	
 

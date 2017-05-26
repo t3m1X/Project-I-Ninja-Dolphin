@@ -23,6 +23,7 @@ bool ModuleStage1::Start() {
 	stage_background = App->textures->Load("revamp_spritesheets/lvl1_placeholder.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
+	background_animations = App->textures->Load("revamp_spritesheets/backgroundanimations.png");
 
 	App->bonus->Enable();
 	App->collision->Enable();
@@ -34,8 +35,12 @@ bool ModuleStage1::Start() {
 	river_water.SetUp(0, 32, 32, 32, 7, 7, "0,1,2,3,4,5,6");
 	river_water.speed = 0.05f;
 	river_water.loop = true;
+
+	coast.SetUp(0, 0, 704, 93, 1, 7, "0,1,2,3,4,5,6");
+	coast.speed = 0.05f;
+	coast.loop = true;
 	
-	
+	cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;
 	
 	App->audio->PlayMusic(music);
 	App->audio->MusicVolume(10);
@@ -170,16 +175,22 @@ update_status ModuleStage1::Update() {
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, cloud_position, { 0,1 }, &background);
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
+	/*if (App->render->camera.y % 2)*/
+	cloud_position += 0.5;
+
+	if (cloud_position >= 0)
+		cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;
+
 	PrintWater(&sea_water, 7253, 58);
 	PrintWater(&river_water, 5161, 14);
 	PrintWater(&river_water, 3205, 15);
 
+	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, SCREEN_HEIGHT - STAGE_HEIGHT + 5789, { 0,1 }, &coast.GetCurrentFrame());
+
 	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->intro, 0.8f);*/
-
-
-	
-	//App->fonts->WriteText(font, "Test", App->render->camera.x, App->render->camera.y, { 255,255,255,255 });
 
 	return UPDATE_CONTINUE;
 }
@@ -201,7 +212,7 @@ bool ModuleStage1::CleanUp() {
 	}
 	sea_water.CleanUp();
 	river_water.CleanUp();
-	//App->fonts->EraseFont(font);
+	coast.CleanUp();
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();

@@ -11,19 +11,22 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 	walk.SetUp(629, 635, 94, 93, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
-	animation_shooting.SetUp(209, 253, 105, 123, 3, 3, "0,1,2");
-	animation_shooting.speed = 0.2f;
-	animation_shooting.loop = false;
+	turret.SetUp(629, 729, 43, 40, 1, 1, "0");
 
-	animation_hurt.SetUp(630, 634, 94, 93, 4, 4, "2,3,2,3,2");
+	turret_shooting.SetUp(673, 729, 43, 40, 1, 1, "0");
+	turret_shooting.speed = 0.2f;
+	turret_shooting.loop = false;
+
+
+	animation_hurt.SetUp(629, 635, 94, 93, 4, 4, "2,3,2,3,2");
 
 	if (position.x > SCREEN_WIDTH / 2)
 	{
 		path.PushBack({ 0,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
 		path.PushBack({ 0,-1 }, 50, &walk);
-		path.PushBack({ 0,0 }, 100, &walk);
-		path.PushBack({ 0,-1 }, 250, &walk);
+		path.PushBack({ 0,0 }, 50, &walk);
+		path.PushBack({ 0,-1.2f }, 250, &walk);
 		path.LoopStart(250);
 	}
 
@@ -32,8 +35,8 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 		path.PushBack({ 0,0 }, 100, &walk);
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ 0,-1 }, 50, &walk);
-		path.PushBack({ 0,0 }, 100, &walk);
-		path.PushBack({ 0,-1 }, 250, &walk);
+		path.PushBack({ 0,0 }, 50, &walk);
+		path.PushBack({ 0,-1.2f }, 250, &walk);
 		path.LoopStart(250);
 	}
 
@@ -45,13 +48,50 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 
 
 	type = GROUND;
-	hitpoints = 12;
+	hitpoints = 10;
 }
 
 Enemy_RotatoryTank::~Enemy_RotatoryTank()
 {
 	walk.CleanUp();
+	turret.CleanUp();
+	turret_shooting.CleanUp();
 }
+
+void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
+{
+	App->collision->SetPosition(collider, position.x, position.y);
+	
+
+	switch (state) {
+	case REGULAR:
+		if (animation != nullptr) {
+			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+			App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret.GetCurrentFrame()));
+		}
+		break;
+
+	case SHOOTING:
+		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
+		App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		if (turret_shooting.Finished()) {
+			state = REGULAR;
+			animation_hurt.Reset();
+		}
+		break;
+
+	case HURT:
+		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
+		App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		if (animation_hurt.Finished()) {
+			state = REGULAR;
+			animation_hurt.Reset();
+		}
+		break;
+	}
+
+}
+
 
 void Enemy_RotatoryTank::Move()
 {

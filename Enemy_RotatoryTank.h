@@ -12,6 +12,8 @@ private:
 	bool going_up = true;
 	int original_y = 0;
 	Animation walk;
+	Animation turret;
+	Animation turret_shooting;
 	Path path;
 	iPoint original_position;
 	int y_transition;
@@ -23,6 +25,7 @@ public:
 	~Enemy_RotatoryTank();
 
 	void Move();
+	void Draw(SDL_Texture * sprites);
 	void Shoot(iPoint origin);
 	void OnCollision(Collider* collider);
 };

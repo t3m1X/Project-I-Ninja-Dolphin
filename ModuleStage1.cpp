@@ -163,7 +163,7 @@ update_status ModuleStage1::Update() {
 	int y = 0;
 
 	background.x += background.w;
-	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
+	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
@@ -175,8 +175,8 @@ update_status ModuleStage1::Update() {
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 
-	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, cloud_position, { 0,1 }, &background);
-	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position, { 0,1 }, &background);
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
 	/*if (App->render->camera.y % 2)*/
 	cloud_position += 0.5;
 
@@ -187,7 +187,7 @@ update_status ModuleStage1::Update() {
 	PrintWater(&river_water, 5161, 14);
 	PrintWater(&river_water, 3205, 15);
 
-	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, SCREEN_HEIGHT - STAGE_HEIGHT + 5789, { 0,1 }, &coast.GetCurrentFrame());
+	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 , SCREEN_HEIGHT - STAGE_HEIGHT + 5758, { 0,1 }, &coast.GetCurrentFrame());
 
 	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
 		App->transition->Transition(this, App->intro, 0.8f);*/

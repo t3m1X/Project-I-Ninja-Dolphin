@@ -79,6 +79,7 @@ update_status ModuleRender::PostUpdate()
 
 	tmp.w = render_size.x;
 	tmp.h = render_size.y / 2 - SCREEN_HEIGHT * SCREEN_SIZE / 2;
+	tmp.x = 0;
 
 	SDL_RenderFillRect(renderer, &tmp);
 	tmp.y = render_size.y - tmp.h;

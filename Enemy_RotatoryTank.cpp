@@ -8,31 +8,33 @@
 
 Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 {
-	walk.SetUp(629, 635, 93, 93, 3, 3, "0,1,2");
+	walk.SetUp(629, 635, 94, 93, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
-	animation_shooting.SetUp(210, 253, 105, 123, 3, 3, "0,1,2");
+	animation_shooting.SetUp(209, 253, 105, 123, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
 	animation_shooting.loop = false;
 
-	animation_hurt.SetUp(629, 635, 93, 93, 4, 4, "2,3,2,3,2");
+	animation_hurt.SetUp(630, 634, 94, 93, 4, 4, "2,3,2,3,2");
 
 	if (position.x > SCREEN_WIDTH / 2)
 	{
 		path.PushBack({ 0,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
-		path.PushBack({ 0,1 }, 50, &walk);
+		path.PushBack({ 0,-1 }, 50, &walk);
 		path.PushBack({ 0,0 }, 100, &walk);
-		path.PushBack({ 0,1 }, 250, &walk);
+		path.PushBack({ 0,-1 }, 250, &walk);
+		path.LoopStart(250);
 	}
 
 	if (position.x < SCREEN_WIDTH / 2)
 	{
 		path.PushBack({ 0,0 }, 100, &walk);
 		path.PushBack({ 1,0 }, 100, &walk);
-		path.PushBack({ 0,1 }, 50, &walk);
+		path.PushBack({ 0,-1 }, 50, &walk);
 		path.PushBack({ 0,0 }, 100, &walk);
-		path.PushBack({ 0,1 }, 250, &walk);
+		path.PushBack({ 0,-1 }, 250, &walk);
+		path.LoopStart(250);
 	}
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);

@@ -5,6 +5,16 @@
 #include "Path.h"
 #include "Globals.h"
 
+
+enum ROUNDS
+{
+	NONE,
+	FIRST,
+	SECOND,
+	THIRD,
+	FOURTH
+};
+
 class Enemy_RotatoryTank : public Enemy
 {
 private:
@@ -18,6 +28,7 @@ private:
 	iPoint original_position;
 	int y_transition;
 	bool has_transitioned = false;
+	ROUNDS typology = ROUNDS::NONE;
 
 public:
 
@@ -26,7 +37,7 @@ public:
 
 	void Move();
 	void Draw(SDL_Texture * sprites);
-	void Shoot(iPoint origin);
+	void Shoot(iPoint origin, ROUNDS typology);
 	void OnCollision(Collider* collider);
 };
 

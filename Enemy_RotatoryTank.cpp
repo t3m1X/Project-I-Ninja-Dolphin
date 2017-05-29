@@ -101,27 +101,51 @@ void Enemy_RotatoryTank::Move()
 	if (sdl_clock >= sdl_clock_start + 2100 && !has_transitioned) { //seconds that the ship takes to shoot
 
 		iPoint origin = position;
-		origin.x += 45;
-		origin.y += walk.CurrentFrame().h;
-		Shoot(origin);
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+		origin.x  = origin.x + 40;
+		origin.y = origin.y + walk.CurrentFrame().h -54;
+		Shoot(origin, FIRST);
+		
 		sdl_clock_start = sdl_clock + 3167;
 	}
 
 }
 
-void Enemy_RotatoryTank::Shoot(iPoint origin)
+void Enemy_RotatoryTank::Shoot(iPoint origin, ROUNDS typology)
 {
 	state = SHOOTING;
 	animation_shooting.Reset();
 
 	sdl_clock = SDL_GetTicks();
 
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+	switch (typology)
+	{
+	case FIRST: 
+	{
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });//primera tanda, de arriba a abajo
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,-1 });
+	}
+	break;
+	case SECOND:
+	{
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,-1 });//diagonal de izq a derecha
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
+	}
+	break;
+	case THIRD:
+	{
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,-1 });//diagonal de deerecha a izquiera
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
+	}
+	break;
+	case FOURTH:
+	{
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,0 });//de izq a derecha
+		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });
+	}
+	break;
+
+	}
+
 	sdl_clock_start = sdl_clock + 3167;
 }
 

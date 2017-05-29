@@ -11,26 +11,29 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 	walk.SetUp(0, 253, 105, 123, 1, 1, "0");
 	walk.speed = 0.1f;
 
-	acceleration.SetUp(578, 253, 105, 123, 4, 4, "0,1,2,3");
-	acceleration.speed = 0.1f;
-
-
 	animation_shooting.SetUp(210, 253, 105, 123, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
 	animation_shooting.loop = false;
 
 	animation_hurt.SetUp(0, 253, 105, 123, 2, 2, "1,0,1,0,1");
 
-	shadow.SetUp(525, 327, 53, 48, 1, 1, "0");
+	if (position.x > SCREEN_WIDTH / 2)
+	{
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.PushBack({ -1,0 }, 100, &walk);
+		path.PushBack({ 0,1 }, 50, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.PushBack({ 0,1 }, 250, &walk);
+	}
 
-
-
-	
-
-
-
-
-
+	if (position.x < SCREEN_WIDTH / 2)
+	{
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.PushBack({ 1,0 }, 100, &walk);
+		path.PushBack({ 0,1 }, 50, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.PushBack({ 0,1 }, 250, &walk);
+	}
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -46,17 +49,10 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 Enemy_RotatoryTank::~Enemy_RotatoryTank()
 {
 	walk.CleanUp();
-	acceleration.CleanUp();
 }
 
 void Enemy_RotatoryTank::Move()
 {
-	if (!has_transitioned && position.y - App->render->camera.y >= SCREEN_HEIGHT * 5 / 8)
-	{
-		path.PushBack({ 0,2 }, 100, &acceleration);
-		has_transitioned = true;
-	}
-
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 

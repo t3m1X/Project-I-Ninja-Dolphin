@@ -50,108 +50,70 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 350, 6800);
-	/*App->enemies->AddEnemy(ENEMY_TYPES::BOX, 410, 6500);
-	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 210, 6500);
-	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 410, 6500);
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 350, 6300);*/
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 200, 6000);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 5900);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 550, 5800);
-     
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5485);
-	
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5900);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5820);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5800);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 340, 4360);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 550, 4300);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 420, 4260);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 460, 4225);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 320, 4175);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 435, 4100);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 460, 3420);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 175, 3330);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 510, 3290);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 425, 3235);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 570, 3190);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 480, 3175);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 504, 3130);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 450, 3115);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 520, 3088);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 465, 3050);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 540, 3040);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 455, 2987);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 520, 2973);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 563, 2935);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 195, 2455);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 390, 2377);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 490, 2345);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 540, 2315);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 485, 2290);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 417, 1756);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 555, 1691);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 459, 1691);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 1636);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 550, 1570);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 355, 1565);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 443, 1541);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 447, 1502);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 369, 1477);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 499, 1440);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 1436);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 395, 1421);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 447, 1402);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 411, 1362);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 1342);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 467, 1316);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 495, 1292);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 385, 913);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 235, 849);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 345, 825);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 720, 5500);
+	
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 350, 5375 + SPAWN_MARGIN);//it's static that why the spawn margin addition
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 200, 5420 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 500, 5420 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 350, 5300);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 550, 5200);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 200, 5300);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 323, 5100);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 4350);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 270, 5200);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 400, 5200);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 350, 5200);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 215, 4950);
 	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 465, 4950);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 350, 4800);
 
 	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 290, 4600);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 420, 4600);
 	
 
 	
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 4350);
 	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 4100);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 250, 4300);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 220, 4200);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 500, 4250);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 323, 3900);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 220, 3800);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 3800);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 3720);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 190, 3500);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 3500);
 	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 455, 3450);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 3400);
-
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 450, 3100);
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 400, 3150);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 450, 3150);
-
 	
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 260, 2780);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 2850);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 470, 2780);
-
-	
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 170, 2440);
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 2440);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 2000);
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 1900);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 190, 1450);
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 1370);
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 500, 1450);
-
-	
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 150, 870);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 780);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 600, 780);
-
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 210, 300);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 520, 300);
-	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 466, 600);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 400);
-	
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 195, 260);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 530, 260);
 	
 
 	return ret;

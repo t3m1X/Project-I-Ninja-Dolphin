@@ -26,9 +26,8 @@ private:
 	Animation turret_shooting;
 	Path path;
 	iPoint original_position;
-	int y_transition;
-	bool has_transitioned = false;
 	ROUNDS typology = ROUNDS::NONE;
+	int shots = 0;
 
 public:
 

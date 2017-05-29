@@ -97,17 +97,20 @@ void Enemy_RotatoryTank::Move()
 {
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
+	iPoint origin = position;
+	origin.x = origin.x + 40;
+	origin.y = origin.y + walk.CurrentFrame().h - 54;
 
-	if (sdl_clock >= sdl_clock_start + 2100 && !has_transitioned) { //seconds that the ship takes to shoot
+	if (sdl_clock >= sdl_clock_start + 2100) { 
 
-		iPoint origin = position;
-		origin.x  = origin.x + 40;
-		origin.y = origin.y + walk.CurrentFrame().h -54;
 		Shoot(origin, FIRST);
+		Shoot(origin, SECOND);
+		Shoot(origin, THIRD);
+		Shoot(origin, FOURTH);
 		
 		sdl_clock_start = sdl_clock + 3167;
 	}
-
+	
 }
 
 void Enemy_RotatoryTank::Shoot(iPoint origin, ROUNDS typology)
@@ -146,7 +149,7 @@ void Enemy_RotatoryTank::Shoot(iPoint origin, ROUNDS typology)
 
 	}
 
-	sdl_clock_start = sdl_clock + 3167;
+	/*sdl_clock_start = sdl_clock + 3167;*/
 }
 
 void Enemy_RotatoryTank::OnCollision(Collider* collider)

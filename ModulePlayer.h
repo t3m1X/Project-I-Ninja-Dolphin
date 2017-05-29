@@ -3,31 +3,25 @@
 
 #include "Module.h"
 #include "Globals.h"
-#include "ModuleAudio.h"
 #include "SDL\include\SDL.h"
 #include "ModuleCollision.h"
 #include "ModuleFonts.h"
 #include "Animation.h"
 #include "p2Point.h"
 
-#define PLAYER_SPEED 3
+#define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
 #define SHADOW_HEIGHT 25
-#define LASER_COOLDOWN 200
+#define SHOT_COOLDOWN 400
+#define LASER_COOLDOWN 20
+#define BIG_LASER_COOLDOWN 30
 
 struct SDL_Texture;
 struct Collider;
-
-enum player_state {
-	IDLE = 0,
-	LEFT,
-	RIGHT,
-	FORWARD,
-	STOP
-
-};
+enum BONUS_TYPE;
+enum COLLIDER_TYPE;
 
 class ModulePlayer : public Module {
 public:
@@ -40,48 +34,81 @@ public:
 	bool CleanUp();
 	void OnCollision(Collider* c1, Collider* c2);
 	iPoint GetPos();
-	void AddScore(uint score_add);
+	void AddScore(uint score_add, COLLIDER_TYPE type);
+	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 
 private:
+	void SpawnBits(bool player1);
+private:
+	enum player_state {
+		OFF = 0,
+		DEAD,
+		IDLE,
+		LEFT,
+		RIGHT,
+		FORWARD,
+		STOP
+	};
+
+	enum player_animation {
+		AN_IDLE = 0,
+		AN_IDLE_GOD,
+		AN_LEFT,
+		AN_LEFT_GOD,
+		AN_RIGHT,
+		AN_RIGHT_GOD,
+		AN_FIRE,
+		AN_FIRE_LEFT,
+		AN_FIRE_RIGHT,
+		AN_SHOOTING_RED,
+		AN_SHOOTING_BLUE,
+		AN_LIVE,
+		AN_MAX
+	};
+
+	enum player_input {
+		PI_FORWARD = 0,
+		PI_BACK,
+		PI_LEFT,
+		PI_RIGHT,
+		PI_SHOOT,
+		PI_BOMB,
+		PI_GODMODE,
+		PI_MAX
+	};
 	
+	struct player_struct{
+		int player_world_x, player_y;
+		player_state state;
+		Collider* player_collider = nullptr;
+		int lives = 3;
+
+		Animation animations[AN_MAX];
+		SDL_Scancode inputs[PI_MAX];
+
+		uint score = 0;
+		bool godmode = false;
+
+		BONUS_TYPE current_bonus;
+		int amount_bonus = 0;
+
+		uint sdl_shot = 0;
+		uint sdl_respawn = 0;
+
+	};
 	SDL_Texture* player;
-	SDL_Rect player_sprite;
-	SDL_Rect player_sprite_left;
-	SDL_Rect player_sprite_right;
-	SDL_Rect player_sprite_godmode;
-	SDL_Rect player_sprite_godmode_left;
-	SDL_Rect player_sprite_godmode_right;
+
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
 
-
-
-	player_state state;
-	Mix_Chunk* laser_sfx;
 	uint sdl_clock;
-	uint timing = 0;
-	uint sdl_shot;
 
-	Animation player_fire_forward;
-	Animation player_fire_left;
-	Animation player_fire_right;
-
-	Animation player_left;
-	Animation player_right;
-	Animation player_left_godmode;
-	Animation player_right_godmode;
-	
-	Collider* player_collider;
-	uint score = 0;
 	uint highscore = 0;
-	char* score_text;
-	char* highscore_text;
+
 	TTF_Font* font;
 
-	int player_x, player_y;
-
-	bool godmode = false;
+	player_struct players[2];
 };
 
 #endif

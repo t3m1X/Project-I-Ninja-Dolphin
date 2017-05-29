@@ -13,7 +13,6 @@ private:
 	bool going_up = true;
 	int original_y = 0;
 	Animation walk;
-	Animation damage;
 	Path path;
 	iPoint original_position;
 
@@ -23,7 +22,6 @@ public:
 	~Enemy_Bomb();
 
 	void Move();
-	void Damaged();
 	void OnCollision(Collider * collider);
 };
 

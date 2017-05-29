@@ -16,6 +16,7 @@ private:
 	float current_frame;
 	int loops = 0;
 	int animation_size = 0;
+	int start_frame = 0;
 
 public:
 
@@ -84,7 +85,7 @@ public:
 		current_frame += speed;
 		if (current_frame > animation_size - 1)
 		{
-			current_frame = (loop) ? 0.0f : animation_size - 1;
+			current_frame = (loop) ? start_frame : animation_size - 1;
 			loops++;
 		}
 
@@ -96,9 +97,19 @@ public:
 		return frames[animation[(int)current_frame]];
 	}
 
+	void SetFrame(int frame)
+	{
+		current_frame = frame;
+	}
+
 	bool Finished() const
 	{
 		return loops > 0;
+	}
+
+
+	void LoopStart(int start) {
+		start_frame = start;
 	}
 
 	void Reset()

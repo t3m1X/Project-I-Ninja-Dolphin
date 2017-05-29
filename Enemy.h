@@ -35,6 +35,9 @@ protected:
 	bool shot = false;
 	EnemyState state = REGULAR;
 
+	iPoint collider_offset;
+
+
 public:
 	iPoint position;
 
@@ -52,6 +55,7 @@ public:
 
 public:
 	int hitpoints;
+	bool to_delete = false;
 };
 
 #endif

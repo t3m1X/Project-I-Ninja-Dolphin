@@ -2,32 +2,60 @@
 #define __ModuleBonus_H__
 
 #include "Module.h"
+#include "Animation.h"
 
 #define MAX_BONUS 100
+#define SPAWN_MARGIN 200
 
 enum BONUS_TYPE
 {
 	NO_BONUS_TYPE,
-	RED
+	RED_BONUS,
+	BLUE_BONUS,
+	MISSILE_BONUS
 };
 
-class Bonus;
-
-struct BonusInfo
-{
+class Bonus {
+public:
+	Collider* col;
+	iPoint position;
 	BONUS_TYPE type = BONUS_TYPE::NO_BONUS_TYPE;
-	int x, y;
+
+public:
+	Bonus(int x, int y, BONUS_TYPE _type) : position(iPoint(x, y)), type(_type)
+	{}
+	~Bonus();
+
+	virtual void Update() {}
+	
+};
+
+class PowerUp : public Bonus {
+private:
+	iPoint bonus_position;
+	int circle_iterations = 0;
+	uint sdl_clock_next;
+	iPoint new_pos = { 0,0 };
+
+public:
+	PowerUp(int x, int y, BONUS_TYPE _type) : Bonus(x, y, _type) , bonus_position(iPoint(x,y))
+	{
+		sdl_clock_next = SDL_GetTicks() + 3000;
+	}
+
+	~PowerUp()
+	{}
+
+	void Update();
 };
 
 class ModuleBonus : public Module
 {
 public:
-
 	ModuleBonus();
 	~ModuleBonus();
 
 	bool Start();
-	update_status PreUpdate();
 	update_status Update();
 	update_status PostUpdate();
 	bool CleanUp();
@@ -37,13 +65,15 @@ public:
 
 private:
 
-	void SpawnBonus(const BonusInfo& info);
-
-private:
-
-	BonusInfo queue[MAX_BONUS];
 	Bonus* bonus[MAX_BONUS];
 	SDL_Texture* sprites;
+
+public:
+	//Animations
+	Animation blue_bonus;
+	Animation red_bonus;
+	Animation missile_bonus;
+
 };
 
 #endif

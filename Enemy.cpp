@@ -4,6 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
+#include "ModuleEnemies.h"
 
 Enemy::Enemy(int x, int y) : position(x, y)
 {
@@ -16,7 +17,7 @@ Enemy::Enemy(int x, int y) : position(x, y)
 Enemy::~Enemy()
 {
 	if (collider != nullptr)
-		collider->to_delete = true;
+		App->collision->EraseCollider(collider);
 
 	animation_hurt.CleanUp();
 	animation_shooting.CleanUp();
@@ -30,8 +31,9 @@ const Collider* Enemy::GetCollider() const
 
 void Enemy::Draw(SDL_Texture* sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
 
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
+	
 	switch (state) {
 	case REGULAR:
 		if (animation != nullptr)
@@ -54,6 +56,7 @@ void Enemy::Draw(SDL_Texture* sprites)
 		}
 		break;
 	}
+
 	if (type == AIRBORNE) {
 		iPoint shadow_position = position + iPoint(animation->CurrentFrame().w / 2 + SHADOW_DISTANCE_X, animation->CurrentFrame().h / 2 + SHADOW_DISTANCE_Y);
 		App->render->Blit(5, sprites, shadow_position.x, shadow_position.y, direction, &(shadow.GetCurrentFrame()));
@@ -66,7 +69,7 @@ void Enemy::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
-			App->player->AddScore(50);
+			App->player->AddScore(50, collider->type);
 		}
 		else
 			state = HURT;
@@ -81,3 +84,4 @@ void Enemy::Shoot(iPoint origin)
 	iPoint player_position = App->player->GetPos();
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
 }
+

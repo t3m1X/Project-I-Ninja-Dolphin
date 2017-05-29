@@ -8,8 +8,8 @@
 
 Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 {
-	fly.SetUp(0, 253, 105, 123, 1, 1, "0");
-	fly.speed = 0.1f;
+	walk.SetUp(0, 253, 105, 123, 1, 1, "0");
+	walk.speed = 0.1f;
 
 	acceleration.SetUp(578, 253, 105, 123, 4, 4, "0,1,2,3");
 	acceleration.speed = 0.1f;
@@ -25,25 +25,12 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 
 
 
-	direction = { 0,1 };
-	direction2 = { 1,-1 };
-	direction3 = { -1,-1 };
-
-
-	fPoint fdirection = { (float)direction.x,(float)direction.y };
-	fdirection.Normalize();
-	fPoint fdirection2 = { (float)direction2.x,(float)direction2.y };
-	fdirection2.Normalize();
-	fPoint fdirection3 = { (float)direction3.x,(float)direction3.y };
-	fdirection3.Normalize();
+	
 
 
 
-	path.PushBack(fdirection * 2, 20, &fly); // Arrives
-	path.PushBack({ 0, -SCROLL_SPEED }, 30, &fly); //Stays for some time
-	path.PushBack(fdirection2 * SCROLL_SPEED / 2, 80, &fly);//goes right
-	path.PushBack(fdirection3 * SCROLL_SPEED / 2, 80, &fly);//goes left
-	path.LoopStart(20);
+
+
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
@@ -58,7 +45,7 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 
 Enemy_RotatoryTank::~Enemy_RotatoryTank()
 {
-	fly.CleanUp();
+	walk.CleanUp();
 	acceleration.CleanUp();
 }
 
@@ -77,7 +64,7 @@ void Enemy_RotatoryTank::Move()
 
 		iPoint origin = position;
 		origin.x += 45;
-		origin.y += fly.CurrentFrame().h;
+		origin.y += walk.CurrentFrame().h;
 		Shoot(origin);
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });

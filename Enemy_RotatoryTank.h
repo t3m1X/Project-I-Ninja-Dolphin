@@ -11,12 +11,10 @@ private:
 	float wave = -1.0f;
 	bool going_up = true;
 	int original_y = 0;
-	Animation fly;
+	Animation walk;
 	Animation acceleration;
 	Path path;
 	iPoint original_position;
-	iPoint direction2;
-	iPoint direction3;
 	int y_transition;
 	bool has_transitioned = false;
 

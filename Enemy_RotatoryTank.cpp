@@ -8,14 +8,14 @@
 
 Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 {
-	walk.SetUp(0, 253, 105, 123, 1, 1, "0");
-	walk.speed = 0.1f;
+	walk.SetUp(629, 635, 93, 93, 3, 3, "0,1,2");
+	walk.speed = 0.2f;
 
 	animation_shooting.SetUp(210, 253, 105, 123, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.2f;
 	animation_shooting.loop = false;
 
-	animation_hurt.SetUp(0, 253, 105, 123, 2, 2, "1,0,1,0,1");
+	animation_hurt.SetUp(629, 635, 93, 93, 4, 4, "2,3,2,3,2");
 
 	if (position.x > SCREEN_WIDTH / 2)
 	{

@@ -23,11 +23,19 @@ public:
 	bool CleanUp();
 
 private:
+	void PrintWater(Animation* anim, int y_start, int n_tiles);
+
+private:
+
+	float cloud_position;
 
 	SDL_Texture* stage_background = nullptr;
 	SDL_Texture* water_texture = nullptr;
+	SDL_Texture* background_animations = nullptr;
 	Mix_Music* music;
-	Animation water;
+	Animation sea_water;
+	Animation river_water;
+	Animation coast;
 
 	
 

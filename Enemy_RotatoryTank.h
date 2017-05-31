@@ -5,16 +5,6 @@
 #include "Path.h"
 #include "Globals.h"
 
-
-enum ROUNDS
-{
-	NONE,
-	FIRST,
-	SECOND,
-	THIRD,
-	FOURTH
-};
-
 class Enemy_RotatoryTank : public Enemy
 {
 private:
@@ -26,8 +16,7 @@ private:
 	Animation turret_shooting;
 	Path path;
 	iPoint original_position;
-	ROUNDS typology = ROUNDS::NONE;
-	int shots = 0;
+	int shot_angle = 0;
 
 public:
 
@@ -36,7 +25,7 @@ public:
 
 	void Move();
 	void Draw(SDL_Texture * sprites);
-	void Shoot(iPoint origin, ROUNDS typology);
+	void Shoot(iPoint origin, fPoint direction);
 	void OnCollision(Collider* collider);
 };
 

@@ -67,13 +67,13 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 	case REGULAR:
 		if (animation != nullptr) {
 			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-			App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret.GetCurrentFrame()));
+			App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret.GetCurrentFrame()));
 		}
 		break;
 
 	case SHOOTING:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
 		if (turret_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -82,7 +82,7 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 
 	case HURT:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
 		if (animation_hurt.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -95,7 +95,7 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 
 void Enemy_RotatoryTank::Move()
 {
-	sdl_clock = SDL_GetTicks();
+	/*sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 	iPoint origin = position;
 	origin.x = origin.x + 40;
@@ -109,45 +109,36 @@ void Enemy_RotatoryTank::Move()
 		Shoot(origin, FOURTH);
 		
 		sdl_clock_start = sdl_clock + 3167;
-	}
+	}*/
+
+	position = original_position + path.GetCurrentPosition(&animation);
+
+	iPoint origin = position;
+	origin.x = origin.x + 40;
+	origin.y = origin.y + walk.CurrentFrame().h - 54;
 	
+	float factor = (float)M_PI / 180.0f;
+
+	if (shot_angle <= 360 && SDL_GetTicks() >= sdl_clock) {
+		int radius = 5;
+		iPoint shot_position;
+		shot_position.x = (int)(origin.x + radius * sin(shot_angle * factor));
+		shot_position.y = (int)(origin.y + radius * -cos(shot_angle * factor));
+		
+		fPoint shot_vector = { (float)shot_position.x - origin.x, (float)shot_position.y - origin.y };
+		Shoot(origin, shot_vector);
+		shot_angle += 45;
+	}
 }
 
-void Enemy_RotatoryTank::Shoot(iPoint origin, ROUNDS typology)
+void Enemy_RotatoryTank::Shoot(iPoint origin, fPoint direction)
 {
 	state = SHOOTING;
-	animation_shooting.Reset();
+	turret_shooting.Reset();
 
-	sdl_clock = SDL_GetTicks();
-
-	switch (typology)
-	{
-	case FIRST: 
-	{
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });//primera tanda, de arriba a abajo
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,-1 });
-	}
-	break;
-	case SECOND:
-	{
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,-1 });//diagonal de izq a derecha
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
-	}
-	break;
-	case THIRD:
-	{
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,-1 });//diagonal de deerecha a izquiera
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
-	}
-	break;
-	case FOURTH:
-	{
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,0 });//de izq a derecha
-		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,0 });
-	}
-	break;
-
-	}
+	sdl_clock = SDL_GetTicks() + 2000;
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, direction);
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, direction * -1);
 
 	/*sdl_clock_start = sdl_clock + 3167;*/
 }

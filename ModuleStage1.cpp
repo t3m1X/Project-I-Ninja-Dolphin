@@ -149,6 +149,11 @@ bool ModuleStage1::Start() {
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 375, 1037 + SPAWN_MARGIN);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 214, 2900 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 358, 2828 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 482, 2765 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 608, 2708 + SPAWN_MARGIN);
+
 	return ret;
 }
 

@@ -178,7 +178,7 @@ update_status ModuleStage1::Update() {
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position, { 0,1 }, &background);
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
 	/*if (App->render->camera.y % 2)*/
-	cloud_position += 0.5;
+	cloud_position += 1;
 
 	if (cloud_position >= 0)
 		cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;

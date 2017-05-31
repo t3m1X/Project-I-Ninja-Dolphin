@@ -147,6 +147,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 453, 3609 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 121, 3609 + SPAWN_MARGIN);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 375, 1037 + SPAWN_MARGIN);
+
 	return ret;
 }
 

@@ -21,7 +21,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 
 	path.PushBack({ 0,1 }, 200, &fly);
 
-	if(position.x > (App->render->camera.x + SCREEN_WIDTH) / 2) // if kamikaze spawsn left of the window goes right, and biceversa
+	if(position.x > SCREEN_WIDTH / 2) // if kamikaze spawsn left of the window goes right, and biceversa
 		path.PushBack({ -1,2 }, 125, &fly);
 	else
 		path.PushBack({ 1,2 }, 125, &fly);

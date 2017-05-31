@@ -101,7 +101,12 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 235, 849);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 345, 825);
 
-	
+	App->enemies->AddEnemy(ENEMY_TYPES::BONUSAIRSHIP, 350, 5427);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 420, 3900);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 400, 2888);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 443, 1711);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 331, 920);
+
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 350, 5375 + SPAWN_MARGIN);//it's static that why the spawn margin addition
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 200, 5420 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 500, 5420 + SPAWN_MARGIN);

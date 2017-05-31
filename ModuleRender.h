@@ -54,6 +54,7 @@ public:
 public:
 	SDL_Renderer* renderer = nullptr;
 	SDL_Rect camera;
+	iPoint render_size;
 };
 
 #endif //__ModuleRenderer_H__

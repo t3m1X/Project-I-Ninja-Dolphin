@@ -41,6 +41,7 @@ bool ModuleRender::Init()
 update_status ModuleRender::PreUpdate()
 {
 	SDL_RenderClear(renderer);
+	SDL_GetRendererOutputSize(renderer, &render_size.x, &render_size.y);
 
 	return update_status::UPDATE_CONTINUE;
 }
@@ -67,6 +68,22 @@ update_status ModuleRender::PostUpdate()
 		}
 		quads.pop_front();
 	}
+
+	SDL_Rect tmp = { 0,0,0, render_size.y };
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+	tmp.w = render_size.x / 2 - SCREEN_WIDTH * SCREEN_SIZE / 2;
+	SDL_RenderFillRect(renderer, &tmp);
+	tmp.x += SCREEN_WIDTH * SCREEN_SIZE + tmp.w;
+	SDL_RenderFillRect(renderer, &tmp);
+
+	tmp.w = render_size.x;
+	tmp.h = render_size.y / 2 - SCREEN_HEIGHT * SCREEN_SIZE / 2;
+	tmp.x = 0;
+
+	SDL_RenderFillRect(renderer, &tmp);
+	tmp.y = render_size.y - tmp.h;
+	SDL_RenderFillRect(renderer, &tmp);
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 100);
 	SDL_RenderPresent(renderer);
@@ -104,8 +121,8 @@ bool ModuleRender::Blit(int layer, SDL_Texture* texture, int x, int y, iPoint di
 
 	bool ret = true;
 	SDL_Rect rect;
-	rect.x = (int)(-camera.x + x) * SCREEN_SIZE;
-	rect.y = (int)(-camera.y + y) * SCREEN_SIZE;
+	rect.x = (int)((-camera.x + x) * SCREEN_SIZE) + (render_size.x / 2 - (SCREEN_WIDTH * SCREEN_SIZE) / 2);
+	rect.y = (int)((-camera.y + y) * SCREEN_SIZE) + (render_size.y / 2 - (SCREEN_HEIGHT * SCREEN_SIZE) / 2);
 
 	if(section != nullptr)
 	{
@@ -137,8 +154,8 @@ bool ModuleRender::DrawQuad(const SDL_Rect& rect, Uint8 r, Uint8 g, Uint8 b, Uin
 	SDL_Rect rec(rect);
 	if (use_camera)
 	{
-		rec.x = (int)(-camera.x + rect.x) * SCREEN_SIZE;
-		rec.y = (int)(-camera.y + rect.y) * SCREEN_SIZE;
+		rec.x = (int)((-camera.x + rect.x) * SCREEN_SIZE) + (render_size.x / 2 - (SCREEN_WIDTH * SCREEN_SIZE) / 2);
+		rec.y = (int)((-camera.y + rect.y) * SCREEN_SIZE) + (render_size.y / 2 - (SCREEN_HEIGHT * SCREEN_SIZE) / 2);
 		rec.w *= SCREEN_SIZE;
 		rec.h *= SCREEN_SIZE;
 	}

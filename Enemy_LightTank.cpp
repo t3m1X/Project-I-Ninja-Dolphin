@@ -30,7 +30,12 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 		break;
 
 	case VARIATION2:
-		path.PushBack({ -0.5f,0 }, 300, &walk);
+		Enemy::direction = { 1, 0 };
+		if(position.x > SCREEN_WIDTH / 2)
+			path.PushBack({ -0.5f,0 }, 300, &walk);
+		if (position.x < SCREEN_WIDTH / 2)
+			path.PushBack({ 0.5f,0 }, 300, &walk);
+
 		break;
 	}
 		
@@ -94,9 +99,6 @@ void Enemy_LightTank::Move()
 	position = original_position + path.GetCurrentPosition(&animation);
 
 	if (sdl_clock >= sdl_clock_start) {
-	/*	fPoint fdirection = { (float)direction.x, (float)direction.y };
-		fdirection.Normalize();
-		path.PushBack(fdirection*-5, 500, &walk);*/
 		shots++;
 		iPoint origin = position;
 		origin.x += 18;

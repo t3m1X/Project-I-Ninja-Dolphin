@@ -129,26 +129,23 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 667, 3741);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3678);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);
-	
 
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4979);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4669 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4669 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4605 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4605 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 603, 4171 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 133, 4034 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 199, 2680 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 556, 2631 + SPAWN_MARGIN);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 315, 4842 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 464, 4640 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 317, 4590 + SPAWN_MARGIN);
 
-
-	//App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 350, 5375 + SPAWN_MARGIN);//it's static that why the spawn margin addition
-	//App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 200, 5420 + SPAWN_MARGIN);
-	//App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 500, 5420 + SPAWN_MARGIN);
-	
-
-	
-	
-
-	
-
-	
-	
-	
-
-	
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 453, 3609 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 121, 3609 + SPAWN_MARGIN);
 
 	return ret;
 }

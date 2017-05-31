@@ -11,9 +11,9 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 	walk.SetUp(629, 635, 94, 93, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
-	turret.SetUp(629, 729, 43, 40, 1, 1, "0");
+	turret.SetUp(629, 729, 44, 46, 1, 1, "0");
 
-	turret_shooting.SetUp(673, 729, 43, 40, 1, 1, "0");
+	turret_shooting.SetUp(673, 729, 44, 46, 1, 1, "0");
 	turret_shooting.speed = 0.2f;
 	turret_shooting.loop = false;
 
@@ -45,6 +45,7 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	sdl_clock_start = SDL_GetTicks();
+	sdl_clock = sdl_clock_start + 2000;
 
 
 	type = GROUND;
@@ -62,18 +63,29 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 {
 	App->collision->SetPosition(collider, position.x, position.y);
 	
+	iPoint turret_direction;
+	float factor = M_PI / 180;
+	turret_direction.x = (100 * cos((turret_angle - 90) * factor));
+	turret_direction.y = (100 * -sin((turret_angle - 90) * factor));
+
+	if (rotating) {
+		turret_angle -= 6;
+		if (turret_angle <= -360)
+			rotating = false;
+	}
 
 	switch (state) {
 	case REGULAR:
 		if (animation != nullptr) {
 			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-			App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret.GetCurrentFrame()));
+			App->render->Blit(type, sprites, position.x + 20, position.y + 20, turret_direction, &(turret.GetCurrentFrame()));
 		}
 		break;
 
 	case SHOOTING:
+		rotating = true;
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-		App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 20, position.y + 20, turret_direction, &(turret_shooting.GetCurrentFrame()));
 		if (turret_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -82,7 +94,7 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 
 	case HURT:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
-		App->render->Blit(type, sprites, position.x + 20, position.y + 24, direction, &(turret_shooting.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 20, position.y + 20, turret_direction, &(turret_shooting.GetCurrentFrame()));
 		if (animation_hurt.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -95,22 +107,6 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 
 void Enemy_RotatoryTank::Move()
 {
-	/*sdl_clock = SDL_GetTicks();
-	position = original_position + path.GetCurrentPosition(&animation);
-	iPoint origin = position;
-	origin.x = origin.x + 40;
-	origin.y = origin.y + walk.CurrentFrame().h - 54;
-
-	if (sdl_clock >= sdl_clock_start + 2100) { 
-
-		Shoot(origin, FIRST);
-		Shoot(origin, SECOND);
-		Shoot(origin, THIRD);
-		Shoot(origin, FOURTH);
-		
-		sdl_clock_start = sdl_clock + 3167;
-	}*/
-
 	position = original_position + path.GetCurrentPosition(&animation);
 
 	iPoint origin = position;
@@ -119,13 +115,12 @@ void Enemy_RotatoryTank::Move()
 	
 	float factor = (float)M_PI / 180.0f;
 
-	if (shot_angle <= 360 && SDL_GetTicks() >= sdl_clock) {
-		int radius = 5;
-		iPoint shot_position;
-		shot_position.x = (int)(origin.x + radius * sin(shot_angle * factor));
-		shot_position.y = (int)(origin.y + radius * -cos(shot_angle * factor));
-		
-		fPoint shot_vector = { (float)shot_position.x - origin.x, (float)shot_position.y - origin.y };
+	if (shot_angle <= 720 && SDL_GetTicks() >= sdl_clock) {
+		int radius = 1;
+		fPoint shot_vector;
+		shot_vector.x = (radius * cos((shot_angle - 90) * factor));
+		shot_vector.y = (radius * sin((shot_angle - 90) * factor));
+		LOG("Direction x: %f, Direction y: %f", shot_vector.x, shot_vector.y);
 		Shoot(origin, shot_vector);
 		shot_angle += 45;
 	}
@@ -136,7 +131,7 @@ void Enemy_RotatoryTank::Shoot(iPoint origin, fPoint direction)
 	state = SHOOTING;
 	turret_shooting.Reset();
 
-	sdl_clock = SDL_GetTicks() + 2000;
+	sdl_clock = SDL_GetTicks() + 150;
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, direction);
 	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, direction * -1);
 

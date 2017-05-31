@@ -17,6 +17,8 @@ private:
 	Path path;
 	iPoint original_position;
 	int shot_angle = 0;
+	int turret_angle = 360;
+	bool rotating = false;
 
 public:
 

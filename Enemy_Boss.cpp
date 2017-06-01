@@ -199,7 +199,7 @@ void Enemy_Boss::OnCollision(Collider* collider, int subtype)
 	switch (subtype)
 	{
 	case TYPE1:
-	{
+	
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
@@ -210,10 +210,11 @@ void Enemy_Boss::OnCollision(Collider* collider, int subtype)
 			else
 				state = HURT;
 		}
-	}
+		break;
+	
 
 	case TYPE2:
-	{
+	
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
@@ -226,8 +227,8 @@ void Enemy_Boss::OnCollision(Collider* collider, int subtype)
 			else
 				state = HURT;
 		}
-
-	}
+		break;
+	
 
 	}
 

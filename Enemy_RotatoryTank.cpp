@@ -142,7 +142,7 @@ void Enemy_RotatoryTank::OnCollision(Collider* collider)
 {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
-			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
+			App->particles->AddParticle(BIG_EXPLOSION, position.x - 25, position.y - 40);
 			App->player->AddScore(50);
 		}
 		else

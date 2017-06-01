@@ -52,9 +52,9 @@ bool ModuleStage1::Start() {
 
 	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 150, 6300);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5900);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5820);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5800);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5600);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5520);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5500);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 340, 4360);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 550, 4300);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 420, 4260);
@@ -154,8 +154,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 482, 2765 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 608, 2708 + SPAWN_MARGIN);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 160, 2290);
-	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 501, 2290);
+	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 140, 2290);
+	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 520, 2290);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 350, 150);
 

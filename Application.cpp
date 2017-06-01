@@ -14,6 +14,7 @@
 #include "ModuleParticles.h"
 #include "ModuleEnemies.h"
 #include "ModuleBonus.h"
+#include "ModuleLoseScreen.h"
 
 Application::Application()
 {
@@ -33,7 +34,7 @@ Application::Application()
 	modules[i++] = particles = new ModuleParticles();
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = transition = new ModuleTransition();
-	
+	modules[i++] = losescreen = new ModuleLoseScreen();
 }	
 
 Application::~Application()
@@ -51,6 +52,7 @@ bool Application::Init()
 	stage1->Disable();
 	player->Disable();
 	bonus->Disable();
+	losescreen->Disable();
 	//-
 
 	for(int i = 0; i < NUM_MODULES && ret == true; ++i)

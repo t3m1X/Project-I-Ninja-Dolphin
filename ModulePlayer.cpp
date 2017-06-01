@@ -9,6 +9,7 @@
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
 #include "ModuleBonus.h"
+#include "ModuleLoseScreen.h"
 
 void NumberToChar(int number, char* string)
 {
@@ -631,7 +632,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 	if (players[0].lives <= 0 && (players[1].lives <= 0 || players[1].state == OFF)) {
 		Disable();
-		App->transition->Transition(App->stage1, App->intro, 0.8f);
+		App->transition->Transition(App->stage1, App->losescreen, 0.8f);
 	}
 }
 

@@ -42,7 +42,7 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 		/*path.LoopStart(250);*/
 	}
 
-	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 
 	original_position = position;
 

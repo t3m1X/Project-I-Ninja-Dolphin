@@ -28,7 +28,7 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	original_y = y;
 
 	type = GROUND;
-	hitpoints = 6;
+	hitpoints = 3;
 
 	
 	sdl_clock_start = SDL_GetTicks() + 500;

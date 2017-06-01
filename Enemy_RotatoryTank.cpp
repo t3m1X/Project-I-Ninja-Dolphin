@@ -26,8 +26,9 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 		path.PushBack({ -1,0 }, 100, &walk);
 		path.PushBack({ 0,-1 }, 50, &walk);
 		path.PushBack({ 0,0 }, 50, &walk);
-		path.PushBack({ 0,-1.2f }, 250, &walk);
-		path.LoopStart(250);
+		path.PushBack({ 0,-1.2f }, 120, &walk);
+		path.PushBack({ 0,0 }, 2000, &walk);
+		/*path.LoopStart(250);*/
 	}
 
 	if (position.x < SCREEN_WIDTH / 2)
@@ -36,8 +37,9 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ 0,-1 }, 50, &walk);
 		path.PushBack({ 0,0 }, 50, &walk);
-		path.PushBack({ 0,-1.2f }, 250, &walk);
-		path.LoopStart(250);
+		path.PushBack({ 0,-1.2f }, 120, &walk);
+		path.PushBack({ 0,0 }, 2000, &walk);
+		/*path.LoopStart(250);*/
 	}
 
 	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
@@ -143,6 +145,7 @@ void Enemy_RotatoryTank::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 25, position.y - 40);
+			App->particles->AddParticle(CRATER, position.x + 5, position.y + 5);
 			App->player->AddScore(50);
 		}
 		else

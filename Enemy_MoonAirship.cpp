@@ -69,7 +69,7 @@ void Enemy_MoonAirship::Move()
 
 	sdl_clock = SDL_GetTicks();
 
-	if (sdl_clock >= sdl_clock_start) {
+	if (sdl_clock >= sdl_clock_start &&  position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
 		shots++;
 		iPoint origin = position;
 		origin.x += 30;

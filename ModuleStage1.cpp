@@ -154,6 +154,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 482, 2765 + SPAWN_MARGIN);
 	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 608, 2708 + SPAWN_MARGIN);
 
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 350, 150);
+
 	return ret;
 }
 
@@ -206,16 +208,13 @@ update_status ModuleStage1::Update() {
 		App->render->camera.y -= SCROLL_SPEED;
 		App->player->AddScore(1);
 	}
-	else
+	/*else
 	{
 		App->player->Disable();
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
-
+*/
 	
-	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->transition->Transition(this, App->intro, 0.8f);*/
-
 
 	
 	//App->fonts->WriteText(font, "Test", App->render->camera.x, App->render->camera.y, { 255,255,255,255 });

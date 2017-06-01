@@ -46,7 +46,7 @@ public:
 	void Move();
 	void Draw(SDL_Texture * sprites);
 	void Shoot(iPoint origin, SHOT_DIR typology);
-	void OnCollision(Collider* collider);
+	void OnCollision(Collider* collider, int subtype);
 };
 
 

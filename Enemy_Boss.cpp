@@ -4,6 +4,9 @@
 #include "ModuleParticles.h"
 #include "ModuleRender.h"
 #include "ModulePlayer.h"
+#include "ModuleTransition.h"
+#include "ModuleStage1.h"
+#include "ModuleStageIntro.h"
 
 Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 {
@@ -90,13 +93,13 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 	case REGULAR:
 		if (animation != nullptr) {
 			App->render->Blit(type, sprites, position.x, position.y, direction, &(animation->GetCurrentFrame()));
-			App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
+			App->render->Blit(type, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
 		}
 		break;
 
 	case SHOOTING:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_shooting.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret_shooting.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 53, position.y + 63, fdirection, &(turret_shooting.GetCurrentFrame()));
 		if (animation_shooting.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -105,7 +108,7 @@ void Enemy_Boss::Draw(SDL_Texture * sprites)
 
 	case HURT:
 		App->render->Blit(type, sprites, position.x, position.y, direction, &(animation_hurt.GetCurrentFrame()));
-		App->render->Blit(4, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
+		App->render->Blit(type, sprites, position.x + 53, position.y + 63, fdirection, &(turret.GetCurrentFrame()));
 		if (animation_hurt.Finished()) {
 			state = REGULAR;
 			animation_hurt.Reset();
@@ -190,17 +193,42 @@ void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
 
 
 
-void Enemy_Boss::OnCollision(Collider* collider)
+void Enemy_Boss::OnCollision(Collider* collider, int subtype)
 {
-	if (state != HURT)
+
+	switch (subtype)
 	{
-		if (--hitpoints == 0) {
-			App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-			App->player->AddScore(50);
+	case TYPE1:
+	{
+		if (state != HURT)
+		{
+			if (--hitpoints == 0) {
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
+				App->player->AddScore(50);
+			}
+
+			else
+				state = HURT;
+		}
+	}
+
+	case TYPE2:
+	{
+		if (state != HURT)
+		{
+			if (--hitpoints == 0) {
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
+				App->player->AddScore(50);
+				App->player->Disable();
+				App->transition->Transition(App->stage1, App->intro, 0.8f);
+			}
+
+			else
+				state = HURT;
 		}
 
-		else
-			state = HURT;
+	}
+
 	}
 
 }

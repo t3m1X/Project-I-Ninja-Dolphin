@@ -97,10 +97,16 @@ public:
 		return frames[animation[(int)current_frame]];
 	}
 
+	void SetFrame(int frame)
+	{
+		current_frame = frame;
+	}
+
 	bool Finished() const
 	{
 		return loops > 0;
 	}
+
 
 	void LoopStart(int start) {
 		start_frame = start;

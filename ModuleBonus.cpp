@@ -20,19 +20,12 @@ ModuleBonus::~ModuleBonus()
 
 bool ModuleBonus::Start()
 {
-	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
-
 	red_bonus.SetUp(0, 0, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,3,4,5,6,7");
 	red_bonus.speed = 0.2f;
 
 	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
 	blue_bonus.speed = 0.2f;
-	
-	medal_bonus.SetUp(0, 78, 20, 35, 6, 6, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5");
-	medal_bonus.speed = 0.4f;
-
-	/*medal_bonus_dissapearing.SetUp(0, 78, 20, 35, 2, 2, "6,0,6,0,6,0");
-	medal_bonus_dissapearing.speed = 0.2f;*/
+	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
 
 	return true;
 }
@@ -55,9 +48,6 @@ update_status ModuleBonus::Update()
 				break;
 			case MISSILE_BONUS:
 				print = &missile_bonus;
-				break;
-			case MEDAL_BONUS:
-				print = &medal_bonus;
 				break;
 			}
 
@@ -95,7 +85,6 @@ bool ModuleBonus::CleanUp()
 	blue_bonus.CleanUp();
 	red_bonus.CleanUp();
 	missile_bonus.CleanUp();
-	medal_bonus.CleanUp();
 
 	for (uint i = 0; i < MAX_BONUS; ++i)
 	{
@@ -118,10 +107,6 @@ bool ModuleBonus::AddBonus(BONUS_TYPE type, int x, int y)
 
 	if (i != MAX_BONUS) {
 		switch (type) {
-		case BONUS_TYPE::MEDAL_BONUS:
-			bonus[i] = new PowerUp(x, y, type);
-			bonus[i]->col = App->collision->AddCollider(SDL_Rect{ x,y,19,33 }, COLLIDER_BONUS, this);
-			break;
 		case BONUS_TYPE::MISSILE_BONUS:
 		case BONUS_TYPE::BLUE_BONUS:
 		case BONUS_TYPE::RED_BONUS:
@@ -156,14 +141,7 @@ Bonus::~Bonus()
 
 void PowerUp::Update() {
 	int sdl_clock = SDL_GetTicks();
-	
-	/*if (type == MEDAL_BONUS && sdl_clock > sdl_clock_next)
-	{
-		sdl_clock_next = sdl_clock + 200;
-		medal_bonus_dissapearing.SetUp(0, 78, 20, 35, 2, 2, "6,0,6,0,6,0");
-		medal_bonus_dissapearing.speed = 0.2f;
 
-	}*/
 	if (type == BLUE_BONUS && sdl_clock > sdl_clock_next) {
 		type = RED_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
@@ -182,27 +160,25 @@ void PowerUp::Update() {
 	
 	int radius = 100;
 
-	if (type == RED_BONUS || type == BLUE_BONUS)
-	{
-		if (new_pos.x != 0) {
-			int factor = new_pos.x / abs(new_pos.x);
-			bonus_position.x += factor /** 2*/;
-			new_pos.x -= factor/* * 2*/;
-		}
-		if (new_pos.y != 0) {
-			int factor = new_pos.y / abs(new_pos.y);
-			bonus_position.y += factor * 2;
-			new_pos.y -= factor /** 2*/;
-		}
-		else
-			bonus_position.y -= SCROLL_SPEED;
-
-		position.x = (int)(bonus_position.x + radius * cos(circle_iterations * factor));
-		position.y = (int)(bonus_position.y + radius * sin(circle_iterations * factor));
-
-		App->collision->SetPosition(col, position.x, position.y);
-
-		if (++circle_iterations > 360)
-			circle_iterations = 0;
+	
+	if (new_pos.x != 0) {
+		int factor = new_pos.x / abs(new_pos.x);
+		bonus_position.x += factor /** 2*/;
+		new_pos.x -= factor/* * 2*/;
 	}
+	if (new_pos.y != 0) {
+		int factor = new_pos.y / abs(new_pos.y);
+		bonus_position.y += factor * 2;
+		new_pos.y -= factor /** 2*/;
+	}
+	else
+		bonus_position.y -= SCROLL_SPEED;
+
+	position.x = (int)(bonus_position.x + radius * cos(circle_iterations * factor));
+	position.y = (int)(bonus_position.y + radius * sin(circle_iterations * factor));
+
+	App->collision->SetPosition(col, position.x, position.y);
+
+	if (++circle_iterations > 360)
+		circle_iterations = 0;
 }

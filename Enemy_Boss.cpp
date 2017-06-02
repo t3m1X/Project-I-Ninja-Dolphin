@@ -204,7 +204,7 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		{
 			if (--hitpoints == 0) {
 				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-				App->player->AddScore(50);
+				App->player->AddScore(50, collider->type);
 			}
 
 			else
@@ -219,7 +219,7 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		{
 			if (--hitpoints == 0) {
 				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-				App->player->AddScore(50);
+				App->player->AddScore(50, collider->type);
 				App->transition->Transition(App->stage1, App->intro, 0.8f);
 			}
 

@@ -31,8 +31,9 @@ const Collider* Enemy::GetCollider() const
 
 void Enemy::Draw(SDL_Texture* sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
 
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
+	
 	switch (state) {
 	case REGULAR:
 		if (animation != nullptr)
@@ -68,7 +69,7 @@ void Enemy::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
-			App->player->AddScore(50);
+			App->player->AddScore(50, collider->type);
 		}
 		else
 			state = HURT;
@@ -81,6 +82,6 @@ void Enemy::Shoot(iPoint origin)
 	state = SHOOTING;
 	animation_shooting.Reset();
 	iPoint player_position = App->player->GetPos();
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - origin.x,  (float)player_position.y - origin.y});
 }
 

@@ -8,20 +8,24 @@
 #include "ModuleCollision.h"
 #include "ModuleAudio.h"
 
-#define MAX_ACTIVE_PARTICLES 100
+#define MAX_ACTIVE_PARTICLES 200
 
 struct SDL_Texture;
 
 enum particle_type {
 	AUTOSHOT = 0,
 	LASERSHOT,
+	LASERBIGSHOT,
+	BIGASSLASER,
 	EXPLOSION,
 	ENEMYSHOT,
 	CRATER,
 	BIG_EXPLOSION,
 	LIGHT_EXPLOSION,
 	TURRET_CRATER,
-	BOMBSHOT
+	BOMBSHOT,
+	PLAYER_EXPLOSION,
+	PLAYER_BITS
 };
 
 struct Particle
@@ -40,8 +44,9 @@ struct Particle
 
 	Particle();
 	Particle(const Particle& p);
-	bool Update();
+	virtual bool Update();
 };
+
 class ModuleParticles : public Module
 {
 public:
@@ -53,7 +58,7 @@ public:
 	bool CleanUp();
 
 	
-	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, bool player1 = true, Uint32 delay = 0);
 
 	void OnCollision(Collider * c1, Collider * c2);
 
@@ -67,6 +72,8 @@ public:
 
 	Particle autoattack;
 	Particle laserattack;
+	Particle laserattbig;
+	Particle bigasslaser;
 	Particle explosion;
 	Particle enemyshot;
 	Particle crater;
@@ -74,6 +81,10 @@ public:
 	Particle light_explosion;
 	Particle turret_crater;
 	Particle bombshot;
+	Particle player1_explosion;
+	Particle player2_explosion;
+	Particle player1_pieces;
+	Particle player2_pieces;
 };
 
 #endif // __MODULEPARTICLES_H__

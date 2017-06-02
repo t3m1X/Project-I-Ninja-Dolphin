@@ -23,23 +23,26 @@ bool ModuleStage1::Start() {
 	stage_background = App->textures->Load("revamp_spritesheets/lvl1_placeholder.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
-	shore_texture = App->textures->Load("revamp_spritesheets/backgroundanimations.png");
+	background_animations = App->textures->Load("revamp_spritesheets/backgroundanimations.png");
 
 	App->bonus->Enable();
 	App->collision->Enable();
-    //App->collision->AddCollider({ 320, 120, 50, 60 }, COLLIDER_WALL);
+   
+	sea_water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
+	sea_water.speed = 0.05f;
+	sea_water.loop = true;
+	river_water.SetUp(0, 32, 32, 32, 7, 7, "0,1,2,3,4,5,6");
+	river_water.speed = 0.05f;
+	river_water.loop = true;
 
-	water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
-	water.speed = 0.05f;
-	water.loop = true;
+	coast.SetUp(0, 0, 704, 93, 1, 7, "0,1,2,3,4,5,6");
+	coast.speed = 0.05f;
+	coast.loop = true;
 	
-	shore.SetUp(0, 25, 703, 100, 1, 7, "0,1,2,3,4,5,6");
-	shore.speed = 0.05f;
-	shore.loop = true;
-
-	
+	cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;
 	
 	App->audio->PlayMusic(music);
+	App->audio->MusicVolume(10);
 
 	App->player->Enable();
 	SDL_Rect background_rect;
@@ -164,52 +167,20 @@ bool ModuleStage1::Start() {
 
 update_status ModuleStage1::Update() {
 
-	if (App->input->HasController(1)) {
-		float axis_x = App->input->GetControllerAxis(1, SDL_CONTROLLER_AXIS_LEFTX);
-		if (axis_x < 0 && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2) {
-			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-			if (App->render->camera.x < SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-				App->render->camera.x = SCREEN_WIDTH / 2 - STAGE_WIDTH / 2;
-		}
-
-		if (axis_x > 0 && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2) {
-			App->render->camera.x += (SCROLL_SPEED + 1) * axis_x;
-			if (App->render->camera.x > STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-				App->render->camera.x = STAGE_WIDTH / 2 - SCREEN_WIDTH / 2;
-		}
-	}
-	else {
-		if (App->input->keyboard[SDL_SCANCODE_LEFT] == KEY_REPEAT && App->render->camera.x > SCREEN_WIDTH / 2 - STAGE_WIDTH / 2)
-			App->render->camera.x -= SCROLL_SPEED;
-
-		if (App->input->keyboard[SDL_SCANCODE_RIGHT] == KEY_REPEAT && App->render->camera.x < STAGE_WIDTH / 2 - SCREEN_WIDTH / 2)
-			App->render->camera.x += SCROLL_SPEED;
-	}
-
 	SDL_Rect background = { 0,0, STAGE_WIDTH, STAGE_HEIGHT };
 	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
-	if (!((-STAGE_HEIGHT - 32 * 58) >= App->render->camera.y + SCREEN_HEIGHT)) {
-		for (int i = 0; i < 58; i++) {
-			for (int j = 0; j < STAGE_WIDTH / 32; ++j) {
-				App->render->Blit(0, water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, -STAGE_HEIGHT + SCREEN_HEIGHT + background.h - y, { 0,1 }, &water.CurrentFrame());
-			}
-			y += 32;
-		}
-		water.GetCurrentFrame();
-	}
 
 	/*if (!((-STAGE_HEIGHT - 2000) >= App->render->camera.y + SCREEN_HEIGHT)) 
 		App->render->Blit(0, shore_texture, 0, 5700, { 0,1 }, &shore.CurrentFrame());*/
 	
 
 	background.x += background.w;
-	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + 4, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
+	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
 	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
 		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;
-		App->player->AddScore(1);
 	}
 	/*else
 	{
@@ -217,20 +188,29 @@ update_status ModuleStage1::Update() {
 		App->transition->Transition(App->stage1, App->intro, 0.8f);
 	}
 */
-	
 
-	
-	//App->fonts->WriteText(font, "Test", App->render->camera.x, App->render->camera.y, { 255,255,255,255 });
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position, { 0,1 }, &background);
+	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
+	/*if (App->render->camera.y % 2)*/
+	cloud_position += 1;
+
+	if (cloud_position >= 0)
+		cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;
+
+	PrintWater(&sea_water, 7253, 58);
+	PrintWater(&river_water, 5161, 14);
+	PrintWater(&river_water, 3205, 15);
+
+	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 , SCREEN_HEIGHT - STAGE_HEIGHT + 5758, { 0,1 }, &coast.GetCurrentFrame());
+
+	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
+		App->transition->Transition(this, App->intro, 0.8f);*/
 
 	return UPDATE_CONTINUE;
 }
 
 bool ModuleStage1::CleanUp() {
 	bool ret = true;
-	if(shore_texture != nullptr) {
-		App->textures->Unload(shore_texture);
-		shore_texture = nullptr;
-	}
 	if (water_texture != nullptr) {
 		App->textures->Unload(water_texture);
 		water_texture = nullptr;
@@ -244,9 +224,9 @@ bool ModuleStage1::CleanUp() {
 		App->audio->FreeMusic(music);
 		music = nullptr;
 	}
-	shore.CleanUp();
-	water.CleanUp();
-	//App->fonts->EraseFont(font);
+	sea_water.CleanUp();
+	river_water.CleanUp();
+	coast.CleanUp();
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();
@@ -254,4 +234,16 @@ bool ModuleStage1::CleanUp() {
 
 	
 	return ret;
+}
+
+void ModuleStage1::PrintWater(Animation * anim, int y_start, int n_tiles)
+{
+	y_start -= STAGE_HEIGHT - SCREEN_HEIGHT;
+	for (int i = 1; i <= n_tiles; i++) {
+		if (App->render->camera.y - SPAWN_MARGIN <= y_start - 32 * i && App->render->camera.y + SCREEN_HEIGHT > y_start - 32 * i)
+			for (int j = 0; j < STAGE_WIDTH / 32; ++j)
+				App->render->Blit(0, water_texture, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 + j * 32, y_start - 32 * i, { 0,1 }, &anim->CurrentFrame());
+		
+	}
+	anim->GetCurrentFrame();
 }

@@ -56,7 +56,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 
 	type = AIRBORNE;
-	hitpoints = 12;
+	hitpoints = 8;
 }
 
 Enemy_BonusAirship::~Enemy_BonusAirship()

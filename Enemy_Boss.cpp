@@ -34,6 +34,9 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 
 		path.PushBack({ 0,-0.5f }, 100, &walk);
 		path.IsFinished();
+
+		hitpoints = 10;
+
 		break;
 	}
 	case TYPE2:
@@ -56,6 +59,9 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
+
+		hitpoints = 20;
+
 		break;
 	}
 
@@ -72,7 +78,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 	sdl_clock_start = SDL_GetTicks() + 2000;
 
 	type = GROUND;
-	hitpoints = 20;
+	
 }
 
 Enemy_Boss::~Enemy_Boss()

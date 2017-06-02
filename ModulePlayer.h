@@ -8,6 +8,7 @@
 #include "ModuleFonts.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "ModuleAudio.h"
 
 #define PLAYER_SPEED 4
 #define SPRITE_WIDTH 57
@@ -97,6 +98,11 @@ private:
 
 	};
 	SDL_Texture* player;
+	SDL_Texture* you_lose;
+	bool game_over = false;
+
+	Mix_Music* game_over_mus = nullptr;
+	Animation you_lose_an;
 
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;

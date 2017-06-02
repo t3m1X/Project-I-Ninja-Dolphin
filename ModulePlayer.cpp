@@ -37,6 +37,13 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start() {
 	bool ret = true;
 
+	game_over = false;
+	you_lose = App->textures->Load("revamp_spritesheets/lose_screen.png");
+	game_over_mus = App->audio->LoadMusic("music/name_regist.ogg");
+
+	you_lose_an.SetUp(0, 0, 239, 151, 3, 5, "0,1,2,3,4");
+	you_lose_an.speed = 0.05f;
+
 	players[0].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
@@ -145,8 +152,32 @@ bool ModulePlayer::Start() {
 }
 
 update_status ModulePlayer::Update() {
+	
+	if (game_over) {
+		App->audio->PlayMusic(game_over_mus);
+		App->render->camera.x = 0;
+		App->render->Blit(7, you_lose, SCREEN_WIDTH / 2 - you_lose_an.CurrentFrame().w /2, App->render->camera.y + SCREEN_HEIGHT / 2 - you_lose_an.CurrentFrame().h / 2, { 0,1 }, &you_lose_an.GetCurrentFrame());
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_REPEAT) 
+			App->transition->Transition(App->stage1, App->stage1, 0.8f);
+
+		return UPDATE_CONTINUE;
+	}
 
 	sdl_clock = SDL_GetTicks();
+
+	if (App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
+	{
+		for (int i = 0; i < 2; ++i) {
+			if (players[i].state == OFF || players[i].state == DEAD)
+				continue;
+			players[i].state = DEAD;
+			players[i].lives = 0;
+			App->input->ShakeController(i + 1, 2000, 1.0);
+			App->particles->AddParticle(PLAYER_EXPLOSION, players[i].player_world_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
+			SpawnBits(i == 0);
+		}
+		game_over = true;
+	}
 
 	for (int i = 0; i < 2; ++i) {
 		switch (players[i].state) {
@@ -596,6 +627,8 @@ bool ModulePlayer::CleanUp() {
 
 	App->textures->Unload(player);
 
+	you_lose_an.CleanUp();
+
 	if (font != nullptr) {
 		App->fonts->EraseFont(font);
 		font = nullptr;
@@ -631,8 +664,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 
 	if (players[0].lives <= 0 && (players[1].lives <= 0 || players[1].state == OFF)) {
-		Disable();
-		App->transition->Transition(App->stage1, App->losescreen, 0.8f);
+		game_over = true;
 	}
 }
 

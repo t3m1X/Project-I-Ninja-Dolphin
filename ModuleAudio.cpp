@@ -138,10 +138,15 @@ void const ModuleAudio::PlaySFX(Mix_Chunk * sfx)
 
 void const ModuleAudio::PlayMusic(Mix_Music * music) 
 {
+	if (music == playing)
+		return;
 	//This will halt previous music if StopMusic() was not called, will fade-in in 5 seconds
 	//Music will play on infinite-loop
-	if (Mix_FadeInMusic(music, -1, 5000) == -1)
+	if (Mix_FadeInMusic(music, -1, 5000) == -1) {
 		LOG("Mix_FadeInMusic: Could not play music, error: %s\n", Mix_GetError());
+	}
+	else 
+		playing = music;
 
 }
 
@@ -157,4 +162,5 @@ void const ModuleAudio::StopMusic()
 {
 	//Fades-out 2 seconds
 	Mix_FadeOutMusic(2000);
+	playing = nullptr;
 }

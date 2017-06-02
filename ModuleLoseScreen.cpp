@@ -61,7 +61,7 @@ update_status ModuleLoseScreen::PostUpdate()
 
 void ModuleLoseScreen::DirectLose() {
 
-	if (App->input->keyboard[SDL_SCANCODE_F12] == KEY_DOWN)
+	if (App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
 	{
 		App->player->Disable();
 		App->transition->Transition(App->stage1, App->losescreen, 0.8f);

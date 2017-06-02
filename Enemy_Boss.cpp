@@ -8,9 +8,9 @@
 #include "ModuleStage1.h"
 #include "ModuleStageIntro.h"
 
-Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
+Enemy_Boss::Enemy_Boss(int x, int y, int type) : Enemy(x, y)
 {
-
+	subtype = (BOSS_SUBTYPE)type;
 	switch (subtype)
 	{
 	case TYPE1:
@@ -193,7 +193,7 @@ void Enemy_Boss::Shoot(iPoint origin, SHOT_DIR typology)
 
 
 
-void Enemy_Boss::OnCollision(Collider* collider, int subtype)
+void Enemy_Boss::OnCollision(Collider* collider)
 {
 
 	switch (subtype)
@@ -220,7 +220,6 @@ void Enemy_Boss::OnCollision(Collider* collider, int subtype)
 			if (--hitpoints == 0) {
 				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
 				App->player->AddScore(50);
-				App->player->Disable();
 				App->transition->Transition(App->stage1, App->intro, 0.8f);
 			}
 

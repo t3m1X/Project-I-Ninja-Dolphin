@@ -37,6 +37,7 @@ private:
 	iPoint original_position;
 	int shots = 0;
 	SHOT_DIR typology = SHOT_DIR::NO_DIR;
+	BOSS_SUBTYPE subtype;
 
 public:
 
@@ -46,7 +47,7 @@ public:
 	void Move();
 	void Draw(SDL_Texture * sprites);
 	void Shoot(iPoint origin, SHOT_DIR typology);
-	void OnCollision(Collider* collider, int subtype);
+	void OnCollision(Collider* collider);
 };
 
 

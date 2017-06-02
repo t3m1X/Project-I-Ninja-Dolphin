@@ -82,6 +82,6 @@ void Enemy::Shoot(iPoint origin)
 	state = SHOOTING;
 	animation_shooting.Reset();
 	iPoint player_position = App->player->GetPos();
-	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - position.x,  (float)player_position.y - origin.y});
+	App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { (float)player_position.x - origin.x,  (float)player_position.y - origin.y});
 }
 

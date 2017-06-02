@@ -9,7 +9,6 @@
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
 #include "ModuleBonus.h"
-#include "ModuleLoseScreen.h"
 
 void NumberToChar(int number, char* string)
 {
@@ -221,6 +220,7 @@ update_status ModulePlayer::Update() {
 					players[i].player_y -= PLAYER_SPEED;
 				else {
 					players[i].state = IDLE;
+					players[i].sdl_respawn = sdl_clock + 2500;
 					players[i].player_collider = App->collision->AddCollider({ 0, 0, 20, 35 }, COLLIDER_PLAYER, this);
 				}
 				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
@@ -228,7 +228,7 @@ update_status ModulePlayer::Update() {
 			}
 			continue;
 		case IDLE:
-			if (players[i].godmode)
+			if (players[i].godmode || sdl_clock <= players[i].sdl_respawn)
 				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 
 			else
@@ -262,7 +262,7 @@ update_status ModulePlayer::Update() {
 			break;
 
 		case LEFT:
-			if (players[i].godmode)
+			if (players[i].godmode || sdl_clock <= players[i].sdl_respawn)
 				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_LEFT_GOD].GetCurrentFrame());
 
 			else
@@ -332,7 +332,7 @@ update_status ModulePlayer::Update() {
 
 		case RIGHT:
 
-			if (players[i].godmode)
+			if (players[i].godmode || sdl_clock <= players[i].sdl_respawn)
 				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0,1 }, &players[i].animations[AN_RIGHT_GOD].GetCurrentFrame());
 
 			else
@@ -399,7 +399,7 @@ update_status ModulePlayer::Update() {
 
 		case FORWARD:
 
-			if (players[i].godmode)
+			if (players[i].godmode || sdl_clock <= players[i].sdl_respawn)
 				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 
 			else
@@ -436,7 +436,7 @@ update_status ModulePlayer::Update() {
 
 		case STOP:
 
-			if (players[i].godmode)
+			if (players[i].godmode || sdl_clock <= players[i].sdl_respawn)
 				App->render->Blit(6, player, players[i].player_world_x - 1, App->render->camera.y + players[i].player_y - 1, { 0, 1 }, &players[i].animations[AN_IDLE_GOD].GetCurrentFrame());
 			else
 				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
@@ -641,7 +641,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
 	for (int i = 0; i < 2; ++i) {
 		if (c1 == players[i].player_collider) {
-			if (players[i].godmode == true) {
+			if (players[i].godmode == true || sdl_clock <= players[i].sdl_respawn) {
 				return;
 			}
 
@@ -670,7 +670,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 
 iPoint ModulePlayer::GetPos()
 {
-	return { players[0].player_world_x, App->render->camera.y + players[0].player_y };
+	return { players[0].player_world_x + SPRITE_WIDTH / 2, App->render->camera.y + players[0].player_y + SPRITE_HEIGHT / 2};
 }
 
 void ModulePlayer::AddScore(uint score_add, COLLIDER_TYPE type)

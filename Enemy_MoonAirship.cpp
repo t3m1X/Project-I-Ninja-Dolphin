@@ -45,8 +45,11 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 		path.PushBack({ 0,-0.5 }, 40, &fly);
 		path.LoopStart(150);
 	}
-	
-	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+
+	collider_offset.x = 8;
+	collider_offset.y = 50;
+
+	collider = App->collision->AddCollider({ 200, 0, 80, 30 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 	

@@ -42,7 +42,10 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 		/*path.LoopStart(250);*/
 	}
 
-	collider = App->collision->AddCollider({ 200, 0, 105, 95 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
+	collider_offset.x = 7;
+	collider_offset.y = 17;
+
+	collider = App->collision->AddCollider({ 200, 0, 70, 55 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -63,7 +66,7 @@ Enemy_RotatoryTank::~Enemy_RotatoryTank()
 
 void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
 	
 	iPoint turret_direction;
 	float factor = M_PI / 180;

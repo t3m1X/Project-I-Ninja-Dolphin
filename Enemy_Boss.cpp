@@ -61,9 +61,10 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 
 	}
 	
-	
+	collider_offset.x = 38;
+	collider_offset.y = 15;
 
-	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 200, 0, 80, 130 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -84,7 +85,7 @@ Enemy_Boss::~Enemy_Boss()
 
 void Enemy_Boss::Draw(SDL_Texture * sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
 	iPoint fdirection = App->player->GetPos() - position;
 
 	

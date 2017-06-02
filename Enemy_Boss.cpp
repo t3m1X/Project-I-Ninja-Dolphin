@@ -220,7 +220,15 @@ void Enemy_Boss::OnCollision(Collider* collider)
 				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
 				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
 				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
-				App->player->AddScore(50, collider->type);
+
+				if (collider->type == COLLIDER_PLAYER_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
+					App->player->AddScore(300, collider->type);
+				}
+				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
+					App->player->AddScore(300, collider->type);
+				}
 			}
 
 			else
@@ -244,7 +252,16 @@ void Enemy_Boss::OnCollision(Collider* collider)
 				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
 				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
 				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
-				App->player->AddScore(50, collider->type);
+
+				if (collider->type == COLLIDER_PLAYER_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
+					App->player->AddScore(500, collider->type);
+				}
+				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
+					App->player->AddScore(500, collider->type);
+				}
+				
 				App->transition->Transition(App->stage1, App->intro, 0.8f);
 			}
 

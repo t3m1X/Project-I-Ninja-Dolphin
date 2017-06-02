@@ -106,7 +106,6 @@ void Enemy_Kamikaze::OnCollision(Collider* collider)
 	{
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y - 20);
-			App->player->AddScore(50, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 

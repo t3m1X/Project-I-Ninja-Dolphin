@@ -96,7 +96,7 @@ void Enemy_MoonAirship::OnCollision(Collider* collider)
 	{
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 		}
 
 		else

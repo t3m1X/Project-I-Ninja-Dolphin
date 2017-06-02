@@ -45,7 +45,7 @@ void Enemy_Box::OnCollision(Collider* collider) {
 		if (--hitpoints == 0) {
 			App->bonus->AddBonus(MEDAL_BONUS, position.x + 10, position.y);
 			App->particles->AddParticle(EXPLOSION, position.x - 15, position.y - 10);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(25, collider->type);
 
 		}
 

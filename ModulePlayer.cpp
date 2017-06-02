@@ -438,6 +438,18 @@ update_status ModulePlayer::Update() {
 			break;
 		}
 
+		if (App->input->HasController(i + 1)) {
+			if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_B) == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
+		else {
+			if (App->input->keyboard[players[i].inputs[PI_BOMB]] == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
 
 		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
 			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {

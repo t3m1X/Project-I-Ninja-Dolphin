@@ -24,6 +24,7 @@ enum particle_type {
 	LIGHT_EXPLOSION,
 	TURRET_CRATER,
 	BOMBSHOT,
+	BOMB_EXPLOSION,
 	PLAYER_EXPLOSION,
 	PLAYER_BITS
 };
@@ -81,6 +82,7 @@ public:
 	Particle light_explosion;
 	Particle turret_crater;
 	Particle bombshot;
+	Particle bombexplosion;
 	Particle player1_explosion;
 	Particle player2_explosion;
 	Particle player1_pieces;

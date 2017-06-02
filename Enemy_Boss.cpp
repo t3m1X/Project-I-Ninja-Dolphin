@@ -204,7 +204,16 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
-				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 20, position.y + 20);
+				App->particles->AddParticle(CRATER, position.x + 55, position.y + 55);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 95);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
 				App->player->AddScore(50, collider->type);
 			}
 
@@ -219,7 +228,16 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
-				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 20, position.y + 20);
+				App->particles->AddParticle(CRATER, position.x + 55, position.y + 55);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 95);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
 				App->player->AddScore(50, collider->type);
 				App->transition->Transition(App->stage1, App->intro, 0.8f);
 			}

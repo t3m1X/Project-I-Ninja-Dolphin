@@ -103,6 +103,8 @@ private:
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
 
+	SDL_Rect bomb_indicator;
+
 	uint sdl_clock;
 
 	uint highscore = 0;

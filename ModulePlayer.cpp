@@ -137,6 +137,11 @@ bool ModulePlayer::Start() {
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
 
+	bomb_indicator.h = 28;
+	bomb_indicator.w = 32;
+	bomb_indicator.x = 285;
+	bomb_indicator.y = 51;
+
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
 
@@ -579,6 +584,16 @@ update_status ModulePlayer::Update() {
 	if (players[1].state != OFF) {
 		for (int i = 1; i < players[1].lives; ++i)
 			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
+	}
+
+	//Printing bombs
+	//--Player 1
+	for (int i = 0; i < players[0].bombs; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + bomb_indicator.w * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 0; i < players[1].bombs; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - bomb_indicator.w * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
 	}
 	else {
 		if (App->input->HasController(2)) {

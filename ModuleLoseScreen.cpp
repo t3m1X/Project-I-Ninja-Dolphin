@@ -52,6 +52,25 @@ update_status ModuleLoseScreen::Update() {
 	return UPDATE_CONTINUE;
 }
 
+update_status ModuleLoseScreen::PostUpdate()
+{
+	DirectLose();
+
+	return UPDATE_CONTINUE;
+}
+
+void ModuleLoseScreen::DirectLose() {
+
+	if (App->input->keyboard[SDL_SCANCODE_F12] == KEY_DOWN)
+	{
+		App->transition->Transition(App->stage1, App->losescreen, 0.8f);
+		loosingscreen = !loosingscreen;
+	}
+
+	if (!loosingscreen)
+		return;
+}
+
 bool ModuleLoseScreen::CleanUp() {
 	bool ret = true;
 

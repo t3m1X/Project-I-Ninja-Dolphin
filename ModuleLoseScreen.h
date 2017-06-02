@@ -19,7 +19,9 @@ public:
 
 	bool Start();
 	update_status Update();
+	update_status PostUpdate();
 	bool CleanUp();
+	void DirectLose();
 
 private:
 
@@ -28,6 +30,7 @@ private:
 	Mix_Music* music;
 	Animation title_screen;
 	Animation stars;
+	bool loosingscreen = false;
 
 };
 

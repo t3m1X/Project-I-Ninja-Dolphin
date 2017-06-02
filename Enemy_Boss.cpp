@@ -32,8 +32,9 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		turret_shooting.speed = 0.2f;
 		turret_shooting.loop = false;
 
-		path.PushBack({ 0,-0.5f }, 100, &walk);
-		path.IsFinished();
+		path.PushBack({ 0,-1 }, 500, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.LoopStart(500);
 
 		hitpoints = 10;
 

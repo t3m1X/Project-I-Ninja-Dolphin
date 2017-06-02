@@ -53,7 +53,7 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 150, 6300);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 150, 6300);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5600);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5520);
@@ -160,7 +160,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 140, 2290);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 520, 2290);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 350, 150);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 350, 700);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 350, 50);
 
 	return ret;
 }

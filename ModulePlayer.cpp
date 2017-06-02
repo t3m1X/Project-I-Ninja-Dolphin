@@ -42,6 +42,13 @@ bool ModulePlayer::Start() {
 
 	you_lose_an.SetUp(0, 0, 239, 151, 3, 5, "0,1,2,3,4");
 	you_lose_an.speed = 0.05f;
+	
+	next_round = false;
+	you_win = App->textures->Load("revamp_spritesheets/loop_screen.png");
+	next_round_mus = App->audio->LoadMusic("music/continue.ogg");
+
+	you_win_an.SetUp(0, 0, 154, 206, 2, 2, "0,1");
+	you_win_an.speed = 0.05f;
 
 	players[0].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
@@ -162,6 +169,17 @@ update_status ModulePlayer::Update() {
 		return UPDATE_CONTINUE;
 	}
 
+	if (next_round)
+	{
+		App->audio->PlayMusic(next_round_mus);
+		App->render->camera.x = 0;
+		App->render->Blit(7, you_win, SCREEN_WIDTH / 2 - you_win_an.CurrentFrame().w / 2, App->render->camera.y + SCREEN_HEIGHT / 2 - you_win_an.CurrentFrame().h / 2, { 0,1 }, &you_win_an.GetCurrentFrame());
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_REPEAT)
+			App->transition->Transition(App->stage1, App->stage1, 0.8f);
+
+		return UPDATE_CONTINUE;
+	}
+
 	sdl_clock = SDL_GetTicks();
 
 	if (App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
@@ -176,6 +194,11 @@ update_status ModulePlayer::Update() {
 			SpawnBits(i == 0);
 		}
 		game_over = true;
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_F4] == KEY_DOWN)
+	{
+		next_round = true;
 	}
 
 	for (int i = 0; i < 2; ++i) {
@@ -628,6 +651,7 @@ bool ModulePlayer::CleanUp() {
 	App->textures->Unload(player);
 
 	you_lose_an.CleanUp();
+	you_win_an.CleanUp();
 
 	if (font != nullptr) {
 		App->fonts->EraseFont(font);

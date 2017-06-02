@@ -99,10 +99,14 @@ private:
 	};
 	SDL_Texture* player;
 	SDL_Texture* you_lose;
+	SDL_Texture* you_win;
 	bool game_over = false;
+	bool next_round = false;
 
 	Mix_Music* game_over_mus = nullptr;
+	Mix_Music* next_round_mus = nullptr;
 	Animation you_lose_an;
+	Animation you_win_an;
 
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;

@@ -71,9 +71,11 @@ void Enemy_RotatoryTank::Draw(SDL_Texture * sprites)
 	turret_direction.y = (100 * -sin((turret_angle - 90) * factor));
 
 	if (rotating) {
-		turret_angle -= 6;
-		if (turret_angle <= -360)
+		turret_angle -= 12;
+		if (turret_angle <= -360) {
 			rotating = false;
+			turret_angle = 0;
+		}
 	}
 
 	switch (state) {

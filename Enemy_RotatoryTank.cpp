@@ -151,6 +151,7 @@ void Enemy_RotatoryTank::OnCollision(Collider* collider)
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 25, position.y - 40);
 			App->particles->AddParticle(CRATER, position.x + 5, position.y + 5);
+			App->player->AddScore(150, collider->type);
 		}
 		else
 			state = HURT;

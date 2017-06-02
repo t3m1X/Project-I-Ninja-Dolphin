@@ -36,8 +36,5 @@ private:
 	Animation sea_water;
 	Animation river_water;
 	Animation coast;
-
-	
-
 };
 #endif

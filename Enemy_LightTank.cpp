@@ -7,7 +7,7 @@
 
 Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 {
-	walk.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
+	walk.SetUp(0, 67, 34, 45, 3, 3, "0,1,2");
 	walk.speed = 0.2f;
 
 	turret.SetUp(0, 112, 68, 69, 1, 1, "0");
@@ -30,7 +30,12 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 		break;
 
 	case VARIATION2:
-		path.PushBack({ -0.5f,0 }, 300, &walk);
+		Enemy::direction = { 1, 0 };
+		if(position.x > SCREEN_WIDTH / 2)
+			path.PushBack({ -0.5f,0 }, 300, &walk);
+		if (position.x < SCREEN_WIDTH / 2)
+			path.PushBack({ 0.5f,0 }, 300, &walk);
+
 		break;
 	}
 		
@@ -93,10 +98,7 @@ void Enemy_LightTank::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start) {
-	/*	fPoint fdirection = { (float)direction.x, (float)direction.y };
-		fdirection.Normalize();
-		path.PushBack(fdirection*-5, 500, &walk);*/
+	if (sdl_clock >= sdl_clock_start && position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
 		shots++;
 		iPoint origin = position;
 		origin.x += 18;

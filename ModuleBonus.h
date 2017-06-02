@@ -12,7 +12,8 @@ enum BONUS_TYPE
 	NO_BONUS_TYPE,
 	RED_BONUS,
 	BLUE_BONUS,
-	MISSILE_BONUS
+	MISSILE_BONUS,
+	MEDAL_BONUS
 };
 
 class Bonus {
@@ -73,6 +74,8 @@ public:
 	Animation blue_bonus;
 	Animation red_bonus;
 	Animation missile_bonus;
+	Animation medal_bonus;
+	Animation medal_bonus_dissapearing;
 
 };
 

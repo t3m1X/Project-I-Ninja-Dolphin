@@ -45,7 +45,7 @@ bool ModuleParticles::Start()
 	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
-	enemyshot.life = 1500;
+	enemyshot.life = 3000;
 	enemyshot.speed = { 0, -5};
 
 	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
@@ -66,6 +66,24 @@ bool ModuleParticles::Start()
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
 	laserattack.fx = App->audio->LoadSFX("sfx/shot_laser.wav");
+
+	light_explosion.anim.SetUp(0, 874, 64, 60, 7, 12, "0,1,2,3,4,5,6,7,8,9,10,11");
+	light_explosion.anim.loop = false;
+	light_explosion.anim.speed = 0.2f;
+	light_explosion.life = 600;
+	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+
+	turret_crater.anim.SetUp(199, 157, 54, 48, 3, 3, "0,1,2");
+	turret_crater.anim.loop = true;
+	turret_crater.anim.speed = 0.2f;
+	turret_crater.life = 8000;
+
+	bombshot.anim.SetUp(639, 0, 342, 310, 4, 16, "0,1,2,3,4,5,6,7,8,9,10,11,10,11,10,11,12,13,14,15");
+	bombshot.anim.loop = false;
+	bombshot.anim.speed = 0.2f;
+	bombshot.life = 2000;
+	bombshot.speed = { 0,0 };
+	
 
 	laserattbig.anim.SetUp(100, 124, 10, 31, 3, 3, "0,1,2");
 	laserattbig.anim.loop = true;
@@ -115,6 +133,9 @@ bool ModuleParticles::CleanUp()
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
+	light_explosion.anim.CleanUp();
+	turret_crater.anim.CleanUp();
+	bombshot.anim.CleanUp();
 	player1_explosion.anim.CleanUp();
 	player2_explosion.anim.CleanUp();
 	player1_pieces.anim.CleanUp();
@@ -236,6 +257,24 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 6;
 		break;
 
+	case LIGHT_EXPLOSION:
+		App->input->ShakeController(1, 500, 0.1f);
+		App->input->ShakeController(2, 500, 0.1f);
+		p = new Particle(light_explosion);
+		p->layer = 6;
+		break;
+
+	case TURRET_CRATER:
+		p = new Particle(turret_crater);
+		p->layer = 2;
+		break;
+		
+	case BOMBSHOT:
+		p = new Particle(bombshot);
+		p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_BOMB, this);
+		p->layer = 6;
+		break;
+
 	case PLAYER_EXPLOSION:
 		if (player1) {
 			p = new Particle(player1_explosion);
@@ -260,6 +299,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 5;
 		srand(SDL_GetTicks());
 		p->anim.SetFrame(rand() % 4);
+		break;
 	}
 
 	if (direction.x != 999 && direction.y != 999) {

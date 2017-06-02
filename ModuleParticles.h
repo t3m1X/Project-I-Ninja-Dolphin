@@ -21,6 +21,9 @@ enum particle_type {
 	ENEMYSHOT,
 	CRATER,
 	BIG_EXPLOSION,
+	LIGHT_EXPLOSION,
+	TURRET_CRATER,
+	BOMBSHOT,
 	PLAYER_EXPLOSION,
 	PLAYER_BITS
 };
@@ -75,11 +78,13 @@ public:
 	Particle enemyshot;
 	Particle crater;
 	Particle big_explosion;
+	Particle light_explosion;
+	Particle turret_crater;
+	Particle bombshot;
 	Particle player1_explosion;
 	Particle player2_explosion;
 	Particle player1_pieces;
 	Particle player2_pieces;
-	
 };
 
 #endif // __MODULEPARTICLES_H__

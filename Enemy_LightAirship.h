@@ -22,7 +22,7 @@ public:
 	~Enemy_LightAirship();
 
 	void Move();
-	void Enemy_LightAirship::OnCollision(Collider* collider);
+	void OnCollision(Collider* collider);
 };
 
 #endif

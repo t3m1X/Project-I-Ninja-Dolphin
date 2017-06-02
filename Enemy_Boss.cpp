@@ -8,10 +8,10 @@
 #include "ModuleStage1.h"
 #include "ModuleStageIntro.h"
 
-Enemy_Boss::Enemy_Boss(int x, int y, int type) : Enemy(x, y)
+Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 {
-	subtype = (BOSS_SUBTYPE)type;
-	switch (subtype)
+	Enemy_Boss::subtype = (BOSS_SUBTYPE)subtype;
+	switch (Enemy_Boss::subtype)
 	{
 	case TYPE1:
 	{

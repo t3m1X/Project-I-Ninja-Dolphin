@@ -576,8 +576,6 @@ update_status ModulePlayer::Update() {
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
 
-	if (App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
-		App->bonus->AddBonus(BOMB_BONUS, players[0].player_world_x, App->render->camera.y + players[0].player_y - 50);
 	//Printing lives
 	//--Player 1
 	for (int i = 1; i < players[0].lives; ++i)

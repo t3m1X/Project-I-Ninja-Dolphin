@@ -43,6 +43,8 @@ public:
 	ModuleEnemies* enemies;
 	ModuleBonus* bonus;	
 
+	int game_loops = 1;
+
 public:
 
 	Application();

@@ -263,7 +263,7 @@ void Enemy_Boss::OnCollision(Collider* collider)
 					App->player->AddScore(500, collider->type);
 				}
 				
-				App->transition->Transition(App->stage1, App->intro, 0.8f);
+				App->player->TriggerVictory();
 			}
 
 			else

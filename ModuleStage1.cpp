@@ -9,6 +9,7 @@
 #include "ModuleEnemies.h"
 #include "ModuleStageIntro.h"
 #include "ModuleBonus.h"
+#include "ModuleParticles.h"
 
 
 
@@ -27,6 +28,7 @@ bool ModuleStage1::Start() {
 
 	App->bonus->Enable();
 	App->collision->Enable();
+	App->particles->Enable();
    
 	App->render->camera = { 0,0 };
 
@@ -234,6 +236,7 @@ bool ModuleStage1::CleanUp() {
 	App->collision->Disable();
 	App->player->Disable();
 	App->bonus->Disable();
+	App->particles->Disable();
 
 	
 	return ret;

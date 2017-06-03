@@ -10,7 +10,7 @@
 #include "p2Point.h"
 #include "ModuleAudio.h"
 
-#define PLAYER_SPEED 4
+#define PLAYER_SPEED (4 + App->game_loops/5)
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
@@ -37,6 +37,7 @@ public:
 	iPoint GetPos();
 	void AddScore(uint score_add, COLLIDER_TYPE type);
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
+	void TriggerVictory();
 
 private:
 	void SpawnBits(bool player1);
@@ -120,9 +121,9 @@ private:
 	uint sdl_clock;
 
 	uint highscore = 0;
-	uint loops = 1;
 
 	TTF_Font* font;
+	TTF_Font* loops;
 
 	player_struct players[2];
 };

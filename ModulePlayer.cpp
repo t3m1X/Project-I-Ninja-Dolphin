@@ -114,6 +114,7 @@ bool ModulePlayer::Start() {
 
 		if (players[i].lives <= 0) {
 			players[i].lives = 3;
+			players[i].bombs = 3;
 			players[i].score = 0;
 		}
 
@@ -653,6 +654,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 					SpawnBits(i == 0);
 					players[i].current_bonus = RED_BONUS;
 					players[i].amount_bonus = 0;
+					players[i].missiles = 0;
 					players[i].lives--;
 					players[i].state = DEAD;
 					players[i].sdl_respawn = sdl_clock + 2000;

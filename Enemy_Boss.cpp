@@ -24,7 +24,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		animation_shooting.speed = 0.2f;
 		animation_shooting.loop = false;
 
-		animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2");
+		animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2,3,2");
 
 		turret.SetUp(102, 67, 49, 43, 1, 1, "0");
 
@@ -50,7 +50,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		animation_shooting.speed = 0.2f;
 		animation_shooting.loop = false;
 
-		animation_hurt.SetUp(0, 732, 156, 154, 4, 4, "2,3,2,3,2");
+		animation_hurt.SetUp(0, 732, 156, 154, 4, 4, "2,3,2,3,2,3,2");
 
 		turret.SetUp(629, 590, 49, 43, 1, 1, "0");
 

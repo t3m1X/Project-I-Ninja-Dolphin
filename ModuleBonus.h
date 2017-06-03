@@ -13,6 +13,7 @@ enum BONUS_TYPE
 	RED_BONUS,
 	BLUE_BONUS,
 	MISSILE_BONUS,
+	BOMB_BONUS,
 	MEDAL_BONUS
 };
 
@@ -37,6 +38,9 @@ private:
 	int circle_iterations = 0;
 	uint sdl_clock_next;
 	iPoint new_pos = { 0,0 };
+
+public:
+	SDL_Rect shadow;
 
 public:
 	PowerUp(int x, int y, BONUS_TYPE _type) : Bonus(x, y, _type) , bonus_position(iPoint(x,y))
@@ -74,6 +78,7 @@ public:
 	Animation blue_bonus;
 	Animation red_bonus;
 	Animation missile_bonus;
+	Animation bomb_bonus;
 	Animation medal_bonus;
 	Animation medal_bonus_dissapearing;
 

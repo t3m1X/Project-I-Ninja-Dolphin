@@ -5,7 +5,6 @@
 #include "ModuleTextures.h"
 #include "ModuleBonus.h"
 #include "ModulePlayer.h"
-#include <cstdlib>
 
 ModuleBonus::ModuleBonus()
 {
@@ -25,6 +24,13 @@ bool ModuleBonus::Start()
 
 	blue_bonus.SetUp(0, 26, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
 	blue_bonus.speed = 0.2f;
+
+	missile_bonus.SetUp(0, 52, 30, 26, 8, 8, "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,2,3,4,5,6,7");
+	missile_bonus.speed = 0.2f;
+
+	bomb_bonus.SetUp(0, 112, 40, 37, 5, 5, "0,1,2,3,4");
+	bomb_bonus.speed = 0.2f;
+
 	sprites = App->textures->Load("revamp_spritesheets/UpgradeBeacon.png");
 
 	return true;
@@ -42,12 +48,19 @@ update_status ModuleBonus::Update()
 			switch (bonus[i]->type) {
 			case RED_BONUS:
 				print = &red_bonus;
+				App->render->Blit(5, sprites, bonus[i]->position.x + SHADOW_DISTANCE_X, bonus[i]->position.y + SHADOW_DISTANCE_Y, { 0,1 }, &((PowerUp*)bonus[i])->shadow);
 				break;
 			case BLUE_BONUS:
 				print = &blue_bonus;
+				App->render->Blit(5, sprites, bonus[i]->position.x + SHADOW_DISTANCE_X, bonus[i]->position.y + SHADOW_DISTANCE_Y, { 0,1 }, &((PowerUp*)bonus[i])->shadow);
 				break;
 			case MISSILE_BONUS:
 				print = &missile_bonus;
+				App->render->Blit(5, sprites, bonus[i]->position.x + SHADOW_DISTANCE_X, bonus[i]->position.y + SHADOW_DISTANCE_Y, { 0,1 }, &((PowerUp*)bonus[i])->shadow);
+				break;
+			case BOMB_BONUS:
+				print = &bomb_bonus;
+				App->render->Blit(5, sprites, bonus[i]->position.x + SHADOW_DISTANCE_X, bonus[i]->position.y + SHADOW_DISTANCE_Y, { 0,1 }, &((PowerUp*)bonus[i])->shadow);
 				break;
 			}
 
@@ -85,6 +98,7 @@ bool ModuleBonus::CleanUp()
 	blue_bonus.CleanUp();
 	red_bonus.CleanUp();
 	missile_bonus.CleanUp();
+	bomb_bonus.CleanUp();
 
 	for (uint i = 0; i < MAX_BONUS; ++i)
 	{
@@ -111,6 +125,12 @@ bool ModuleBonus::AddBonus(BONUS_TYPE type, int x, int y)
 		case BONUS_TYPE::BLUE_BONUS:
 		case BONUS_TYPE::RED_BONUS:
 			bonus[i] = new PowerUp(x, y, type);
+			((PowerUp*)bonus[i])->shadow = { 241,0,15,13 };
+			bonus[i]->col = App->collision->AddCollider(SDL_Rect{ x,y,30,26 }, COLLIDER_BONUS, this);
+			break;
+		case BONUS_TYPE::BOMB_BONUS:
+			bonus[i] = new PowerUp(x, y, type);
+			((PowerUp*)bonus[i])->shadow = { 200,133,17,16 };
 			bonus[i]->col = App->collision->AddCollider(SDL_Rect{ x,y,30,26 }, COLLIDER_BONUS, this);
 			break;
 		}
@@ -145,21 +165,20 @@ void PowerUp::Update() {
 	if (type == BLUE_BONUS && sdl_clock > sdl_clock_next) {
 		type = RED_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
-
-		new_pos.x = (App->render->camera.x + SCREEN_WIDTH / 2) - bonus_position.x;
-		new_pos.y = (App->render->camera.y + SCREEN_HEIGHT / 2 - 100) - bonus_position.y;
 	}
 
 	else if (type == RED_BONUS && sdl_clock > sdl_clock_next) {
 		type = BLUE_BONUS;
 		sdl_clock_next = sdl_clock + 3000;
 	}
-	srand(SDL_GetTicks());
+
+	if (circle_iterations == 0) {
+		new_pos.x = (App->render->camera.x + SCREEN_WIDTH / 2) - bonus_position.x;
+		new_pos.y = (App->render->camera.y + SCREEN_HEIGHT / 2 - 100) - bonus_position.y;
+	}
 
 	float factor = (float)M_PI / 180.0f;
-	
 	int radius = 100;
-
 	
 	if (new_pos.x != 0) {
 		int factor = new_pos.x / abs(new_pos.x);

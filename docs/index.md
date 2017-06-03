@@ -1,4 +1,4 @@
-# Ninja Dolphins' Project: RAIDEN
+﻿# Ninja Dolphins' Project: RAIDEN
 
 ![Imgur](http://i.imgur.com/RD54xHT.png)
 
@@ -14,7 +14,7 @@ The plot takes part in a science fiction future (year 2090) where planet Earth i
 
 ## Members
 
-**Iv�n Papiol**
+**Iván Papiol**
 * Management
 * Github: [IVREI0T](https://github.com/IVREI0T)
 

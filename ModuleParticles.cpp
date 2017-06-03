@@ -81,14 +81,16 @@ bool ModuleParticles::Start()
 	bombshot.anim.SetUp(90, 93, 11, 30, 2, 2, "0,1,2");
 	bombshot.anim.loop = true;
 	bombshot.anim.speed = 0.2f;
-	bombshot.life = 1500;
+	bombshot.life = 1000;
 	bombshot.speed = { 0,-4 };
+	bombshot.fx = App->audio->LoadSFX("sfx/bomb_deploy.wav");
 	
 	bombexplosion.anim.SetUp(639, 0, 342, 310, 4, 14, "0,1,2,3,4,5,6,7,8,9,10,11,10,11,10,11,10,11,10,11,10,11,10,11,12,13");
 	bombexplosion.anim.loop = false;
 	bombexplosion.anim.speed = 0.15f;
 	bombexplosion.life = 2888;
 	bombexplosion.speed = { 0,0 };
+	bombexplosion.fx = App->audio->LoadSFX("sfx/bomb_explosion.wav");
 
 	laserattbig.anim.SetUp(100, 124, 10, 31, 3, 3, "0,1,2");
 	laserattbig.anim.loop = true;

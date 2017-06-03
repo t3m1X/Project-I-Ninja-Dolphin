@@ -61,8 +61,6 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 150, 6300);
-
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5600);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5520);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5500);

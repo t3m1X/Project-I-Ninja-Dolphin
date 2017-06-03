@@ -45,7 +45,7 @@ bool ModuleParticles::Start()
 	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
-	enemyshot.life = 1500;
+	enemyshot.life = 3000;
 	enemyshot.speed = { 0, -5};
 
 	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
@@ -66,6 +66,38 @@ bool ModuleParticles::Start()
 	laserattack.speed = { 0, -14 };
 	laserattack.life = 1500;
 	laserattack.fx = App->audio->LoadSFX("sfx/shot_laser.wav");
+
+	light_explosion.anim.SetUp(0, 874, 64, 60, 7, 12, "0,1,2,3,4,5,6,7,8,9,10,11");
+	light_explosion.anim.loop = false;
+	light_explosion.anim.speed = 0.2f;
+	light_explosion.life = 600;
+	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+
+	turret_crater.anim.SetUp(199, 157, 54, 48, 3, 3, "0,1,2");
+	turret_crater.anim.loop = true;
+	turret_crater.anim.speed = 0.2f;
+	turret_crater.life = 8000;
+
+	missile.anim.SetUp(90, 93, 11, 30, 3, 3, "0,1,2");
+	missile.anim.loop = true;
+	missile.anim.speed = 0.2f;
+	missile.acceleration = { 0,-1 };
+	missile.life = 6000;
+	missile.speed = { 0, -2 };
+
+	bombshot.anim.SetUp(168, 106, 12, 29, 2, 2, "0,1");
+	bombshot.anim.loop = true;
+	bombshot.anim.speed = 0.2f;
+	bombshot.life = 1000;
+	bombshot.speed = { 0,-4 };
+	bombshot.fx = App->audio->LoadSFX("sfx/bomb_deploy.wav");
+	
+	bombexplosion.anim.SetUp(639, 0, 342, 310, 4, 14, "0,1,2,3,4,5,6,7,8,9,10,11,10,11,10,11,10,11,10,11,10,11,10,11,12,13");
+	bombexplosion.anim.loop = false;
+	bombexplosion.anim.speed = 0.15f;
+	bombexplosion.life = 2888;
+	bombexplosion.speed = { 0,0 };
+	bombexplosion.fx = App->audio->LoadSFX("sfx/bomb_explosion.wav");
 
 	laserattbig.anim.SetUp(100, 124, 10, 31, 3, 3, "0,1,2");
 	laserattbig.anim.loop = true;
@@ -115,10 +147,15 @@ bool ModuleParticles::CleanUp()
 	enemyshot.anim.CleanUp();
 	crater.anim.CleanUp();
 	big_explosion.anim.CleanUp();
+	light_explosion.anim.CleanUp();
+	turret_crater.anim.CleanUp();
+	bombshot.anim.CleanUp();
+	bombexplosion.anim.CleanUp();
 	player1_explosion.anim.CleanUp();
 	player2_explosion.anim.CleanUp();
 	player1_pieces.anim.CleanUp();
 	player2_pieces.anim.CleanUp();
+	missile.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -144,6 +181,13 @@ update_status ModuleParticles::Update()
 
 		if (p->Update() == false || p->to_delete == true)
 		{
+			switch (p->type) {
+			default:
+				break;
+			case BOMBSHOT:
+				AddParticle(BOMB_EXPLOSION, p->position.x + p->anim.CurrentFrame().w / 2 - bombexplosion.anim.CurrentFrame().w / 2, p->position.y + p->anim.CurrentFrame().h / 2 - bombexplosion.anim.CurrentFrame().h / 2, { 999,999 }, p->collider->type == COLLIDER_PLAYER_BOMB);
+				break;
+			}
 			App->collision->EraseCollider(p->collider);
 			p->collider = nullptr;
 			delete p;
@@ -211,6 +255,15 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 5;
 		break;
 
+	case MISSILE:
+		p = new ACParticle(missile);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
+		break;
+
 	case EXPLOSION:
 		App->input->ShakeController(1, 500, 0.1f);
 		App->input->ShakeController(2, 500, 0.1f);
@@ -234,6 +287,36 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		App->input->ShakeController(2, 500, 0.3f);
 		p = new Particle(big_explosion);
 		p->layer = 6;
+		break;
+
+	case LIGHT_EXPLOSION:
+		App->input->ShakeController(1, 500, 0.1f);
+		App->input->ShakeController(2, 500, 0.1f);
+		p = new Particle(light_explosion);
+		p->layer = 6;
+		break;
+
+	case TURRET_CRATER:
+		p = new Particle(turret_crater);
+		p->layer = 2;
+		break;
+		
+	case BOMBSHOT:
+		p = new Particle(bombshot);
+		p->layer = 6;
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		break;
+
+	case BOMB_EXPLOSION:
+		p = new Particle(bombexplosion);
+		p->layer = 6;
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_BOMB, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_BOMB, this);
 		break;
 
 	case PLAYER_EXPLOSION:
@@ -260,6 +343,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 		p->layer = 5;
 		srand(SDL_GetTicks());
 		p->anim.SetFrame(rand() % 4);
+		break;
 	}
 
 	if (direction.x != 999 && direction.y != 999) {
@@ -279,7 +363,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	for (int i = 0; i < MAX_ACTIVE_PARTICLES; ++i) 		{
 		if (active[i] == nullptr) 			{
 			found = true;
-			active[i] = p;
+			active[i] = (Particle*)p;
 			break;
 		}
 	}
@@ -339,6 +423,41 @@ bool Particle::Update()
 
 		position.x += speed.x;
 		position.y += speed.y;
+
+		App->collision->SetPosition(collider, position.x, position.y);
+	}
+
+	return ret;
+}
+
+bool ACParticle::Update()
+{
+	bool ret = true;
+
+	if (sdl_acc == 0)
+		sdl_acc = born + 10;
+
+	if (born <= SDL_GetTicks()) {
+		if (life > 0) {
+			if ((SDL_GetTicks() - born) > life)
+				ret = false;
+		}
+		else
+			if (anim.Finished()) {
+				ret = false;
+				to_delete = true;
+			}
+
+		position.x += speed.x;
+		position.y += speed.y;
+
+		if (sdl_acc <= SDL_GetTicks())
+		{
+			++iterations;
+			speed = speed + acceleration;
+			acceleration = acceleration * (1 + iterations / 10);
+			sdl_acc = SDL_GetTicks() + 100;
+		}
 
 		App->collision->SetPosition(collider, position.x, position.y);
 	}

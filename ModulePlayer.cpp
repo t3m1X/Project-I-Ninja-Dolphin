@@ -128,6 +128,7 @@ bool ModulePlayer::Start() {
 
 		if (players[i].lives <= 0) {
 			players[i].lives = 3;
+			players[i].bombs = 3;
 			players[i].score = 0;
 		}
 
@@ -150,6 +151,11 @@ bool ModulePlayer::Start() {
 	shadow_right.w = SHADOW_WIDTH;
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
+
+	bomb_indicator.h = 23;
+	bomb_indicator.w = 25;
+	bomb_indicator.x = 285;
+	bomb_indicator.y = 51;
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
@@ -174,8 +180,15 @@ update_status ModulePlayer::Update() {
 		App->audio->PlayMusic(next_round_mus);
 		App->render->camera.x = 0;
 		App->render->Blit(7, you_win, SCREEN_WIDTH / 2 - you_win_an.CurrentFrame().w / 2, App->render->camera.y + SCREEN_HEIGHT / 2 - you_win_an.CurrentFrame().h / 2, { 0,1 }, &you_win_an.GetCurrentFrame());
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_REPEAT)
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_REPEAT) {
 			App->transition->Transition(App->stage1, App->stage1, 0.8f);
+			for (int i = 0; i < 2; ++i) {
+				if (players[i].lives > 0) {
+					players[i].lives++;
+					players[i].score += 5000;
+				}
+			}
+		}
 
 		return UPDATE_CONTINUE;
 	}
@@ -187,6 +200,9 @@ update_status ModulePlayer::Update() {
 		for (int i = 0; i < 2; ++i) {
 			if (players[i].state == OFF || players[i].state == DEAD)
 				continue;
+			players[i].current_bonus = RED_BONUS;
+			players[i].amount_bonus = 0;
+			players[i].missiles = 0;
 			players[i].state = DEAD;
 			players[i].lives = 0;
 			App->input->ShakeController(i + 1, 2000, 1.0);
@@ -492,10 +508,29 @@ update_status ModulePlayer::Update() {
 			break;
 		}
 
+		if (App->input->HasController(i + 1)) {
+			if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_B) == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
+		else {
+			if (App->input->keyboard[players[i].inputs[PI_BOMB]] == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
 
 		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
 			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
+			if (players[i].missiles > 0 && sdl_clock > players[i].sdl_missile)
+			{
+				players[i].sdl_missile = sdl_clock + 2500 - (players[i].missiles - 1) * 500;
+				App->particles->AddParticle(MISSILE, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 16, { -6,-4 }, i == 0);
+				App->particles->AddParticle(MISSILE, players[i].player_world_x + 35, App->render->camera.y + players[i].player_y + 16, { 6,-4 }, i == 0);
+
+			}
 			switch (players[i].current_bonus) {
 			case RED_BONUS:
 				players[i].animations[AN_SHOOTING_RED].Reset();
@@ -622,6 +657,16 @@ update_status ModulePlayer::Update() {
 		for (int i = 1; i < players[1].lives; ++i)
 			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
 	}
+
+	//Printing bombs
+	//--Player 1
+	for (int i = 0; i < players[0].bombs; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 0; i < players[1].bombs; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	}
 	else {
 		if (App->input->HasController(2)) {
 			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
@@ -676,6 +721,7 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 					SpawnBits(i == 0);
 					players[i].current_bonus = RED_BONUS;
 					players[i].amount_bonus = 0;
+					players[i].missiles = 0;
 					players[i].lives--;
 					players[i].state = DEAD;
 					players[i].sdl_respawn = sdl_clock + 2000;
@@ -717,16 +763,23 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	else
 		AddScore(500, COLLIDER_PLAYER2_SHOT);
 
-	if (type != players[player].current_bonus) {
-		players[player].current_bonus = type;
-		players[player].amount_bonus--;
-		if (players[player].amount_bonus < 0)
-			players[player].amount_bonus = 0;
+	if (type == BLUE_BONUS || type == RED_BONUS) {
+		if (type != players[player].current_bonus) {
+			players[player].current_bonus = type;
+			players[player].amount_bonus--;
+			if (players[player].amount_bonus < 0)
+				players[player].amount_bonus = 0;
+		}
+		else {
+			if (players[player].amount_bonus < 3)
+				++players[player].amount_bonus;
+		}
 	}
-	else {
-		if (players[player].amount_bonus < 3)
-			++players[player].amount_bonus;
-	}
+	else if (type == BOMB_BONUS && players[player].bombs < 7)
+		players[player].bombs++;
+
+	else if (type == MISSILE_BONUS)
+		players[player].missiles++;
 }
 
 void ModulePlayer::SpawnBits(bool player1)

@@ -10,6 +10,11 @@
 #include "Enemy_BonusAirship.h"
 #include "Enemy_Bomb.h"
 #include "Enemy_Kamikaze.h"
+#include "Enemy_Box.h"
+#include "Enemy_Turret.h"
+#include "Enemy_MoonAirship.h"
+#include "Enemy_Boss.h"
+#include "Enemy_RotatoryTank.h"
 
 #define SPAWN_MARGIN 200
 
@@ -91,6 +96,7 @@ bool ModuleEnemies::CleanUp()
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
+		queue[i].type = NO_TYPE;
 		if (enemies[i] != nullptr)
 		{
 			delete enemies[i];
@@ -146,6 +152,22 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			break;
 		case ENEMY_TYPES::KAMIKAZE:
 			enemies[i] = new Enemy_Kamikaze(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOX:
+			enemies[i] = new Enemy_Box(info.x, info.y);
+			break;
+		case ENEMY_TYPES::TURRET:
+			enemies[i] = new Enemy_Turret(info.x, info.y);
+			break;
+		case ENEMY_TYPES::MOONAIRSHIP:
+			enemies[i] = new Enemy_MoonAirship(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOSS:
+		case ENEMY_TYPES::BOSS_2:
+			enemies[i] = new Enemy_Boss(info.x, info.y, info.type);
+			break;
+		case ENEMY_TYPES::ROTATORYTANK:
+			enemies[i] = new Enemy_RotatoryTank(info.x, info.y);
 			break;
 
 		}

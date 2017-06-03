@@ -15,13 +15,13 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 
 	shadow.SetUp(959, 162, 73, 54, 1, 1, "0");
 
-	animation_hurt.SetUp(375, 0, 146, 108, 5, 4, "3,4,3,4,3");
+	animation_hurt.SetUp(375, 0, 146, 108, 4, 4, "3,4,3,4,3");
 	
 	
 
 	path.PushBack({ 0,1 }, 200, &fly);
 
-	if(position.x > (App->render->camera.x + SCREEN_WIDTH) / 2) // if kamikaze spawsn left of the window goes right, and biceversa
+	if(position.x > SCREEN_WIDTH / 2) // if kamikaze spawsn left of the window goes right, and biceversa
 		path.PushBack({ -1,2 }, 125, &fly);
 	else
 		path.PushBack({ 1,2 }, 125, &fly);
@@ -40,7 +40,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	original_position = position;
 	y_transition = position.y + 300;
 	type = AIRBORNE;
-	hitpoints = 20;
+	hitpoints = 8;
 
 	sdl_clock_start = SDL_GetTicks() + 1500;
 
@@ -106,7 +106,7 @@ void Enemy_Kamikaze::OnCollision(Collider* collider)
 	{
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y - 20);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 

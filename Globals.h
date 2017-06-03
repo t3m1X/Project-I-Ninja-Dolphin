@@ -41,4 +41,6 @@ typedef unsigned int uint;
 #define SHADOW_DISTANCE_X 30
 #define SHADOW_DISTANCE_Y 18
 
+int game_loops = 0;
+
 #endif // __GLOBALS_H__

@@ -4,7 +4,7 @@
 #include "Module.h"
 
 
-#define MAX_ENEMIES 100
+#define MAX_ENEMIES 150
 
 
 
@@ -17,7 +17,13 @@ enum ENEMY_TYPES
 	LIGHTTANK_3,
 	BONUSAIRSHIP,
 	BOMB,
-	KAMIKAZE
+	KAMIKAZE,
+	BOX,
+	TURRET,
+	MOONAIRSHIP,
+	BOSS,
+	BOSS_2,
+	ROTATORYTANK
 	
 };
 

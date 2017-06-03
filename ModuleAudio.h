@@ -34,6 +34,7 @@ public:
 
 	Mix_Music* musics[MAX_MUSIC];
 	uint last_music = 0;
+	Mix_Music* playing = nullptr;
 };
 
 #endif

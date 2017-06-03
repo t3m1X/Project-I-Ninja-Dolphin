@@ -8,8 +8,9 @@
 #include "ModuleFonts.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "ModuleAudio.h"
 
-#define PLAYER_SPEED 4
+#define PLAYER_SPEED (4 + App->game_loops/5)
 #define SPRITE_WIDTH 57
 #define SPRITE_HEIGHT 49
 #define SHADOW_WIDTH 29
@@ -36,6 +37,7 @@ public:
 	iPoint GetPos();
 	void AddScore(uint score_add, COLLIDER_TYPE type);
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
+	void TriggerVictory();
 
 private:
 	void SpawnBits(bool player1);
@@ -100,6 +102,15 @@ private:
 
 	};
 	SDL_Texture* player;
+	SDL_Texture* you_lose;
+	SDL_Texture* you_win;
+	bool game_over = false;
+	bool next_round = false;
+
+	Mix_Music* game_over_mus = nullptr;
+	Mix_Music* next_round_mus = nullptr;
+	Animation you_lose_an;
+	Animation you_win_an;
 
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
@@ -112,6 +123,7 @@ private:
 	uint highscore = 0;
 
 	TTF_Font* font;
+	TTF_Font* loops;
 
 	player_struct players[2];
 };

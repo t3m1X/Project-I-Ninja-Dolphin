@@ -35,6 +35,7 @@ private:
 	Mix_Music* music;
 	Animation sea_water;
 	Animation river_water;
+	Animation cows;
 	Animation coast;
 };
 #endif

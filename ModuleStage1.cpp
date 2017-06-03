@@ -9,6 +9,7 @@
 #include "ModuleEnemies.h"
 #include "ModuleStageIntro.h"
 #include "ModuleBonus.h"
+#include "ModuleParticles.h"
 
 
 
@@ -27,7 +28,10 @@ bool ModuleStage1::Start() {
 
 	App->bonus->Enable();
 	App->collision->Enable();
+	App->particles->Enable();
    
+	App->render->camera = { 0,0 };
+
 	sea_water.SetUp( 0, 0, 32, 32, 7, 7, "0,1,2,3,4,5,6");
 	sea_water.speed = 0.05f;
 	sea_water.loop = true;
@@ -38,6 +42,10 @@ bool ModuleStage1::Start() {
 	coast.SetUp(0, 0, 704, 93, 1, 7, "0,1,2,3,4,5,6");
 	coast.speed = 0.05f;
 	coast.loop = true;
+
+	cows.SetUp(0, 758, 699, 283, 1, 3, "0,1,2");
+	cows.speed = 0.05f;
+	cows.loop = true;
 	
 	cloud_position = SCREEN_HEIGHT - STAGE_HEIGHT;
 	
@@ -53,7 +61,6 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->Enable();
 
-	
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 300, 5600);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 250, 5520);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTAIRSHIP, 350, 5500);
@@ -171,23 +178,15 @@ update_status ModuleStage1::Update() {
 	App->render->Blit(1, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT, { 0,1 }, &background);
 	int y = 0;
 
-	/*if (!((-STAGE_HEIGHT - 2000) >= App->render->camera.y + SCREEN_HEIGHT)) 
-		App->render->Blit(0, shore_texture, 0, 5700, { 0,1 }, &shore.CurrentFrame());*/
+	App->render->Blit(3, background_animations, 0, SCREEN_HEIGHT - STAGE_HEIGHT + 3803, { 0,1 }, &cows.GetCurrentFrame());
 	
 
 	background.x += background.w;
 	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
-	/*if (-STAGE_HEIGHT + SCREEN_HEIGHT < 0)
-		-STAGE_HEIGHT + SCREEN_HEIGHT += SCROLL_SPEED;*/
+
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;
 	}
-	/*else
-	{
-		App->player->Disable();
-		App->transition->Transition(App->stage1, App->intro, 0.8f);
-	}
-*/
 
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position, { 0,1 }, &background);
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
@@ -203,8 +202,6 @@ update_status ModuleStage1::Update() {
 
 	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 , SCREEN_HEIGHT - STAGE_HEIGHT + 5758, { 0,1 }, &coast.GetCurrentFrame());
 
-	/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_REPEAT)
-		App->transition->Transition(this, App->intro, 0.8f);*/
 
 	return UPDATE_CONTINUE;
 }
@@ -227,10 +224,12 @@ bool ModuleStage1::CleanUp() {
 	sea_water.CleanUp();
 	river_water.CleanUp();
 	coast.CleanUp();
+	cows.CleanUp();
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();
 	App->bonus->Disable();
+	App->particles->Disable();
 
 	
 	return ret;

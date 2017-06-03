@@ -82,6 +82,7 @@ private:
 		player_state state;
 		Collider* player_collider = nullptr;
 		int lives = 3;
+		int bombs = 3;
 
 		Animation animations[AN_MAX];
 		SDL_Scancode inputs[PI_MAX];
@@ -101,6 +102,8 @@ private:
 	SDL_Rect shadow_idle;
 	SDL_Rect shadow_left;
 	SDL_Rect shadow_right;
+
+	SDL_Rect bomb_indicator;
 
 	uint sdl_clock;
 

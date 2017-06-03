@@ -5,6 +5,7 @@
 #include "ModulePlayer.h"
 #include "ModuleRender.h"
 #include "ModuleBonus.h"
+#include <stdlib.h>
 
 Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 {
@@ -105,9 +106,17 @@ void Enemy_BonusAirship::Shoot(iPoint origin)
 
 void Enemy_BonusAirship::OnCollision(Collider* collider)
 {
+	srand(SDL_GetTicks());
 	if (state != HURT) {
 		if (--hitpoints == 0) {
-			App->bonus->AddBonus(RED_BONUS, position.x, position.y);
+			int random = rand() % 100;
+			if (random < 35)
+				App->bonus->AddBonus(RED_BONUS, position.x, position.y);
+			else if (random < 70)
+				App->bonus->AddBonus(BLUE_BONUS, position.x, position.y);
+			else
+				App->bonus->AddBonus(BOMB_BONUS, position.x, position.y);
+
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
 			App->player->AddScore(50, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);

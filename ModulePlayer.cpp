@@ -137,6 +137,11 @@ bool ModulePlayer::Start() {
 	shadow_right.x = 285 + SHADOW_WIDTH * 2;
 	shadow_right.y = 0;
 
+	bomb_indicator.h = 23;
+	bomb_indicator.w = 25;
+	bomb_indicator.x = 285;
+	bomb_indicator.y = 51;
+
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
 
@@ -438,6 +443,18 @@ update_status ModulePlayer::Update() {
 			break;
 		}
 
+		if (App->input->HasController(i + 1)) {
+			if (App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_B) == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
+		else {
+			if (App->input->keyboard[players[i].inputs[PI_BOMB]] == KEY_DOWN && players[i].bombs > 0) {
+				App->particles->AddParticle(BOMBSHOT, players[i].player_world_x + SPRITE_HEIGHT / 2, App->render->camera.y + players[i].player_y, { 999,999 }, i == 0);
+				--players[i].bombs;
+			}
+		}
 
 		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
 			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {
@@ -559,6 +576,8 @@ update_status ModulePlayer::Update() {
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
 	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
 
+	if (App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_Y) == KEY_DOWN)
+		App->bonus->AddBonus(BOMB_BONUS, players[0].player_world_x, App->render->camera.y + players[0].player_y - 50);
 	//Printing lives
 	//--Player 1
 	for (int i = 1; i < players[0].lives; ++i)
@@ -567,6 +586,16 @@ update_status ModulePlayer::Update() {
 	if (players[1].state != OFF) {
 		for (int i = 1; i < players[1].lives; ++i)
 			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
+	}
+
+	//Printing bombs
+	//--Player 1
+	for (int i = 0; i < players[0].bombs; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 0; i < players[1].bombs; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
 	}
 	else {
 		if (App->input->HasController(2)) {
@@ -661,16 +690,20 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	else
 		AddScore(500, COLLIDER_PLAYER2_SHOT);
 
-	if (type != players[player].current_bonus) {
-		players[player].current_bonus = type;
-		players[player].amount_bonus--;
-		if (players[player].amount_bonus < 0)
-			players[player].amount_bonus = 0;
+	if (type == BLUE_BONUS || type == RED_BONUS) {
+		if (type != players[player].current_bonus) {
+			players[player].current_bonus = type;
+			players[player].amount_bonus--;
+			if (players[player].amount_bonus < 0)
+				players[player].amount_bonus = 0;
+		}
+		else {
+			if (players[player].amount_bonus < 3)
+				++players[player].amount_bonus;
+		}
 	}
-	else {
-		if (players[player].amount_bonus < 3)
-			++players[player].amount_bonus;
-	}
+	else if (type == BOMB_BONUS && players[player].bombs < 7)
+		players[player].bombs++;
 }
 
 void ModulePlayer::SpawnBits(bool player1)

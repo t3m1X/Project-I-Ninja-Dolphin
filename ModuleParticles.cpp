@@ -78,6 +78,13 @@ bool ModuleParticles::Start()
 	turret_crater.anim.speed = 0.2f;
 	turret_crater.life = 8000;
 
+	missile.anim.SetUp(90, 93, 11, 30, 2, 2, "0,1,2");
+	missile.anim.loop = true;
+	missile.anim.speed = 0.2f;
+	missile.acceleration = { 0,-1 };
+	missile.life = 6000;
+	missile.speed = { 0, -2 };
+
 	bombshot.anim.SetUp(90, 93, 11, 30, 2, 2, "0,1,2");
 	bombshot.anim.loop = true;
 	bombshot.anim.speed = 0.2f;
@@ -148,6 +155,7 @@ bool ModuleParticles::CleanUp()
 	player2_explosion.anim.CleanUp();
 	player1_pieces.anim.CleanUp();
 	player2_pieces.anim.CleanUp();
+	missile.anim.CleanUp();
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{
@@ -240,6 +248,15 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 
 	case BIGASSLASER:
 		p = new Particle(bigasslaser);
+		if (player1)
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
+		else
+			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT, this);
+		p->layer = 5;
+		break;
+
+	case MISSILE:
+		p = new ACParticle(missile);
 		if (player1)
 			p->collider = App->collision->AddCollider(p->anim.CurrentFrame(), COLLIDER_TYPE::COLLIDER_PLAYER_SHOT, this);
 		else
@@ -346,7 +363,7 @@ void ModuleParticles::AddParticle(particle_type type, int x, int y, fPoint direc
 	for (int i = 0; i < MAX_ACTIVE_PARTICLES; ++i) 		{
 		if (active[i] == nullptr) 			{
 			found = true;
-			active[i] = p;
+			active[i] = (Particle*)p;
 			break;
 		}
 	}
@@ -406,6 +423,41 @@ bool Particle::Update()
 
 		position.x += speed.x;
 		position.y += speed.y;
+
+		App->collision->SetPosition(collider, position.x, position.y);
+	}
+
+	return ret;
+}
+
+bool ACParticle::Update()
+{
+	bool ret = true;
+
+	if (sdl_acc == 0)
+		sdl_acc = born + 10;
+
+	if (born <= SDL_GetTicks()) {
+		if (life > 0) {
+			if ((SDL_GetTicks() - born) > life)
+				ret = false;
+		}
+		else
+			if (anim.Finished()) {
+				ret = false;
+				to_delete = true;
+			}
+
+		position.x += speed.x;
+		position.y += speed.y;
+
+		if (sdl_acc <= SDL_GetTicks())
+		{
+			++iterations;
+			speed = speed + acceleration;
+			acceleration = acceleration * (1 + iterations / 10);
+			sdl_acc = SDL_GetTicks() + 100;
+		}
 
 		App->collision->SetPosition(collider, position.x, position.y);
 	}

@@ -17,6 +17,7 @@ enum particle_type {
 	LASERSHOT,
 	LASERBIGSHOT,
 	BIGASSLASER,
+	MISSILE,
 	EXPLOSION,
 	ENEMYSHOT,
 	CRATER,
@@ -48,6 +49,22 @@ struct Particle
 	virtual bool Update();
 };
 
+struct ACParticle : public Particle
+{
+private:
+	uint sdl_acc = 0;
+	int iterations = 0;
+
+public:
+	iPoint acceleration; //Every 100ms
+
+	ACParticle() : Particle()
+	{}
+	ACParticle(const Particle& p) : Particle(p)
+	{}
+	bool Update();
+};
+
 class ModuleParticles : public Module
 {
 public:
@@ -75,6 +92,7 @@ public:
 	Particle laserattack;
 	Particle laserattbig;
 	Particle bigasslaser;
+	ACParticle missile;
 	Particle explosion;
 	Particle enemyshot;
 	Particle crater;

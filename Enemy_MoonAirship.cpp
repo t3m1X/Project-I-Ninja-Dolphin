@@ -45,8 +45,11 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 		path.PushBack({ 0,-0.5 }, 40, &fly);
 		path.LoopStart(150);
 	}
-	
-	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
+
+	collider_offset.x = 8;
+	collider_offset.y = 50;
+
+	collider = App->collision->AddCollider({ 200, 0, 80, 30 }, COLLIDER_TYPE::COLLIDER_ENEMY_AIR, (Module*)App->enemies);
 
 	original_position = position;
 	
@@ -54,7 +57,7 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 	sdl_clock_start = SDL_GetTicks() + 2500;
 
 	type = AIRBORNE;
-	hitpoints = 15;
+	hitpoints = 8;
 }
 
 Enemy_MoonAirship::~Enemy_MoonAirship()
@@ -93,7 +96,7 @@ void Enemy_MoonAirship::OnCollision(Collider* collider)
 	{
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 		}
 
 		else

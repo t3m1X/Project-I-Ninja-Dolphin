@@ -40,7 +40,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	original_position = position;
 	y_transition = position.y + 300;
 	type = AIRBORNE;
-	hitpoints = 20;
+	hitpoints = 8;
 
 	sdl_clock_start = SDL_GetTicks() + 1500;
 
@@ -106,7 +106,7 @@ void Enemy_Kamikaze::OnCollision(Collider* collider)
 	{
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y - 20);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 

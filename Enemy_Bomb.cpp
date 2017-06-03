@@ -45,7 +45,7 @@ void Enemy_Bomb::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(BIG_EXPLOSION, position.x - 40, position.y - 10);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(100, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);
 
 			App->particles->AddParticle(ENEMYSHOT, position.x, position.y, { 1,0 });

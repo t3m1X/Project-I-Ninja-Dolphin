@@ -57,7 +57,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 
 	type = AIRBORNE;
-	hitpoints = 12;
+	hitpoints = 8;
 }
 
 Enemy_BonusAirship::~Enemy_BonusAirship()
@@ -118,7 +118,7 @@ void Enemy_BonusAirship::OnCollision(Collider* collider)
 				App->bonus->AddBonus(BOMB_BONUS, position.x, position.y);
 
 			App->particles->AddParticle(BIG_EXPLOSION, position.x, position.y);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(100, collider->type);
 			App->audio->PlaySFX(App->particles->big_explosion.fx);
 		}
 		else

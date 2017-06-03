@@ -38,8 +38,6 @@ void Enemy_Box::Move()
 	position = original_position + path.GetCurrentPosition(&animation);
 }
 
-
-
 void Enemy_Box::OnCollision(Collider* collider) {
 	srand(SDL_GetTicks());
 
@@ -51,7 +49,7 @@ void Enemy_Box::OnCollision(Collider* collider) {
 			else
 				App->bonus->AddBonus(MISSILE_BONUS, position.x + 10, position.y);
 			App->particles->AddParticle(EXPLOSION, position.x - 15, position.y - 10);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(25, collider->type);
 
 		}
 

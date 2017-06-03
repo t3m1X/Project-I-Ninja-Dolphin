@@ -24,7 +24,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		animation_shooting.speed = 0.2f;
 		animation_shooting.loop = false;
 
-		animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2");
+		animation_hurt.SetUp(0, 381, 156, 154, 4, 4, "2,3,2,3,2,3,2");
 
 		turret.SetUp(102, 67, 49, 43, 1, 1, "0");
 
@@ -32,8 +32,12 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		turret_shooting.speed = 0.2f;
 		turret_shooting.loop = false;
 
-		path.PushBack({ 0,-0.5f }, 100, &walk);
-		path.IsFinished();
+		path.PushBack({ 0,-1 }, 500, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.LoopStart(500);
+
+		hitpoints = 10;
+
 		break;
 	}
 	case TYPE2:
@@ -46,7 +50,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		animation_shooting.speed = 0.2f;
 		animation_shooting.loop = false;
 
-		animation_hurt.SetUp(0, 732, 156, 154, 4, 4, "2,3,2,3,2");
+		animation_hurt.SetUp(0, 732, 156, 154, 4, 4, "2,3,2,3,2,3,2");
 
 		turret.SetUp(629, 590, 49, 43, 1, 1, "0");
 
@@ -56,14 +60,18 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		
 		path.PushBack({ 1,0 }, 100, &walk);
 		path.PushBack({ -1,0 }, 100, &walk);
+
+		hitpoints = 20;
+
 		break;
 	}
 
 	}
 	
-	
+	collider_offset.x = 38;
+	collider_offset.y = 15;
 
-	collider = App->collision->AddCollider({ 200, 0, 95, 70 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
+	collider = App->collision->AddCollider({ 200, 0, 80, 130 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);
 
 	original_position = position;
 
@@ -71,7 +79,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 	sdl_clock_start = SDL_GetTicks() + 2000;
 
 	type = GROUND;
-	hitpoints = 20;
+	
 }
 
 Enemy_Boss::~Enemy_Boss()
@@ -84,7 +92,7 @@ Enemy_Boss::~Enemy_Boss()
 
 void Enemy_Boss::Draw(SDL_Texture * sprites)
 {
-	App->collision->SetPosition(collider, position.x, position.y);
+	App->collision->SetPosition(collider, position.x + collider_offset.x, position.y + collider_offset.y);
 	iPoint fdirection = App->player->GetPos() - position;
 
 	
@@ -203,8 +211,25 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
-				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-				App->player->AddScore(50, collider->type);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 20, position.y + 20);
+				App->particles->AddParticle(CRATER, position.x + 55, position.y + 55);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 95);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
+
+				if (collider->type == COLLIDER_PLAYER_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
+					App->player->AddScore(300, collider->type);
+				}
+				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
+					App->player->AddScore(300, collider->type);
+				}
 			}
 
 			else
@@ -218,8 +243,26 @@ void Enemy_Boss::OnCollision(Collider* collider)
 		if (state != HURT)
 		{
 			if (--hitpoints == 0) {
-				App->particles->AddParticle(BIG_EXPLOSION, position.x - 30, position.y - 20);
-				App->player->AddScore(50, collider->type);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 20, position.y + 20);
+				App->particles->AddParticle(CRATER, position.x + 55, position.y + 55);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x - 20, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 15, position.y + 95);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y - 20);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 15);
+				App->particles->AddParticle(BIG_EXPLOSION, position.x + 60, position.y + 60);
+				App->particles->AddParticle(CRATER, position.x + 95, position.y + 95);
+
+				if (collider->type == COLLIDER_PLAYER_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
+					App->player->AddScore(500, collider->type);
+				}
+				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
+					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
+					App->player->AddScore(500, collider->type);
+				}
+				
 				App->transition->Transition(App->stage1, App->intro, 0.8f);
 			}
 

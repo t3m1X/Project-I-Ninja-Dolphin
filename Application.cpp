@@ -33,7 +33,6 @@ Application::Application()
 	modules[i++] = collision = new ModuleCollision();
 	modules[i++] = player = new ModulePlayer();
 	modules[i++] = transition = new ModuleTransition();
-	
 }	
 
 Application::~Application()

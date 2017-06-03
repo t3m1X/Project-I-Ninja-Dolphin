@@ -41,8 +41,9 @@ public:
 	ModuleTransition* transition;
 	ModuleParticles* particles;
 	ModuleEnemies* enemies;
-	ModuleBonus* bonus;
-	
+	ModuleBonus* bonus;	
+
+	int game_loops = 1;
 
 public:
 

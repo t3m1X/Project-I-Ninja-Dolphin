@@ -36,6 +36,20 @@ ModulePlayer::~ModulePlayer()
 bool ModulePlayer::Start() {
 	bool ret = true;
 
+	game_over = false;
+	you_lose = App->textures->Load("revamp_spritesheets/lose_screen.png");
+	game_over_mus = App->audio->LoadMusic("music/name_regist.ogg");
+
+	you_lose_an.SetUp(0, 0, 239, 151, 3, 5, "0,1,2,3,4");
+	you_lose_an.speed = 0.05f;
+	
+	next_round = false;
+	you_win = App->textures->Load("revamp_spritesheets/loop_screen.png");
+	next_round_mus = App->audio->LoadMusic("music/continue.ogg");
+
+	you_win_an.SetUp(0, 0, 154, 206, 2, 2, "0,1");
+	you_win_an.speed = 0.05f;
+
 	players[0].player_world_x = App->render->camera.x + SCREEN_WIDTH / 2 - SPRITE_WIDTH / 2;
 	players[0].player_y = SCREEN_HEIGHT / 2 + SPRITE_HEIGHT;
 
@@ -145,13 +159,128 @@ bool ModulePlayer::Start() {
 
 	player = App->textures->Load("revamp_spritesheets/player_spritesheet.png");
 	font = App->fonts->LoadFont("fonts/PrStart.ttf", 8);
+	loops = App->fonts->LoadFont("fonts/Symtext.ttf", 32);
 
 	return ret;
 }
 
 update_status ModulePlayer::Update() {
 
+	//Score printing
+	char number[9];
+	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(players[0].score, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 17, { 255,255,255 });
+
+	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(highscore, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 17, { 255,255,255 });
+
+	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 8, { 0,0,0 });
+	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 5, { 255,255,255 });
+
+	NumberToChar(players[1].score, number);
+	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
+	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
+
+	//Printing lives
+	//--Player 1
+	for (int i = 1; i < players[0].lives; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[0].animations[AN_LIVE].GetCurrentFrame());
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 1; i < players[1].lives; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
+	}
+
+	//Printing bombs
+	//--Player 1
+	for (int i = 0; i < players[0].bombs; ++i)
+		App->render->Blit(7, player, App->render->camera.x + 35 + (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	//--Player 2
+	if (players[1].state != OFF) {
+		for (int i = 0; i < players[1].bombs; ++i)
+			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
+	}
+	else {
+		if (App->input->HasController(2)) {
+			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
+			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
+		}
+		else {
+			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
+			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
+		}
+	}
+	
+	if (game_over) {
+		App->audio->PlayMusic(game_over_mus);
+		App->render->Blit(7, you_lose, App->render->camera.x + SCREEN_WIDTH / 2 - you_lose_an.CurrentFrame().w /2, App->render->camera.y + SCREEN_HEIGHT / 2 - you_lose_an.CurrentFrame().h / 2, { 0,1 }, &you_lose_an.GetCurrentFrame());
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN)
+			App->transition->Transition(App->stage1, App->stage1, 0.8f);
+
+		return UPDATE_CONTINUE;
+	}
+
+	if (next_round)
+	{
+		for (int i = 0; i < 2; ++i) {
+			if (players[i].state != DEAD && players[i].state != OFF)
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+		}
+		char game_loops[9];
+		NumberToChar(App->game_loops, game_loops);
+		App->audio->PlayMusic(next_round_mus);
+		App->render->Blit(7, you_win, App->render->camera.x + SCREEN_WIDTH / 2 - you_win_an.CurrentFrame().w / 2, App->render->camera.y + SCREEN_HEIGHT / 2 - you_win_an.CurrentFrame().h / 2, { 0,1 }, &you_win_an.GetCurrentFrame());
+		int multiplier = 0;
+		if (App->game_loops > 10)
+			multiplier = 1;
+		App->fonts->WriteText(loops, game_loops, App->render->camera.x + 120 + 5 * multiplier, App->render->camera.y + 230, { 255,255,255 });
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_DOWN || App->input->GetControllerButton(1, SDL_CONTROLLER_BUTTON_START) == KEY_DOWN) {
+			App->transition->Transition(App->stage1, App->stage1, 0.8f);
+			App->player->Disable();
+			App->game_loops++;
+			for (int i = 0; i < 2; ++i) {
+				if (players[i].lives > 0) {
+					players[i].lives++;
+					players[i].score += 5000;
+				}
+			}
+		}
+
+		return UPDATE_CONTINUE;
+	}
+
 	sdl_clock = SDL_GetTicks();
+
+	if (App->input->keyboard[SDL_SCANCODE_F3] == KEY_DOWN)
+	{
+		App->game_loops = 1;
+		for (int i = 0; i < 2; ++i) {
+			if (players[i].state == OFF || players[i].state == DEAD)
+				continue;
+			players[i].current_bonus = RED_BONUS;
+			players[i].amount_bonus = 0;
+			players[i].missiles = 0;
+			players[i].state = DEAD;
+			players[i].lives = 0;
+			App->input->ShakeController(i + 1, 2000, 1.0);
+			App->particles->AddParticle(PLAYER_EXPLOSION, players[i].player_world_x - 29, App->render->camera.y + players[i].player_y - 26, { 999,999 }, i == 0);
+			SpawnBits(i == 0);
+		}
+		game_over = true;
+	}
+
+	if (App->input->keyboard[SDL_SCANCODE_F4] == KEY_DOWN)
+	{
+		next_round = true;
+	}
 
 	for (int i = 0; i < 2; ++i) {
 		switch (players[i].state) {
@@ -560,61 +689,6 @@ update_status ModulePlayer::Update() {
 		if (players[i].player_collider != nullptr)
 			App->collision->SetPosition(players[i].player_collider, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 10);
 	}
-
-	//Score printing
-	char number[9];
-	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 8, { 0,0,0 });
-	App->fonts->WriteText(font, "PLAYER 1", App->render->camera.x + 35, App->render->camera.y + 5, { 255,255,255 });
-
-	NumberToChar(players[0].score, number);
-	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 20, { 0,0,0 });
-	App->fonts->WriteText(font, number, App->render->camera.x + 35, App->render->camera.y + 17, { 255,255,255 });
-
-	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 8, { 0,0,0 });
-	App->fonts->WriteText(font, "HIGHSCORE", App->render->camera.x + 185, App->render->camera.y + 5, { 255,255,255 });
-
-	NumberToChar(highscore, number);
-	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 20, { 0,0,0 });
-	App->fonts->WriteText(font, number, App->render->camera.x + 191, App->render->camera.y + 17, { 255,255,255 });
-
-	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 8, { 0,0,0 });
-	App->fonts->WriteText(font, "PLAYER 2", App->render->camera.x + 335, App->render->camera.y + 5, { 255,255,255 });
-
-	NumberToChar(players[1].score, number);
-	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 20, { 0,0,0 });
-	App->fonts->WriteText(font, number, App->render->camera.x + 335, App->render->camera.y + 17, { 255,255,255 });
-
-	//Printing lives
-	//--Player 1
-	for (int i = 1; i < players[0].lives; ++i)
-		App->render->Blit(7, player, App->render->camera.x + 35 + 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[0].animations[AN_LIVE].GetCurrentFrame());
-	//--Player 2
-	if (players[1].state != OFF) {
-		for (int i = 1; i < players[1].lives; ++i)
-			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - 17 * (i - 1), App->render->camera.y + 32, { 0,1 }, &players[1].animations[AN_LIVE].GetCurrentFrame());
-	}
-
-	//Printing bombs
-	//--Player 1
-	for (int i = 0; i < players[0].bombs; ++i)
-		App->render->Blit(7, player, App->render->camera.x + 35 + (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
-	//--Player 2
-	if (players[1].state != OFF) {
-		for (int i = 0; i < players[1].bombs; ++i)
-			App->render->Blit(7, player, App->render->camera.x + SCREEN_WIDTH - 65 - (bomb_indicator.w + 1) * i, App->render->camera.y + SCREEN_HEIGHT - 32, { 0,1 }, &bomb_indicator);
-	}
-	else {
-		if (App->input->HasController(2)) {
-			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
-			App->fonts->WriteText(font, "PRESS START", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
-		}
-		else {
-			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 42, { 0,0,0 });
-			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
-		}
-	}
-
-
 	return UPDATE_CONTINUE;
 }
 
@@ -630,6 +704,9 @@ bool ModulePlayer::CleanUp() {
 	}
 
 	App->textures->Unload(player);
+
+	you_lose_an.CleanUp();
+	you_win_an.CleanUp();
 
 	if (font != nullptr) {
 		App->fonts->EraseFont(font);
@@ -667,8 +744,8 @@ void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 	}
 
 	if (players[0].lives <= 0 && (players[1].lives <= 0 || players[1].state == OFF)) {
-		Disable();
-		App->transition->Transition(App->stage1, App->intro, 0.8f);
+		game_over = true;
+		App->game_loops = 1;
 	}
 }
 
@@ -714,6 +791,11 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 
 	else if (type == MISSILE_BONUS)
 		players[player].missiles++;
+}
+
+void ModulePlayer::TriggerVictory()
+{
+	next_round = true;
 }
 
 void ModulePlayer::SpawnBits(bool player1)

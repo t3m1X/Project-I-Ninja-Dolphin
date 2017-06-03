@@ -46,7 +46,7 @@ bool ModuleParticles::Start()
 	enemyshot.anim.loop = true;
 	enemyshot.anim.speed = 0.3f;
 	enemyshot.life = 3000;
-	enemyshot.speed = { 0, -5};
+	enemyshot.speed = { 0, 5 + App->game_loops/2 };
 
 	crater.anim.SetUp(0, 157, 66, 60, 3, 3, "0,1,2");
 	crater.anim.loop = true;

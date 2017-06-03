@@ -19,9 +19,9 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	switch (subtype)
 	{
 	case NORMAL:
-		path.PushBack({ 0, 1 }, 150, &walk);
-		path.PushBack({ 0,0 }, 100, &animation_shooting);
-		path.PushBack({ 0,-0.5f }, 6000, &walk);
+		path.PushBack({ 0,0 }, 150, &animation_shooting);
+		path.PushBack({ 0,-0.5f }, 300, &walk);
+		path.PushBack({ 0,0 }, 6000, &walk);
 		path.IsFinished();
 		break;
 

@@ -110,9 +110,9 @@ void Enemy_BonusAirship::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			int random = rand() % 100;
-			if (random < 35)
+			if (random < 40)
 				App->bonus->AddBonus(RED_BONUS, position.x, position.y);
-			else if (random < 70)
+			else if (random < 80)
 				App->bonus->AddBonus(BLUE_BONUS, position.x, position.y);
 			else
 				App->bonus->AddBonus(BOMB_BONUS, position.x, position.y);

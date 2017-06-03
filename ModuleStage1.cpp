@@ -226,6 +226,7 @@ bool ModuleStage1::CleanUp() {
 	sea_water.CleanUp();
 	river_water.CleanUp();
 	coast.CleanUp();
+	cows.CleanUp();
 	App->enemies->Disable();
 	App->collision->Disable();
 	App->player->Disable();

@@ -4,6 +4,7 @@
 #include "ModuleParticles.h"
 #include "ModulePlayer.h"
 #include "ModuleBonus.h"
+#include <stdlib.h>
 
 Enemy_Box::Enemy_Box(int x, int y) : Enemy(x, y)
 {
@@ -40,10 +41,15 @@ void Enemy_Box::Move()
 
 
 void Enemy_Box::OnCollision(Collider* collider) {
+	srand(SDL_GetTicks());
 
 	if (state != HURT) {
 		if (--hitpoints == 0) {
-			App->bonus->AddBonus(MEDAL_BONUS, position.x + 10, position.y);
+			int random = rand() % 100;
+			if (random < 70)
+				App->bonus->AddBonus(MEDAL_BONUS, position.x + 10, position.y);
+			else
+				App->bonus->AddBonus(MISSILE_BONUS, position.x + 10, position.y);
 			App->particles->AddParticle(EXPLOSION, position.x - 15, position.y - 10);
 			App->player->AddScore(50, collider->type);
 

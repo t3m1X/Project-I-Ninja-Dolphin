@@ -459,6 +459,13 @@ update_status ModulePlayer::Update() {
 		if (((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_DOWN || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_DOWN)) ||
 			((App->input->keyboard[players[i].inputs[PI_SHOOT]] == KEY_REPEAT || App->input->GetControllerButton(i + 1, SDL_CONTROLLER_BUTTON_A) == KEY_REPEAT) && sdl_clock > players[i].sdl_shot)) {
 			players[i].sdl_shot = sdl_clock + SHOT_COOLDOWN;
+			if (players[i].missiles > 0 && sdl_clock > players[i].sdl_missile)
+			{
+				players[i].sdl_missile = sdl_clock + 2500 - (players[i].missiles - 1) * 500;
+				App->particles->AddParticle(MISSILE, players[i].player_world_x + 18, App->render->camera.y + players[i].player_y + 16, { -6,-4 }, i == 0);
+				App->particles->AddParticle(MISSILE, players[i].player_world_x + 35, App->render->camera.y + players[i].player_y + 16, { 6,-4 }, i == 0);
+
+			}
 			switch (players[i].current_bonus) {
 			case RED_BONUS:
 				players[i].animations[AN_SHOOTING_RED].Reset();
@@ -702,6 +709,9 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 	}
 	else if (type == BOMB_BONUS && players[player].bombs < 7)
 		players[player].bombs++;
+
+	else if (type == MISSILE_BONUS)
+		players[player].missiles++;
 }
 
 void ModulePlayer::SpawnBits(bool player1)

@@ -96,6 +96,7 @@ bool ModuleEnemies::CleanUp()
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
+		queue[i].type = NO_TYPE;
 		if (enemies[i] != nullptr)
 		{
 			delete enemies[i];

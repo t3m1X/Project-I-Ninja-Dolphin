@@ -98,19 +98,20 @@ void Enemy_LightTank::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start && position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
-		shots++;
-		iPoint origin = position;
-		origin.x += 18;
-		origin.y += walk.CurrentFrame().h;
-		Shoot(origin);
-		shot = true;
+	if(hitpoints > 1){
+		if (sdl_clock >= sdl_clock_start && position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
+			shots++;
+			iPoint origin = position;
+			origin.x += 18;
+			origin.y += walk.CurrentFrame().h;
+			Shoot(origin);
+			shot = true;
 
-		if (shots >= 1) {
-			sdl_clock_start = sdl_clock + 3167;
-			shots = 0;
+			if (shots >= 1) {
+				sdl_clock_start = sdl_clock + 3167;
+				shots = 0;
+			}
 		}
-		
 	}
 }
 

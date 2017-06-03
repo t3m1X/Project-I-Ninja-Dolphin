@@ -44,7 +44,7 @@ void Enemy_Box::OnCollision(Collider* collider) {
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			int random = rand() % 100;
-			if (random < 70)
+			if (random < 90)
 				App->bonus->AddBonus(MEDAL_BONUS, position.x + 10, position.y);
 			else
 				App->bonus->AddBonus(MISSILE_BONUS, position.x + 10, position.y);

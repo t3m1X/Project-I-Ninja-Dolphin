@@ -80,8 +80,6 @@ public:
 	Animation missile_bonus;
 	Animation bomb_bonus;
 	Animation medal_bonus;
-	Animation medal_bonus_dissapearing;
-
 };
 
 #endif

@@ -78,14 +78,14 @@ bool ModuleParticles::Start()
 	turret_crater.anim.speed = 0.2f;
 	turret_crater.life = 8000;
 
-	missile.anim.SetUp(90, 93, 11, 30, 2, 2, "0,1,2");
+	missile.anim.SetUp(90, 93, 11, 30, 3, 3, "0,1,2");
 	missile.anim.loop = true;
 	missile.anim.speed = 0.2f;
 	missile.acceleration = { 0,-1 };
 	missile.life = 6000;
 	missile.speed = { 0, -2 };
 
-	bombshot.anim.SetUp(90, 93, 11, 30, 2, 2, "0,1,2");
+	bombshot.anim.SetUp(168, 106, 12, 29, 2, 2, "0,1");
 	bombshot.anim.loop = true;
 	bombshot.anim.speed = 0.2f;
 	bombshot.life = 1000;

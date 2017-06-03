@@ -132,15 +132,15 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3678);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4979);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4669);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4669);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4605);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4605);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4955);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4650);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4650);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4586);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4586);
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 603, 4171);
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 133, 4034);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 199, 2680);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 556, 2631);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 199, 2550);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 556, 2500);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 315, 4842);
 	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 464, 4640);

@@ -114,12 +114,14 @@ bool ModuleParticles::Start()
 	player1_explosion.anim.speed = 0.25f;
 	player1_explosion.life = 465;
 	player1_explosion.speed = { 0,0 };
+	player1_explosion.fx = App->audio->LoadSFX("sfx/player_explosion.wav");
 
 	player2_explosion.anim.SetUp(0, 672, 115, 101, 4, 8, "0,1,2,3,4,5,6,7");
 	player2_explosion.anim.loop = false;
 	player2_explosion.anim.speed = 0.25f;
 	player2_explosion.life = 465;
 	player2_explosion.speed = { 0,0 };
+	player2_explosion.fx = App->audio->LoadSFX("sfx/player_explosion2.wav");
 
 	player1_pieces.anim.SetUp(81, 0, 10, 8, 4, 4, "0,1,2,3");
 	player1_pieces.anim.speed = 0.0f;

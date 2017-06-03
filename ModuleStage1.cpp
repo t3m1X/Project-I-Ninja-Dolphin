@@ -114,23 +114,23 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 253, 2423);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 92, 2336);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 180, 5200);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 385, 5020);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 180, 5160);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 365, 5020);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 240, 4167);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 145, 3353);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 517, 2455);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 169, 2353);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 621, 2166);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 495, 2161);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 178, 2261);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 178, 2200);
 
 	
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 496, 5400);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 80, 4500);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 655, 4245);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 667, 3741);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3678);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 655, 4445);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 667, 3731);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3698);
+	/*App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);*/
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4979);
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4669);

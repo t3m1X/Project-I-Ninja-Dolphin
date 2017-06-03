@@ -228,11 +228,11 @@ void Enemy_Boss::OnCollision(Collider* collider)
 
 				if (collider->type == COLLIDER_PLAYER_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
-					App->player->AddScore(300, collider->type);
+					App->player->AddScore(500, collider->type);
 				}
 				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
-					App->player->AddScore(300, collider->type);
+					App->player->AddScore(500, collider->type);
 				}
 			}
 
@@ -260,11 +260,11 @@ void Enemy_Boss::OnCollision(Collider* collider)
 
 				if (collider->type == COLLIDER_PLAYER_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
-					App->player->AddScore(500, collider->type);
+					App->player->AddScore(2000, collider->type);
 				}
 				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
-					App->player->AddScore(500, collider->type);
+					App->player->AddScore(2000, collider->type);
 				}
 				
 				App->transition->Transition(App->stage1, App->intro, 0.8f);

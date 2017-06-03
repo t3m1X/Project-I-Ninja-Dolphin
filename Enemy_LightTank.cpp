@@ -121,7 +121,7 @@ void Enemy_LightTank::OnCollision(Collider* collider) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
 			App->audio->PlaySFX(App->particles->explosion.fx);
 			App->particles->AddParticle(CRATER, position.x + x_offset, position.y + y_offset);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 		}
 		else if (hitpoints == 1) {
 			App->particles->AddParticle(EXPLOSION, position.x + x_offset, position.y + y_offset);

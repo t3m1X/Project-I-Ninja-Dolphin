@@ -106,6 +106,7 @@ bool ModuleBonus::CleanUp()
 	red_bonus.CleanUp();
 	missile_bonus.CleanUp();
 	bomb_bonus.CleanUp();
+	medal_bonus.CleanUp();
 
 	for (uint i = 0; i < MAX_BONUS; ++i)
 	{

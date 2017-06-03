@@ -19,9 +19,9 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	switch (subtype)
 	{
 	case NORMAL:
-		path.PushBack({ 0, 1 }, 150, &walk);
-		path.PushBack({ 0,0 }, 100, &animation_shooting);
-		path.PushBack({ 0,-0.5f }, 6000, &walk);
+		path.PushBack({ 0,0 }, 150, &animation_shooting);
+		path.PushBack({ 0,-0.5f }, 300, &walk);
+		path.PushBack({ 0,0 }, 6000, &walk);
 		path.IsFinished();
 		break;
 
@@ -98,19 +98,20 @@ void Enemy_LightTank::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start && position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
-		shots++;
-		iPoint origin = position;
-		origin.x += 18;
-		origin.y += walk.CurrentFrame().h;
-		Shoot(origin);
-		shot = true;
+	if(hitpoints > 1){
+		if (sdl_clock >= sdl_clock_start && position.y - App->render->camera.y <= SCREEN_HEIGHT * 5 / 8) {
+			shots++;
+			iPoint origin = position;
+			origin.x += 18;
+			origin.y += walk.CurrentFrame().h;
+			Shoot(origin);
+			shot = true;
 
-		if (shots >= 1) {
-			sdl_clock_start = sdl_clock + 3167;
-			shots = 0;
+			if (shots >= 1) {
+				sdl_clock_start = sdl_clock + 3167;
+				shots = 0;
+			}
 		}
-		
 	}
 }
 
@@ -120,7 +121,7 @@ void Enemy_LightTank::OnCollision(Collider* collider) {
 			App->particles->AddParticle(EXPLOSION, position.x, position.y);
 			App->audio->PlaySFX(App->particles->explosion.fx);
 			App->particles->AddParticle(CRATER, position.x + x_offset, position.y + y_offset);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(150, collider->type);
 		}
 		else if (hitpoints == 1) {
 			App->particles->AddParticle(EXPLOSION, position.x + x_offset, position.y + y_offset);

@@ -58,8 +58,12 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		turret_shooting.speed = 0.2f;
 		turret_shooting.loop = false;
 		
-		path.PushBack({ 1,0 }, 100, &walk);
-		path.PushBack({ -1,0 }, 100, &walk);
+		path.PushBack({ 1,0 }, 115, &walk);
+		path.PushBack({ -1,0 }, 115, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
+		path.PushBack({ -1,0 }, 115, &walk);
+		path.PushBack({ 1,0 }, 115, &walk);
+		path.PushBack({ 0,0 }, 100, &walk);
 
 		hitpoints = 20;
 
@@ -224,11 +228,11 @@ void Enemy_Boss::OnCollision(Collider* collider)
 
 				if (collider->type == COLLIDER_PLAYER_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
-					App->player->AddScore(300, collider->type);
+					App->player->AddScore(500, collider->type);
 				}
 				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
-					App->player->AddScore(300, collider->type);
+					App->player->AddScore(500, collider->type);
 				}
 			}
 
@@ -256,11 +260,11 @@ void Enemy_Boss::OnCollision(Collider* collider)
 
 				if (collider->type == COLLIDER_PLAYER_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER_SHOT;
-					App->player->AddScore(500, collider->type);
+					App->player->AddScore(2000, collider->type);
 				}
 				else if (collider->type == COLLIDER_PLAYER2_SHOT) {
 					type == COLLIDER_TYPE::COLLIDER_PLAYER2_SHOT;
-					App->player->AddScore(500, collider->type);
+					App->player->AddScore(2000, collider->type);
 				}
 				
 				App->player->TriggerVictory();

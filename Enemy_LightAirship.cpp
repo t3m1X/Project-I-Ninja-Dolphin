@@ -69,7 +69,7 @@ void Enemy_LightAirship::OnCollision(Collider* collider)
 	if (state != HURT) {
 		if (--hitpoints == 0) {
 			App->particles->AddParticle(LIGHT_EXPLOSION, position.x, position.y);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(100, collider->type);
 		}
 		else
 			state = HURT;

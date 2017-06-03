@@ -121,15 +121,15 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 253, 2423);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK, 92, 2336);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 180, 5200 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 385, 5020 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 240, 4167 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 145, 3353 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 517, 2455 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 169, 2353 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 621, 2166 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 495, 2161 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 178, 2261 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 180, 5200);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 385, 5020);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 240, 4167);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 145, 3353);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 517, 2455);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 169, 2353);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 621, 2166);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 495, 2161);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_2, 178, 2261);
 
 	
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 496, 5400);
@@ -139,35 +139,35 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3678);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4979);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4669 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4669 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4605 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4605 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 603, 4171 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 133, 4034 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 199, 2680 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 556, 2631 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4955);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4650);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4650);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 378, 4586);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 477, 4586);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 603, 4171);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 133, 4034);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 199, 2550);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 556, 2500);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 315, 4842 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 464, 4640 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 317, 4590 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 315, 4842);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 464, 4640);
+	App->enemies->AddEnemy(ENEMY_TYPES::KAMIKAZE, 317, 4590);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 453, 3609 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 121, 3609 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 453, 3609);
+	App->enemies->AddEnemy(ENEMY_TYPES::ROTATORYTANK, 121, 3609);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 375, 1037 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOMB, 375, 1037);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 214, 2900 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 358, 2828 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 482, 2765 + SPAWN_MARGIN);
-	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 608, 2708 + SPAWN_MARGIN);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 214, 2900);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 358, 2828);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 482, 2765);
+	App->enemies->AddEnemy(ENEMY_TYPES::TURRET, 608, 2708);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 140, 2290);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 520, 2290);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 350, 700);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 350, 50);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 290, 700);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 290, 30);
 
 	return ret;
 }

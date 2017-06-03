@@ -108,7 +108,7 @@ void Enemy_Turret::OnCollision(Collider* collider) {
 
 			App->particles->AddParticle(EXPLOSION, position.x - 10, position.y - 10);
 			App->particles->AddParticle(TURRET_CRATER, position.x, position.y);
-			App->player->AddScore(50, collider->type);
+			App->player->AddScore(100, collider->type);
 		}
 		
 		}

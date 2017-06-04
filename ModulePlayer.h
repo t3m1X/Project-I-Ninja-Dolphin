@@ -38,6 +38,7 @@ public:
 	void AddScore(uint score_add, COLLIDER_TYPE type);
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 	void TriggerVictory();
+	void ToggleFreeze(bool freeze);
 	bool isPlaying();
 
 private:
@@ -107,6 +108,7 @@ private:
 	SDL_Texture* you_win;
 	bool game_over = false;
 	bool next_round = false;
+	bool frozen = false;
 
 	Mix_Music* game_over_mus = nullptr;
 	Mix_Music* next_round_mus = nullptr;

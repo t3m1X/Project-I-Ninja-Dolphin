@@ -54,9 +54,9 @@ bool ModuleStage1::Start() {
 	App->audio->MusicVolume(10);
 
 	App->player->Enable();
+	App->player->ToggleFreeze(true);
 
-	//font = App->fonts->LoadFont("fonts/PrStart.ttf", 16);
-
+	overlay_position = -400;
 	
 	App->enemies->Enable();
 
@@ -180,7 +180,23 @@ update_status ModuleStage1::Update() {
 	App->render->Blit(3, background_animations, 0, SCREEN_HEIGHT - STAGE_HEIGHT + 3803, { 0,1 }, &cows.GetCurrentFrame());
 
 	background.x += background.w;
-	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
+	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT /*- 6 */- overlay_position, { 0,1 }, &background);
+
+	if (App->render->camera.y >= -890)
+	{
+		if (App->render->camera.y > -600)
+			++overlay_position;
+		else if ((SDL_GetTicks() * 6 / 100) % 2 == 0)
+			++overlay_position;
+
+		if (App->render->camera.y < -150)
+		{
+			App->player->ToggleFreeze(false);
+			App->render->camera.y -= SCROLL_SPEED;
+		}
+	}
+	else if (overlay_position > 0)
+		--overlay_position;
 
 	if (App->render->camera.y > -STAGE_HEIGHT + SCREEN_HEIGHT) {
 		App->render->camera.y -= SCROLL_SPEED;

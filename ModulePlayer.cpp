@@ -218,6 +218,14 @@ update_status ModulePlayer::Update() {
 			App->fonts->WriteText(font, "PRESS SPACE", App->render->camera.x + 325, App->render->camera.y + 39, { 255,255,255 });
 		}
 	}
+
+	if (frozen) {
+		for (int i = 0; i < 2; ++i) {
+			if (players[i].state != DEAD && players[i].state != OFF)
+				App->render->Blit(6, player, players[i].player_world_x, App->render->camera.y + players[i].player_y, { 0, 1 }, &players[i].animations[AN_IDLE].GetCurrentFrame());
+		}
+		return UPDATE_CONTINUE;
+	}
 	
 	if (game_over) {
 		App->audio->PlayMusic(game_over_mus);
@@ -798,6 +806,11 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 void ModulePlayer::TriggerVictory()
 {
 	next_round = true;
+}
+
+void ModulePlayer::ToggleFreeze(bool freeze)
+{
+	frozen = freeze;
 }
 
 bool ModulePlayer::isPlaying()

@@ -34,6 +34,7 @@ private:
 	SDL_Texture* background_animations = nullptr;
 	Mix_Music* music = nullptr;
 	Mix_Music* boss_music = nullptr;
+	int overlay_position;
 	Animation sea_water;
 	Animation river_water;
 	Animation cows;

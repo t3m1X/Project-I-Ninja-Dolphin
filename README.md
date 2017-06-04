@@ -33,7 +33,7 @@ If you get shot, you will need to start from the beggining. Good luck!
 * **SPACEBAR** Player 2 shooting.
 * **B** Player 2 bomb.
 
-## Controller
+### Controller
 * **A** Shoots.
 * **B** Throws bomb.
 * **START** Starts the game.

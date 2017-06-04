@@ -56,6 +56,7 @@ void Enemy_LightAirship::Move()
 		fPoint fdirection = { (float)direction.x, (float)direction.y };
 		fdirection.Normalize();
 		path.PushBack(fdirection*-5, 500, &fly);
+		path.PushBack({ 0, STAGE_HEIGHT }, 1, &fly);
 		iPoint origin = position;
 		origin.x += 18;
 		origin.y += fly.CurrentFrame().h;

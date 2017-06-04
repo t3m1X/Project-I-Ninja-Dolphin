@@ -100,32 +100,22 @@ void ModuleAudio::FreeSFX(Mix_Chunk * sfx)
 
 }
 
-Mix_Music * const ModuleAudio::LoadMusic(const char * path) 
+Mix_Music * const ModuleAudio::LoadMusic(const char * path)
 {
 	Mix_Music* ret = nullptr;
 
-	int current_music = 0;
-	for (; current_music < MAX_SFX; ++current_music)
-	{
-		if (musics[current_music] == nullptr)
-			break;
-	}
-
-	if (current_music == MAX_MUSIC) {
+	if (last_music == MAX_MUSIC) {
 		LOG("Overflow error: Overwriting music");
-		Mix_FreeMusic(musics[last_music]);
-		current_music = last_music++;
-		if (last_music == MAX_MUSIC)
-			last_music = 0;
+		last_music = 0;
 	}
 
-	musics[current_music] = Mix_LoadMUS(path);
+	musics[last_music] = Mix_LoadMUS(path);
 
-	if (!musics[current_music]) {
+	if (!musics[last_music]) {
 		LOG("Mix_LoadMUS: Could not load \"%s\": %s\n", path, Mix_GetError());
 	}
-	else 
-		ret = musics[current_music];
+	else
+		ret = musics[last_music++];
 
 	return ret;
 }
@@ -134,8 +124,10 @@ void ModuleAudio::FreeMusic(Mix_Music * music)
 {
 	if (music = nullptr)
 		return;
-	if (music == playing)
+	if (music == playing) {
+		Mix_HaltMusic();
 		playing = nullptr;
+	}
 	for (int i = 0; i < MAX_MUSIC; ++i) {
 		if (musics[i] == music) {
 			Mix_FreeMusic(musics[i]);

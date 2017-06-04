@@ -70,6 +70,8 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 		LOG("Overflow error: Overwriting sfx");
 		Mix_FreeChunk(sfxs[last_sfx]);
 		current_sfx = last_sfx++;
+		if (last_sfx == MAX_SFX)
+			last_sfx = 0;
 	}
 
 	sfxs[current_sfx] = Mix_LoadWAV(path);
@@ -113,6 +115,8 @@ Mix_Music * const ModuleAudio::LoadMusic(const char * path)
 		LOG("Overflow error: Overwriting music");
 		Mix_FreeMusic(musics[last_music]);
 		current_music = last_music++;
+		if (last_music == MAX_MUSIC)
+			last_music = 0;
 	}
 
 	musics[current_music] = Mix_LoadMUS(path);

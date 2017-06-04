@@ -55,7 +55,7 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 	original_position = position;
 	
 
-	sdl_clock_start = SDL_GetTicks() + 2500 + 50;
+	sdl_clock_start = SDL_GetTicks() + 2500 + 850;
 
 	type = AIRBORNE;
 	hitpoints = 8;

@@ -52,7 +52,7 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 	original_position = position;
 
 	sdl_clock_start = SDL_GetTicks();
-	sdl_clock = sdl_clock_start + 2000 + 50;
+	sdl_clock = sdl_clock_start + 2000 + 850;
 
 
 	type = GROUND;

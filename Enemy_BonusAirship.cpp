@@ -53,7 +53,7 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 
 	original_position = position;
 
-	sdl_clock_start = SDL_GetTicks() + 2100 + 50;
+	sdl_clock_start = SDL_GetTicks() + 2100 + 850;
 
 
 	type = AIRBORNE;
@@ -86,7 +86,7 @@ void Enemy_BonusAirship::Move()
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { -1,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 0,1 });
 		App->particles->AddParticle(ENEMYSHOT, origin.x, origin.y, { 1,1 });
-		sdl_clock_start = sdl_clock + 3167 + 2100;
+		sdl_clock_start = sdl_clock + 3167;
 	}
 
 }

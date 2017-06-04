@@ -52,7 +52,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	type = GROUND;
 	hitpoints = 2;
 
-	sdl_clock_start = SDL_GetTicks() + 2000 + 50;
+	sdl_clock_start = SDL_GetTicks() + 2000 + 850;
 }
 
 void Enemy_LightTank::Draw(SDL_Texture* sprites)

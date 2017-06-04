@@ -41,7 +41,34 @@ If you get shot, you will need to start from the beggining. Good luck!
 
 ## Changelist
 
-### This version of the game includes:
+
+### Release v1.0 included
+
+- Background polish and more background layers
+- Initial animation
+- Loop and death screens
+- Remaining enemies and boss
+- Homing missiles
+- Enemy spawns polish
+
+### Release v0.7.9 included
+
+- Full screen
+- Death animation
+- New enemies: Moon airship, turrets.
+
+
+### Release v0.7 included
+
+- Controller support
+- Powerup implementation
+- New explosions
+
+### Release v0.6 included
+
+- New enemies: Kamikaze ship and projectile
+
+### Release v0.5 included
 
 - Intro screen.
 - Gameplay screen.

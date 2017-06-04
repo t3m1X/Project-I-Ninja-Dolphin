@@ -41,8 +41,11 @@ bool ModuleWindow::Init()
 		if(WIN_RESIZABLE == true)
 			flags |= SDL_WINDOW_RESIZABLE;
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if (WIN_FULLSCREEN_DESKTOP == true)
+		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+			SDL_ShowCursor(SDL_DISABLE);
+		}
 
 		window = SDL_CreateWindow("RAIDEN: Ninja Dolphins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 

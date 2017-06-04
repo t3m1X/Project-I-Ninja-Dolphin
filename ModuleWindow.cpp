@@ -74,7 +74,7 @@ bool ModuleWindow::CleanUp()
 	LOG("Destroying SDL window and quitting all SDL systems");
 
 	SDL_FreeSurface(screen_surface);
-	SDL_FreeSurface(application_icon);
+	App->textures->UnloadSurface(application_icon);
 
 	//Destroy window
 	if(window != NULL)

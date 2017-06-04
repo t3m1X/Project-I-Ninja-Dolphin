@@ -96,7 +96,6 @@
     <ClInclude Include="ModulePlayer.h" />
     <ClInclude Include="ModuleRender.h" />
     <ClInclude Include="ModuleStage1.h" />
-    <ClInclude Include="ModuleStage2.h" />
     <ClInclude Include="ModuleStageIntro.h" />
     <ClInclude Include="ModuleTextures.h" />
     <ClInclude Include="ModuleWindow.h" />
@@ -130,7 +129,6 @@
     <ClCompile Include="ModulePlayer.cpp" />
     <ClCompile Include="ModuleRender.cpp" />
     <ClCompile Include="ModuleStage1.cpp" />
-    <ClCompile Include="ModuleStage2.cpp" />
     <ClCompile Include="ModuleStageIntro.cpp" />
     <ClCompile Include="ModuleTextures.cpp" />
     <ClCompile Include="ModuleWindow.cpp" />

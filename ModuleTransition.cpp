@@ -73,6 +73,11 @@ bool ModuleTransition::CleanUp() {
 	loading_screen_animation.CleanUp();
 	loading_screen_animation_b.CleanUp();
 
+	if (loading_screen != nullptr)
+	{
+		App->textures->Unload(loading_screen);
+	}
+
 	return ret;
 }
 

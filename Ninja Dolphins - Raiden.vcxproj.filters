@@ -44,9 +44,6 @@
     <ClInclude Include="ModuleAudio.h">
       <Filter>Modules</Filter>
     </ClInclude>
-    <ClInclude Include="ModuleStage2.h">
-      <Filter>Modules</Filter>
-    </ClInclude>
     <ClInclude Include="ModulePlayer.h">
       <Filter>Modules</Filter>
     </ClInclude>
@@ -143,9 +140,6 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="ModuleAudio.cpp">
-      <Filter>Modules</Filter>
-    </ClCompile>
-    <ClCompile Include="ModuleStage2.cpp">
       <Filter>Modules</Filter>
     </ClCompile>
     <ClCompile Include="ModulePlayer.cpp">

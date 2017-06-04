@@ -134,6 +134,8 @@ void ModuleAudio::FreeMusic(Mix_Music * music)
 {
 	if (music = nullptr)
 		return;
+	if (music == playing)
+		playing = nullptr;
 	for (int i = 0; i < MAX_MUSIC; ++i) {
 		if (musics[i] == music) {
 			Mix_FreeMusic(musics[i]);

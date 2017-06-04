@@ -24,6 +24,8 @@ ModuleParticles::~ModuleParticles()
 bool ModuleParticles::Start()
 {
 	LOG("Loading particles");
+
+	destroy_b_air = App->audio->LoadSFX("sfx/destroy_b_air.wav");
 	graphics = App->textures->Load("revamp_spritesheets/particles_spritesheet.png");
 
 	autoattack.anim.SetUp(0, 0, 5, 14, 4, 4, "0,1,2,3");
@@ -39,7 +41,7 @@ bool ModuleParticles::Start()
 	explosion.anim.speed = 0.19f;
 	explosion.life = 700;
 	explosion.speed = { 0, 0};
-	explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+	explosion.fx = destroy_b_air;
 	
 
 	enemyshot.anim.SetUp(20, 0, 8, 8, 4, 4, "0,1,2,3");
@@ -59,7 +61,7 @@ bool ModuleParticles::Start()
 	big_explosion.anim.speed = 0.2f;
 	big_explosion.life = 700;
 	big_explosion.speed = { 0,0 };
-	big_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_tank.wav");
+	big_explosion.fx = destroy_b_air;
 
 	laserattack.anim.SetUp(91, 126, 3, 30, 3, 3, "0,1,2");
 	laserattack.anim.loop = true;
@@ -71,7 +73,7 @@ bool ModuleParticles::Start()
 	light_explosion.anim.loop = false;
 	light_explosion.anim.speed = 0.2f;
 	light_explosion.life = 600;
-	light_explosion.fx = App->audio->LoadSFX("sfx/destroy_b_air.wav");
+	light_explosion.fx = destroy_b_air;
 
 	turret_crater.anim.SetUp(199, 157, 54, 48, 3, 3, "0,1,2");
 	turret_crater.anim.loop = true;
@@ -158,6 +160,14 @@ bool ModuleParticles::CleanUp()
 	player1_pieces.anim.CleanUp();
 	player2_pieces.anim.CleanUp();
 	missile.anim.CleanUp();
+
+	App->audio->FreeSFX(player2_explosion.fx);
+	App->audio->FreeSFX(player1_explosion.fx);
+	App->audio->FreeSFX(bombexplosion.fx);
+	App->audio->FreeSFX(bombshot.fx);
+	App->audio->FreeSFX(laserattack.fx);
+	App->audio->FreeSFX(autoattack.fx);
+	App->audio->FreeSFX(destroy_b_air);
 	
 	for (uint i = 0; i < MAX_ACTIVE_PARTICLES; ++i)
 	{

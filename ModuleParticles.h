@@ -105,6 +105,8 @@ public:
 	Particle player2_explosion;
 	Particle player1_pieces;
 	Particle player2_pieces;
+
+	Mix_Chunk* destroy_b_air;
 };
 
 #endif // __MODULEPARTICLES_H__

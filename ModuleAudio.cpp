@@ -60,18 +60,26 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 {
 	Mix_Chunk* ret = nullptr;
 
-	if (last_sfx == MAX_MUSIC) {
+	int current_sfx = 0;
+	for (; current_sfx < MAX_SFX; ++current_sfx)
+	{
+		if (sfxs[current_sfx] == nullptr)
+			break;
+	}
+	if (current_sfx == MAX_SFX) {
 		LOG("Overflow error: Overwriting sfx");
-		last_sfx = 0;
+		current_sfx = last_sfx;
+		Mix_FreeChunk(sfxs[last_sfx]);
 	}
 
-	sfxs[last_sfx] = Mix_LoadWAV(path);
+	sfxs[current_sfx] = Mix_LoadWAV(path);
+	last_sfx = current_sfx;
 
 	if (sfxs[last_sfx] == NULL) {
 		LOG("MixLoadWav: Failed to load wav from path \"%s\": %s\n", path, Mix_GetError());
 	}
 	else
-		ret = sfxs[last_sfx++];
+		ret = sfxs[last_sfx];
 
 	return ret;
 }
@@ -95,18 +103,27 @@ Mix_Music * const ModuleAudio::LoadMusic(const char * path)
 {
 	Mix_Music* ret = nullptr;
 
-	if (last_music == MAX_MUSIC) {
-		LOG("Overflow error: Overwriting music");
-		last_music = 0;
+	int current_music = 0;
+	for (; current_music < MAX_SFX; ++current_music)
+	{
+		if (musics[current_music] == nullptr)
+			break;
 	}
 
-	musics[last_music] = Mix_LoadMUS(path);
+	if (current_music == MAX_MUSIC) {
+		LOG("Overflow error: Overwriting music");
+		Mix_FreeMusic(musics[last_music]);
+		current_music = last_music;
+	}
+
+	musics[current_music] = Mix_LoadMUS(path);
+	last_music = current_music;
 
 	if (!musics[last_music]) {
 		LOG("Mix_LoadMUS: Could not load \"%s\": %s\n", path, Mix_GetError());
 	}
 	else 
-		ret = musics[last_music++];
+		ret = musics[last_music];
 
 	return ret;
 }

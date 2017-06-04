@@ -40,6 +40,9 @@ bool ModulePlayer::Start() {
 	you_lose = App->textures->Load("revamp_spritesheets/lose_screen.png");
 	game_over_mus = App->audio->LoadMusic("music/name_regist.ogg");
 
+	bonus_sfx = App->audio->LoadSFX("sfx/powerup.wav");
+	max_bonus_sfx = App->audio->LoadSFX("sfx/powerup_max.wav");
+
 	you_lose_an.SetUp(0, 0, 239, 151, 3, 5, "0,1,2,3,4");
 	you_lose_an.speed = 0.05f;
 	
@@ -711,6 +714,24 @@ bool ModulePlayer::CleanUp() {
 			players[i].animations[j].CleanUp();
 	}
 
+	if (game_over_mus != nullptr) {
+		App->audio->FreeMusic(game_over_mus);
+		game_over_mus = nullptr;
+	}
+	if (next_round_mus != nullptr) {
+		App->audio->FreeMusic(next_round_mus);
+		next_round_mus = nullptr;
+	}
+
+	if (bonus_sfx != nullptr) {
+		App->audio->FreeSFX(bonus_sfx);
+		bonus_sfx = nullptr;
+	}
+	if (max_bonus_sfx != nullptr) {
+		App->audio->FreeSFX(max_bonus_sfx);
+		max_bonus_sfx = nullptr;
+	}
+
 	App->textures->Unload(player);
 	App->textures->Unload(you_lose);
 	App->textures->Unload(you_win);
@@ -795,12 +816,26 @@ void ModulePlayer::AddBonus(BONUS_TYPE type, Collider* col) {
 			if (players[player].amount_bonus < 3)
 				++players[player].amount_bonus;
 		}
+		if (players[player].amount_bonus == 3)
+			App->audio->PlaySFX(max_bonus_sfx);
+		else
+			App->audio->PlaySFX(bonus_sfx);
 	}
 	else if (type == BOMB_BONUS && players[player].bombs < 7)
+	{
 		players[player].bombs++;
+		if (players[player].bombs == 7)
+			App->audio->PlaySFX(max_bonus_sfx);
+		else
+			App->audio->PlaySFX(bonus_sfx);
+	}
 
-	else if (type == MISSILE_BONUS)
+	else if (type == MISSILE_BONUS) {
+		App->audio->PlaySFX(bonus_sfx);
 		players[player].missiles++;
+	}
+	else if (type == MEDAL_BONUS)
+		App->audio->PlaySFX(bonus_sfx);
 }
 
 void ModulePlayer::TriggerVictory()

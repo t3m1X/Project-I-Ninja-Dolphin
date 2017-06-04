@@ -128,6 +128,9 @@ private:
 	TTF_Font* font;
 	TTF_Font* loops;
 
+	Mix_Chunk* bonus_sfx = nullptr;
+	Mix_Chunk* max_bonus_sfx = nullptr;
+
 	player_struct players[2];
 };
 

@@ -7,7 +7,6 @@
 #include "ModuleAudio.h"
 #include "ModuleStageIntro.h"
 #include "ModuleStage1.h"
-#include "ModuleStage2.h"
 #include "ModuleCollision.h"
 #include "ModulePlayer.h"
 #include "ModuleTransition.h"
@@ -24,7 +23,6 @@ Application::Application()
 	modules[i++] = textures = new ModuleTextures();
 	modules[i++] = audio = new ModuleAudio();
 	modules[i++] = fonts = new ModuleFonts();
-	modules[i++] = stage2 = new ModuleStage2();
 	modules[i++] = stage1 = new ModuleStage1();
 	modules[i++] = intro = new ModuleStageIntro();
 	modules[i++] = enemies = new ModuleEnemies();
@@ -46,7 +44,6 @@ bool Application::Init()
 	bool ret = true;
 
 	//Disabling stopped modules
-	stage2->Disable();
 	stage1->Disable();
 	player->Disable();
 	bonus->Disable();

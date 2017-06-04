@@ -5,7 +5,6 @@
 #include "ModuleRender.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
-#include "ModuleStage2.h"
 #include "ModuleStageIntro.h"
 #include "SDL\include\SDL_rect.h"
 #include "ModuleTextures.h"

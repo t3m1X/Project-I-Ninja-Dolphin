@@ -22,12 +22,12 @@ public:
 	bool CleanUp();
 	
 private:
-
 	SDL_Texture* title_texture = nullptr;
 	SDL_Texture* stars_texture = nullptr;
 	Mix_Music* music;
 	Animation title_screen;
 	Animation stars;
+	iPoint stars_array[5];
 	
 };
 

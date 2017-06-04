@@ -54,8 +54,6 @@ bool ModuleStage1::Start() {
 	App->audio->MusicVolume(10);
 
 	App->player->Enable();
-	SDL_Rect background_rect;
-	SDL_QueryTexture(stage_background, nullptr, nullptr, &background_rect.w, &background_rect.h);
 
 	//font = App->fonts->LoadFont("fonts/PrStart.ttf", 16);
 

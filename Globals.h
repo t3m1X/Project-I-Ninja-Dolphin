@@ -32,7 +32,7 @@ typedef unsigned int uint;
 #else
 	#define WIN_FULLSCREEN_DESKTOP 0
 #endif
-#define WIN_BORDERLESS 1
+#define WIN_BORDERLESS 0
 #define WIN_RESIZABLE 0
 #define REN_VSYNC 1
 #define SCROLL_SPEED 1

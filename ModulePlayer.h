@@ -38,6 +38,7 @@ public:
 	void AddScore(uint score_add, COLLIDER_TYPE type);
 	void AddBonus(BONUS_TYPE type, Collider* col = nullptr);
 	void TriggerVictory();
+	bool isPlaying();
 
 private:
 	void SpawnBits(bool player1);

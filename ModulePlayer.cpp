@@ -749,6 +749,9 @@ bool ModulePlayer::CleanUp() {
 
 void ModulePlayer::OnCollision(Collider* c1, Collider* c2)
 {
+	if (game_over || next_round)
+		return;
+
 	for (int i = 0; i < 2; ++i) {
 		if (c1 == players[i].player_collider) {
 			if (players[i].godmode == true || sdl_clock <= players[i].sdl_respawn) {

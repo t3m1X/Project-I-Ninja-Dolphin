@@ -31,7 +31,7 @@ Enemy_Turret::Enemy_Turret(int x, int y) : Enemy(x, y)
 	hitpoints = 3;
 
 	
-	sdl_clock_start = SDL_GetTicks() + 500;
+	sdl_clock_start = SDL_GetTicks() + 500 + 50;
 }
 
 Enemy_Turret::~Enemy_Turret()

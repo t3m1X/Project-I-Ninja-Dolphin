@@ -52,7 +52,7 @@ void Enemy_LightAirship::Move()
 	sdl_clock = SDL_GetTicks();
 	position = original_position + path.GetCurrentPosition(&animation);
 
-	if (sdl_clock >= sdl_clock_start + 800 && !shot) {
+	if (sdl_clock >= sdl_clock_start + 850 && !shot) {
 		fPoint fdirection = { (float)direction.x, (float)direction.y };
 		fdirection.Normalize();
 		path.PushBack(fdirection*-5, 500, &fly);

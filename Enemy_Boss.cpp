@@ -82,7 +82,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 	original_position = position;
 
 
-	sdl_clock_start = SDL_GetTicks() + 2000;
+	sdl_clock_start = SDL_GetTicks() + 2000 + 50;
 
 	type = GROUND;
 	

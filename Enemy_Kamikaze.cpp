@@ -42,7 +42,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	type = AIRBORNE;
 	hitpoints = 8;
 
-	sdl_clock_start = SDL_GetTicks() + 1500;
+	sdl_clock_start = SDL_GetTicks() + 1500 + 50;
 
 }
 

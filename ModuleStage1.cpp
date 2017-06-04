@@ -23,6 +23,7 @@ bool ModuleStage1::Start() {
 	bool ret = true;
 	stage_background = App->textures->Load("revamp_spritesheets/lvl1_placeholder.png");
 	music = App->audio->LoadMusic("music/rough_and_tumble.ogg");
+	boss_music = App->audio->LoadMusic("music/go_to_blazes.ogg");
 	water_texture = App->textures->Load("revamp_spritesheets/base_water_animation.png");
 	background_animations = App->textures->Load("revamp_spritesheets/backgroundanimations.png");
 
@@ -179,7 +180,6 @@ update_status ModuleStage1::Update() {
 	int y = 0;
 
 	App->render->Blit(3, background_animations, 0, SCREEN_HEIGHT - STAGE_HEIGHT + 3803, { 0,1 }, &cows.GetCurrentFrame());
-	
 
 	background.x += background.w;
 	App->render->Blit(4, stage_background, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, -STAGE_HEIGHT + SCREEN_HEIGHT - 6, { 0,1 }, &background);
@@ -190,7 +190,6 @@ update_status ModuleStage1::Update() {
 
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position, { 0,1 }, &background);
 	App->render->Blit(7, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2, cloud_position - STAGE_HEIGHT, { 0,1 }, &background);
-	/*if (App->render->camera.y % 2)*/
 	cloud_position += 1;
 
 	if (cloud_position >= 0)
@@ -202,6 +201,8 @@ update_status ModuleStage1::Update() {
 
 	App->render->Blit(1, background_animations, SCREEN_WIDTH / 2 - STAGE_WIDTH / 2 , SCREEN_HEIGHT - STAGE_HEIGHT + 5758, { 0,1 }, &coast.GetCurrentFrame());
 
+	if (App->render->camera.y <= SCREEN_HEIGHT - STAGE_HEIGHT + 1097 && App->player->isPlaying())
+		App->audio->PlayMusic(boss_music);
 
 	return UPDATE_CONTINUE;
 }
@@ -220,6 +221,10 @@ bool ModuleStage1::CleanUp() {
 	if (music != nullptr) {
 		App->audio->FreeMusic(music);
 		music = nullptr;
+	}
+	if (boss_music != nullptr) {
+		App->audio->FreeMusic(boss_music);
+		boss_music = nullptr;
 	}
 	sea_water.CleanUp();
 	river_water.CleanUp();

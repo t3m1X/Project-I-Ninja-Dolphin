@@ -27,6 +27,9 @@ public:
 
 	//The surface contained by the window
 	SDL_Surface* screen_surface = nullptr;
+
+	//The application icon
+	SDL_Surface* application_icon = nullptr;
 };
 
 #endif // __ModuleWindow_H__

@@ -798,6 +798,11 @@ void ModulePlayer::TriggerVictory()
 	next_round = true;
 }
 
+bool ModulePlayer::isPlaying()
+{
+	return !(game_over || next_round);
+}
+
 void ModulePlayer::SpawnBits(bool player1)
 {
 	iPoint spawn_position;

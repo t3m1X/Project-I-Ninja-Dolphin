@@ -16,6 +16,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 	animation_shooting.SetUp(0, 67, 34, 44, 3, 3, "0,1,2");
 	animation_shooting.speed = 0.3f;
 
+	path.PushBack({ 0,0 }, 50, &walk);
 	switch (subtype)
 	{
 	case NORMAL:
@@ -39,7 +40,7 @@ Enemy_LightTank::Enemy_LightTank(int x, int y, int subtype) : Enemy(x, y)
 		break;
 	}
 		
-	
+	path.LoopStart(50);
 	
 
 	collider = App->collision->AddCollider({ 0, 67, 25, 35 }, COLLIDER_TYPE::COLLIDER_ENEMY_GROUND, (Module*)App->enemies);

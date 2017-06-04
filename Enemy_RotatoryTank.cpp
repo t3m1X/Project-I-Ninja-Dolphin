@@ -20,6 +20,8 @@ Enemy_RotatoryTank::Enemy_RotatoryTank(int x, int y) : Enemy(x, y)
 
 	animation_hurt.SetUp(629, 635, 94, 93, 4, 4, "2,3,2,3,2");
 
+	path.PushBack({ 0,0 }, 50, &walk);
+
 	if (position.x > SCREEN_WIDTH / 2)
 	{
 		path.PushBack({ 0,0 }, 100, &walk);

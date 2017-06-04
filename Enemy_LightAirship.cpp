@@ -18,8 +18,10 @@ Enemy_LightAirship::Enemy_LightAirship(int x, int y) : Enemy(x, y)
 	fPoint fdirection = { (float)direction.x,(float)direction.y };
 	fdirection.Normalize();
 
+	path.PushBack({ 0,0 }, 50, &fly);
 	path.PushBack(fdirection*3, 45, &fly);
 	path.PushBack({ 0, -2 }, 40, &fly);
+	path.loop = false;
 
 	collider_offset.x = 8;
 	collider_offset.y = 25;

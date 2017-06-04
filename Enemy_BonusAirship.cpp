@@ -39,12 +39,12 @@ Enemy_BonusAirship::Enemy_BonusAirship(int x, int y) : Enemy(x, y)
 	fdirection3.Normalize();
 	
 	
-	
+	path.PushBack({ 0,0 }, 50, &fly);
 	path.PushBack(fdirection *2, 20, &fly); // Arrives
 	path.PushBack({ 0, - SCROLL_SPEED }, 30, &fly); //Stays for some time
 	path.PushBack(fdirection2 * SCROLL_SPEED / 2, 80, &fly);//goes right
 	path.PushBack(fdirection3 * SCROLL_SPEED / 2, 80, &fly);//goes left
-	path.LoopStart(20);
+	path.LoopStart(70);
 	
 	collider_offset.x = 32;
 	collider_offset.y = 33;

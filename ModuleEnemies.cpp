@@ -16,7 +16,7 @@
 #include "Enemy_Boss.h"
 #include "Enemy_RotatoryTank.h"
 
-#define SPAWN_MARGIN 200
+#define SPAWN_MARGIN 300
 
 ModuleEnemies::ModuleEnemies()
 {

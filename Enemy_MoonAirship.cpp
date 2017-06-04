@@ -20,7 +20,8 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 
 	animation_hurt.SetUp(629, 465, 98, 89, 4, 4, "2,3,2,3,2");
 
-	
+	path.PushBack({ 0,0 }, 50, &fly);
+
 	if (position.x > SCREEN_WIDTH / 2)
 	{
 		path.PushBack({ 0, 0.5f }, 120, &fly);
@@ -31,7 +32,7 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 		path.PushBack({ 1,1 }, 50, &fly);
 		path.PushBack({ 1,-2 }, 90, &fly);
 		path.PushBack({ 0,-0.5 }, 40, &fly);
-		path.LoopStart(150);
+		path.LoopStart(200);
 	}
 	else 
 	{
@@ -43,7 +44,7 @@ Enemy_MoonAirship::Enemy_MoonAirship(int x, int y) : Enemy(x, y)
 		path.PushBack({ -1,1 }, 50, &fly);
 		path.PushBack({ -1,-2 }, 90, &fly);
 		path.PushBack({ 0,-0.5 }, 40, &fly);
-		path.LoopStart(150);
+		path.LoopStart(200);
 	}
 
 	collider_offset.x = 8;

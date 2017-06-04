@@ -18,7 +18,7 @@ Enemy_Kamikaze::Enemy_Kamikaze(int x, int y) : Enemy(x, y)
 	animation_hurt.SetUp(375, 0, 146, 108, 4, 4, "3,4,3,4,3");
 	
 	
-
+	path.PushBack({ 0,0 }, 50, &fly);
 	path.PushBack({ 0,1 }, 200, &fly);
 
 	if(position.x > SCREEN_WIDTH / 2) // if kamikaze spawsn left of the window goes right, and biceversa

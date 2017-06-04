@@ -12,7 +12,9 @@ Enemy_Bomb::Enemy_Bomb(int x, int y) : Enemy(x, y)
 	animation_hurt.SetUp(0, 181, 44, 68, 4, 4, "3,0,3,0,3");
 	shadow.SetUp(176, 215, 22, 35, 1, 1, "0");
 
+	path.PushBack({ 0,0 }, 50, &walk);
 	path.PushBack({ 0, 0.5f }, 415, &walk);
+	path.LoopStart(50);
 	/*path.PushBack({ 0,-1.5f }, 300, &walk);*/
 
 	collider_offset.x = 7;

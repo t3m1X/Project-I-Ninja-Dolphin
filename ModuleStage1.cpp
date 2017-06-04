@@ -135,9 +135,9 @@ bool ModuleStage1::Start() {
 	
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 496, 5400);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 80, 4500);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 655, 4245);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 667, 3741);
-	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3678);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 655, 4345);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 667, 3738);
+	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 676, 3690);
 	App->enemies->AddEnemy(ENEMY_TYPES::LIGHTTANK_3, 231, 3479);
 
 	App->enemies->AddEnemy(ENEMY_TYPES::BOX, 226, 4955);

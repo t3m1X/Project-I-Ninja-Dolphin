@@ -37,7 +37,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		path.PushBack({ 0,0 }, 100, &walk);
 		path.LoopStart(645);
 
-		hitpoints = 10;
+		hitpoints = 20;
 
 		break;
 	}
@@ -67,7 +67,7 @@ Enemy_Boss::Enemy_Boss(int x, int y, int subtype) : Enemy(x, y)
 		path.PushBack({ 1,0 }, 225, &walk);
 		path.loop = true;
 
-		hitpoints = 20;
+		hitpoints = 40;
 
 		break;
 	}

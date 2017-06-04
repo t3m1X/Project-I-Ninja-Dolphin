@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include "Application.h"
 #include "ModuleWindow.h"
+#include "ModuleTextures.h"
 #include "SDL/include/SDL.h"
 
 ModuleWindow::ModuleWindow() : Module()
@@ -40,10 +41,13 @@ bool ModuleWindow::Init()
 		if(WIN_RESIZABLE == true)
 			flags |= SDL_WINDOW_RESIZABLE;
 
-		if(WIN_FULLSCREEN_DESKTOP == true)
+		if (WIN_FULLSCREEN_DESKTOP == true)
+		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+			SDL_ShowCursor(SDL_DISABLE);
+		}
 
-		window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow("RAIDEN: Ninja Dolphins", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
@@ -52,6 +56,10 @@ bool ModuleWindow::Init()
 		}
 		else
 		{
+			//Loading Application icon
+			application_icon = App->textures->LoadSurface("revamp_spritesheets/app_logo.png");
+			SDL_SetWindowIcon(window, application_icon);
+
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
 		}
@@ -64,6 +72,9 @@ bool ModuleWindow::Init()
 bool ModuleWindow::CleanUp()
 {
 	LOG("Destroying SDL window and quitting all SDL systems");
+
+	SDL_FreeSurface(screen_surface);
+	App->textures->UnloadSurface(application_icon);
 
 	//Destroy window
 	if(window != NULL)

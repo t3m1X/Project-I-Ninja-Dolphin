@@ -8,8 +8,15 @@
 #include "Enemy_LightAirship.h"
 #include "Enemy_LightTank.h"
 #include "Enemy_BonusAirship.h"
+#include "Enemy_Bomb.h"
+#include "Enemy_Kamikaze.h"
+#include "Enemy_Box.h"
+#include "Enemy_Turret.h"
+#include "Enemy_MoonAirship.h"
+#include "Enemy_Boss.h"
+#include "Enemy_RotatoryTank.h"
 
-#define SPAWN_MARGIN 100
+#define SPAWN_MARGIN 300
 
 ModuleEnemies::ModuleEnemies()
 {
@@ -68,7 +75,7 @@ update_status ModuleEnemies::PostUpdate()
 	{
 		if (enemies[i] != nullptr)
 		{
-			if (enemies[i]->position.y * SCREEN_SIZE > App->render->camera.y + (App->render->camera.h * SCREEN_SIZE) + SPAWN_MARGIN)
+			if (enemies[i]->to_delete || enemies[i]->position.y * SCREEN_SIZE > App->render->camera.y + (App->render->camera.h * SCREEN_SIZE) + SPAWN_MARGIN)
 			{
 				LOG("DeSpawning 9enemy at %d", enemies[i]->position.y * SCREEN_SIZE);
 				delete enemies[i];
@@ -89,6 +96,7 @@ bool ModuleEnemies::CleanUp()
 
 	for (uint i = 0; i < MAX_ENEMIES; ++i)
 	{
+		queue[i].type = NO_TYPE;
 		if (enemies[i] != nullptr)
 		{
 			delete enemies[i];
@@ -132,10 +140,34 @@ void ModuleEnemies::SpawnEnemy(const EnemyInfo& info)
 			enemies[i] = new Enemy_LightAirship(info.x, info.y);
 			break;
 		case ENEMY_TYPES::LIGHTTANK:
-			enemies[i] = new Enemy_LightTank(info.x, info.y);
+		case ENEMY_TYPES::LIGHTTANK_2:
+		case ENEMY_TYPES::LIGHTTANK_3:
+			enemies[i] = new Enemy_LightTank(info.x, info.y, info.type);
 			break;
 		case ENEMY_TYPES::BONUSAIRSHIP:
 			enemies[i] = new Enemy_BonusAirship(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOMB:
+			enemies[i] = new Enemy_Bomb(info.x, info.y);
+			break;
+		case ENEMY_TYPES::KAMIKAZE:
+			enemies[i] = new Enemy_Kamikaze(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOX:
+			enemies[i] = new Enemy_Box(info.x, info.y);
+			break;
+		case ENEMY_TYPES::TURRET:
+			enemies[i] = new Enemy_Turret(info.x, info.y);
+			break;
+		case ENEMY_TYPES::MOONAIRSHIP:
+			enemies[i] = new Enemy_MoonAirship(info.x, info.y);
+			break;
+		case ENEMY_TYPES::BOSS:
+		case ENEMY_TYPES::BOSS_2:
+			enemies[i] = new Enemy_Boss(info.x, info.y, info.type);
+			break;
+		case ENEMY_TYPES::ROTATORYTANK:
+			enemies[i] = new Enemy_RotatoryTank(info.x, info.y);
 			break;
 
 		}
@@ -149,9 +181,11 @@ void ModuleEnemies::OnCollision(Collider* c1, Collider* c2)
 		if (enemies[i] != nullptr && enemies[i]->GetCollider() == c1)
 		{
 			enemies[i]->OnCollision(c2);
-			delete enemies[i];
-			enemies[i] = nullptr;
-			break;
+			if (enemies[i]->hitpoints == 0) {
+				delete enemies[i];
+				enemies[i] = nullptr;
+				break;
+			}
 		}
 	}
 }

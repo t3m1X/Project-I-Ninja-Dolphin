@@ -6,6 +6,8 @@
 #include "ModuleAudio.h"
 #include "SDL/include/SDL.h"
 #include "Animation.h"
+#include "Path.h"
+
 
 struct SDL_Texture;
 
@@ -18,12 +20,15 @@ public:
 	bool Start();
 	update_status Update();
 	bool CleanUp();
-
+	
 private:
-
 	SDL_Texture* title_texture = nullptr;
+	SDL_Texture* stars_texture = nullptr;
 	Mix_Music* music;
 	Animation title_screen;
+	Animation stars;
+	iPoint stars_array[5];
+	
 };
 
 

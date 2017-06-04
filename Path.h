@@ -22,6 +22,8 @@ public:
 private:
 	uint current_frame = 0;
 	uint last_step = 0;
+	int loops = 0;
+	int start_step = 0;
 
 public:
 
@@ -37,9 +39,8 @@ public:
 		current_frame += 1;
 
 		uint count = 0;
-		uint i = 0;
 		bool need_loop = true;
-		for(; i < last_step; ++i)
+		for(uint i = 0; i < last_step; ++i)
 		{
 			count += steps[i].frames;
 			if(current_animation != nullptr)
@@ -52,10 +53,23 @@ public:
 			}
 		}
 
-		if (need_loop && loop)
-			current_frame = 0;
+		if (need_loop) {
+			loops++;
+			if (loop)
+				current_frame = start_step;
+		}
 
 		return iPoint((int)accumulated_speed.x, (int)accumulated_speed.y);
+	}
+
+	void LoopStart(int start) 
+	{
+		start_step = start;
+	}
+
+	bool IsFinished() 
+	{
+		return loops > 0;
 	}
 
 	void Reset()

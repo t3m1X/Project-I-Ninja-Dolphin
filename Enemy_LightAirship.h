@@ -22,6 +22,7 @@ public:
 	~Enemy_LightAirship();
 
 	void Move();
+	void OnCollision(Collider* collider);
 };
 
 #endif

@@ -16,6 +16,7 @@ private:
 	float current_frame;
 	int loops = 0;
 	int animation_size = 0;
+	int start_frame = 0;
 
 public:
 
@@ -60,8 +61,8 @@ public:
 			frames[i].y = frames[i - 1].y;
 			frames[i].w = sprite_w;
 			frames[i].h = sprite_h;
-			if (frames[i].x >= columns * sprite_w) {
-				frames[i].x = 0;
+			if (frames[i].x >= frames[0].x + columns * sprite_w) {
+				frames[i].x = frames[0].x;
 				frames[i].y = frames[i - 1].y + sprite_h;
 			}
 		}
@@ -84,7 +85,7 @@ public:
 		current_frame += speed;
 		if (current_frame > animation_size - 1)
 		{
-			current_frame = (loop) ? 0.0f : animation_size - 1;
+			current_frame = (loop) ? start_frame : animation_size - 1;
 			loops++;
 		}
 
@@ -96,9 +97,19 @@ public:
 		return frames[animation[(int)current_frame]];
 	}
 
+	void SetFrame(int frame)
+	{
+		current_frame = frame;
+	}
+
 	bool Finished() const
 	{
 		return loops > 0;
+	}
+
+
+	void LoopStart(int start) {
+		start_frame = start;
 	}
 
 	void Reset()

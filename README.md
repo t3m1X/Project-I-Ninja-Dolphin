@@ -19,16 +19,56 @@ If you get shot, you will need to start from the beggining. Good luck!
 
 ## Controls
 
+### Keyboard
 * **F1** Activates and deactivates Debug mode.
-* **F2** Activates and deactivates Godmode.
-* **SPACEBAR while on Intro screen:** Changes between scenes.
-* **SPACEBAR while on Gameplay screen:** Shoots.
-* **Direction arrows** move the player.
+* **F2** Activates and deactivates Godmode for Player 1.
+* **F3** Instant lose.
+* **F4** Instant win.
+* **F8** Activates and deactivates Godmode for Player 2.
+* **SPACEBAR** Starts the game.
+* **Movement arrows** Player 1 movement.
+* **RCTRL** Player 1 shooting.
+* **RSHIFT** Player 1 bomb.
+* **WASD** Player 2 movement.
+* **SPACEBAR** Player 2 shooting.
+* **B** Player 2 bomb.
 
+### Controller
+* **A** Shoots.
+* **B** Throws bomb.
+* **START** Starts the game.
+* **SELECT** Activated Godmode.
 
 ## Changelist
 
-### This version of the game includes:
+
+### Release v1.0 included
+
+- Background polish and more background layers
+- Initial animation
+- Loop and death screens
+- Remaining enemies and boss
+- Homing missiles
+- Enemy spawns polish
+
+### Release v0.7.9 included
+
+- Full screen
+- Death animation
+- New enemies: Moon airship, turrets.
+
+
+### Release v0.7 included
+
+- Controller support
+- Powerup implementation
+- New explosions
+
+### Release v0.6 included
+
+- New enemies: Kamikaze ship and projectile
+
+### Release v0.5 included
 
 - Intro screen.
 - Gameplay screen.

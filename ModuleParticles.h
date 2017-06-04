@@ -8,14 +8,26 @@
 #include "ModuleCollision.h"
 #include "ModuleAudio.h"
 
-#define MAX_ACTIVE_PARTICLES 100
+#define MAX_ACTIVE_PARTICLES 200
 
 struct SDL_Texture;
 
 enum particle_type {
 	AUTOSHOT = 0,
+	LASERSHOT,
+	LASERBIGSHOT,
+	BIGASSLASER,
+	MISSILE,
 	EXPLOSION,
-	ENEMYSHOT
+	ENEMYSHOT,
+	CRATER,
+	BIG_EXPLOSION,
+	LIGHT_EXPLOSION,
+	TURRET_CRATER,
+	BOMBSHOT,
+	BOMB_EXPLOSION,
+	PLAYER_EXPLOSION,
+	PLAYER_BITS
 };
 
 struct Particle
@@ -29,11 +41,30 @@ struct Particle
 	Uint32 life = 0;
 	particle_type type;
 	bool fx_played = false;
+	bool to_delete = false;
+	int layer;
 
 	Particle();
 	Particle(const Particle& p);
+	virtual bool Update();
+};
+
+struct ACParticle : public Particle
+{
+private:
+	uint sdl_acc = 0;
+	int iterations = 0;
+
+public:
+	iPoint acceleration; //Every 100ms
+
+	ACParticle() : Particle()
+	{}
+	ACParticle(const Particle& p) : Particle(p)
+	{}
 	bool Update();
 };
+
 class ModuleParticles : public Module
 {
 public:
@@ -45,7 +76,9 @@ public:
 	bool CleanUp();
 
 	
-	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, Uint32 delay = 0);
+	void AddParticle(particle_type type, int x, int y, fPoint direction = { 999,999 }, bool player1 = true, Uint32 delay = 0);
+
+	void OnCollision(Collider * c1, Collider * c2);
 
 private:
 
@@ -56,9 +89,24 @@ private:
 public:
 
 	Particle autoattack;
+	Particle laserattack;
+	Particle laserattbig;
+	Particle bigasslaser;
+	ACParticle missile;
 	Particle explosion;
 	Particle enemyshot;
-	
+	Particle crater;
+	Particle big_explosion;
+	Particle light_explosion;
+	Particle turret_crater;
+	Particle bombshot;
+	Particle bombexplosion;
+	Particle player1_explosion;
+	Particle player2_explosion;
+	Particle player1_pieces;
+	Particle player2_pieces;
+
+	Mix_Chunk* destroy_b_air;
 };
 
 #endif // __MODULEPARTICLES_H__

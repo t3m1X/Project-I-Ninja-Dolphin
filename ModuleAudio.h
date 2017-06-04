@@ -5,7 +5,7 @@
 #include "Globals.h"
 #include "SDL_mixer/include/SDL_mixer.h"
 
-#define MAX_SFX 50
+#define MAX_SFX 16
 #define MAX_MUSIC 10
 #define CHUNKSIZE 1024
 
@@ -34,6 +34,7 @@ public:
 
 	Mix_Music* musics[MAX_MUSIC];
 	uint last_music = 0;
+	Mix_Music* playing = nullptr;
 };
 
 #endif

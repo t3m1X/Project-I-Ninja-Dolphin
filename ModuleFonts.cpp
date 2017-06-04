@@ -100,7 +100,7 @@ void const ModuleFonts::WriteText(TTF_Font * font, const char * text, int x, int
 				texts[i] = App->textures->SurfaceToTexture(text_surface);
 				if (texts[i] == NULL)
 					LOG("%s", SDL_GetError());
-				App->render->Blit(texts[i], x, y);
+				App->render->Blit(7, texts[i], x, y);
 				break;
 			}
 		}

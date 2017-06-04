@@ -5,7 +5,6 @@
 #include "ModuleRender.h"
 #include "SDL/include/SDL_render.h"
 #include "SDL/include/SDL_timer.h"
-#include "ModuleStage2.h"
 #include "ModuleStageIntro.h"
 #include "SDL\include\SDL_rect.h"
 #include "ModuleTextures.h"
@@ -54,14 +53,14 @@ update_status ModuleTransition::Update()
 			start_time = SDL_GetTicks();
 			current_step = transition_step::transition_from_black;
 		}
-		App->render->Blit(loading_screen, App->render->camera.x, App->render->camera.y, { 0,1 },&loading_screen_animation.GetCurrentFrame());
+		App->render->Blit(8, loading_screen, App->render->camera.x, App->render->camera.y, { 0,1 },&loading_screen_animation.GetCurrentFrame());
 	} break;
 
 	case transition_step::transition_from_black:
 	{
 		if (now >= total_time && loading_screen_animation_b.Finished())
 			current_step = transition_step::none;
-		App->render->Blit(loading_screen, App->render->camera.x, App->render->camera.y, { 0,1 }, &loading_screen_animation_b.GetCurrentFrame());
+		App->render->Blit(8, loading_screen, App->render->camera.x, App->render->camera.y, { 0,1 }, &loading_screen_animation_b.GetCurrentFrame());
 	} break;
 	}
 
@@ -72,6 +71,11 @@ bool ModuleTransition::CleanUp() {
 	bool ret = true;
 	loading_screen_animation.CleanUp();
 	loading_screen_animation_b.CleanUp();
+
+	if (loading_screen != nullptr)
+	{
+		App->textures->Unload(loading_screen);
+	}
 
 	return ret;
 }

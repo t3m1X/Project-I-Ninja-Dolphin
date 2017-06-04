@@ -76,11 +76,11 @@ Mix_Chunk * const ModuleAudio::LoadSFX(const char * path)
 
 	sfxs[current_sfx] = Mix_LoadWAV(path);
 
-	if (sfxs[last_sfx] == NULL) {
+	if (sfxs[current_sfx] == NULL) {
 		LOG("MixLoadWav: Failed to load wav from path \"%s\": %s\n", path, Mix_GetError());
 	}
 	else
-		ret = sfxs[last_sfx];
+		ret = sfxs[current_sfx];
 
 	return ret;
 }
@@ -121,11 +121,11 @@ Mix_Music * const ModuleAudio::LoadMusic(const char * path)
 
 	musics[current_music] = Mix_LoadMUS(path);
 
-	if (!musics[last_music]) {
+	if (!musics[current_music]) {
 		LOG("Mix_LoadMUS: Could not load \"%s\": %s\n", path, Mix_GetError());
 	}
 	else 
-		ret = musics[last_music];
+		ret = musics[current_music];
 
 	return ret;
 }

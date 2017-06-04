@@ -247,7 +247,7 @@ update_status ModulePlayer::Update() {
 			App->player->Disable();
 			App->game_loops++;
 			for (int i = 0; i < 2; ++i) {
-				if (players[i].lives > 0) {
+				if (players[i].lives > 0 && players[i].state != OFF) {
 					players[i].lives++;
 					players[i].score += 5000;
 				}
@@ -704,6 +704,8 @@ bool ModulePlayer::CleanUp() {
 	}
 
 	App->textures->Unload(player);
+	App->textures->Unload(you_lose);
+	App->textures->Unload(you_win);
 
 	you_lose_an.CleanUp();
 	you_win_an.CleanUp();

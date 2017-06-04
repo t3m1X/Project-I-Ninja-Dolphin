@@ -167,8 +167,8 @@ bool ModuleStage1::Start() {
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 140, 2290);
 	App->enemies->AddEnemy(ENEMY_TYPES::MOONAIRSHIP, 520, 2290);
 
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 290, 700);
-	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 290, 30);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS, 290, 545);
+	App->enemies->AddEnemy(ENEMY_TYPES::BOSS_2, 515, -14);
 
 	return ret;
 }
